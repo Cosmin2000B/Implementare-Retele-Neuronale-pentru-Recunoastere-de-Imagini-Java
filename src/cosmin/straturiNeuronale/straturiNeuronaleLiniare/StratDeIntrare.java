@@ -1,12 +1,12 @@
 package cosmin.straturiNeuronale.straturiNeuronaleLiniare;
 
-import cosmin.functiiActivare.FunctieActivare;
 import cosmin.neuron.Neuron;
 import cosmin.neuron.Sinapsa;
-import cosmin.straturiNeuronale.StratNeuronal;
+import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -18,11 +18,18 @@ import java.util.concurrent.ThreadLocalRandom;
  *   Asadar, neuronii de pe acest strat nu trebuie vazuti drept unitati de
  *  calcul, ci ca o "poarta" de propagare a intrarilor in restul retelei.
  */
-public class StratDeIntrare implements StratNeuronal
+public class StratDeIntrare extends StratNeuronalLiniar
 {
-    private ArrayList<Neuron> neuroni;
-    private StratNeuronal stratUlterior;
-    private int numarNeuroni;
+    private StratNeuronalLiniar stratUlterior;
+
+    public StratDeIntrare(int numarNeuroni)
+    {
+        this.setNumarNeuroni(numarNeuroni);
+        this.setNeuroni(new ArrayList<>(numarNeuroni));
+
+        for(int i = 0; i < numarNeuroni; ++i)
+            this.getNeuroni().add(new Neuron());
+    }
 
     /**
      *
@@ -32,14 +39,14 @@ public class StratDeIntrare implements StratNeuronal
     {
         // numarul de neuroni de pe stratul de intrare
         // trebuie sa coincida cu marimea input-ului
-        this.numarNeuroni = valoriIesire.size();
-        this.neuroni = new ArrayList<>(this.numarNeuroni);
+        this.setNumarNeuroni(valoriIesire.size());
+        this.setNeuroni(new ArrayList<>(this.getNumarNeuroni()));
 
         for(Double valoareIesire: valoriIesire)
         {
             Neuron neuron = new Neuron();
             neuron.setValoareIesire(valoareIesire);
-            this.neuroni.add(neuron);
+            this.getNeuroni().add(neuron);
         }
     }
 
@@ -48,16 +55,16 @@ public class StratDeIntrare implements StratNeuronal
      * @param valoriIesire
      * @param stratUlterior
      */
-    public StratDeIntrare(@NotNull List<Double> valoriIesire, StratNeuronal stratUlterior)
+    public StratDeIntrare(@NotNull List<Double> valoriIesire, StratNeuronalLiniar stratUlterior)
     {
-        this.numarNeuroni = valoriIesire.size();
-        this.neuroni = new ArrayList<>(this.numarNeuroni);
+        this.setNumarNeuroni(valoriIesire.size());
+        this.setNeuroni(new ArrayList<>(this.getNumarNeuroni()));
 
         for(Double valoareIesire: valoriIesire)
         {
             Neuron neuron = new Neuron();
             neuron.setValoareIesire(valoareIesire);
-            this.neuroni.add(neuron);
+            this.getNeuroni().add(neuron);
         }
 
         this.stratUlterior = stratUlterior;
@@ -72,13 +79,9 @@ public class StratDeIntrare implements StratNeuronal
         //TODO o formula agreabila
     }
 
-    @Override // nu trebuie pt intrare
-    public void calculeazaIesiri() {}
-
-    @Override
     public void reseteazaPonderi()
     {
-        for(Neuron neuron: neuroni)
+        for(Neuron neuron: this.getNeuroni())
         {
             ArrayList<Sinapsa> sinapse = neuron.getSinapseIesire();
             for(Sinapsa sinapsa: sinapse)
@@ -86,95 +89,84 @@ public class StratDeIntrare implements StratNeuronal
         }
     }
 
-    // TODO Incepem retropropagarea...
-    @Override
-    public void actualizeazaPonderi(double rataInvatare)
-    {
-
-    }
-
-    // -------- modificare structura strat --------------
-
     /**
-     *
+     *    In concordanta cu directia de parcurgere a retelei in cadrul procesului de
+     *  propagare, un strat neuronal va stabilii sinapse numai cu stratul sau ulterior.
      */
-    public void adaugaNeuron()
+    //TODO ceva gresit aici...vezi emitent->destinatar
+    public void stabilesteStratDens()
     {
-        Neuron neuron = new Neuron();
-        this.neuroni.add(neuron);
+        if(this.stratUlterior == null)
+            throw new IllegalStateException(" Stratul ulterior este null!");
 
-        this.numarNeuroni++;
-    }
+        if(this.stratUlterior.getNeuroni().isEmpty())
+            throw new IllegalStateException(" Stratul ulterior este gol!");
 
-    /**
-     *
-     * @param functieActivare
-     */
-    public void adaugaNeuron(FunctieActivare functieActivare)
-    {
-        Neuron neuron = new Neuron(functieActivare);
-        this.neuroni.add(neuron);
-
-        this.numarNeuroni++;
-    }
-
-    /**
-     *
-     */
-    public void eliminaNeuron()
-    {
-        try
+        if(this.stratUlterior instanceof StratAscuns)
         {
-            this.neuroni.remove(this.neuroni.size() - 1);
-            this.numarNeuroni--;
+            for(Neuron neuronEmitent: this.getNeuroni())
+            {
+                for(Neuron neuronDestinatar: (((StratAscuns) this.stratUlterior).getNeuroni()))
+                    neuronEmitent.adaugaSinapsaIesire(neuronDestinatar);
+            }
         }
-        catch(Exception e)
+        else if(this.stratUlterior instanceof StratDeIesire)
         {
-            e.printStackTrace();
+            for(Neuron neuronEmitent: this.getNeuroni())
+            {
+                for(Neuron neuronDestinatar: (((StratDeIesire) this.stratUlterior).getNeuroni()))
+                    neuronEmitent.adaugaSinapsaIesire(neuronDestinatar);
+            }
         }
     }
 
     /**
      *
-     * @param index
+     * @param valoriSinapse
      */
-    public void eliminaNeuron(int index)
+    public void stabilesteStratDens(ArrayList<Double> valoriSinapse)
     {
-        try
+        if(this.stratUlterior == null)
+            throw new IllegalStateException(" Stratul ulterior este null!");
+
+        if(this.stratUlterior.getNeuroni().isEmpty())
+            throw new IllegalStateException(" Stratul ulterior este gol!");
+
+        // daca dimensiunea vectorului de valori dorite este diferita de
+        // numarul de sinapse necesare
+        if(valoriSinapse.size() !=
+                this.getNumarNeuroni() * this.stratUlterior.getNumarNeuroni())
+            throw new IllegalArgumentException(" Dimensiunea listei de valori dorite" +
+                    "difera de produsul numarului de neuroni de pe straturi!");
+
+        int  i = 0;
+
+        if(this.stratUlterior instanceof StratAscuns)
         {
-            this.neuroni.remove(index);
-            this.numarNeuroni--;
+            for(Neuron neuronEmitent: this.getNeuroni())
+            {
+                for(Neuron neuronDestinatar: (((StratAscuns) this.stratUlterior).getNeuroni()))
+                    neuronEmitent.adaugaSinapsaIesire(neuronDestinatar, valoriSinapse.get(i++));
+            }
         }
-        catch(Exception e)
+        else if(this.stratUlterior instanceof StratDeIesire)
         {
-            e.printStackTrace();
+            for(Neuron neuronEmitent: this.getNeuroni())
+            {
+                for(Neuron neuronDestinatar: (((StratDeIesire) this.stratUlterior).getNeuroni()))
+                    neuronEmitent.adaugaSinapsaIesire(neuronDestinatar, valoriSinapse.get(i++));
+            }
         }
     }
 
     // ---------------------- Setteri si Getteri ------------------------
 
-    public ArrayList<Neuron> getNeuroni() {
-        return neuroni;
-    }
-
-    public void setNeuroni(ArrayList<Neuron> neuroni) {
-        this.neuroni = neuroni;
-    }
-
-    public StratNeuronal getStratUlterior() {
+    public StratNeuronalLiniar getStratUlterior() {
         return stratUlterior;
     }
 
-    public void setStratUlterior(StratNeuronal stratUlterior) {
+    public void setStratUlterior(StratNeuronalLiniar stratUlterior) {
         this.stratUlterior = stratUlterior;
-    }
-
-    public int getNumarNeuroni() {
-        return numarNeuroni;
-    }
-
-    public void setNumarNeuroni(int numarNeuroni) {
-        this.numarNeuroni = numarNeuroni;
     }
 
 }

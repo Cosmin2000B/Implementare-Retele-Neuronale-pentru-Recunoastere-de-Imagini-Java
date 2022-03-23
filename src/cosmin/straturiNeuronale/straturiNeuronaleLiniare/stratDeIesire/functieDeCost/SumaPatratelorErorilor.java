@@ -8,6 +8,9 @@ public class SumaPatratelorErorilor implements FunctieDeCost
     @Override
     public double calculeazaEroarea(@NotNull StratDeIesire stratDeIesire)
     {
+        if(stratDeIesire.getNeuroni() == null)
+            throw new NullPointerException("Stratul de iesire este null!");
+
         /*
           Dimensiunea vectorului de valori dorite trebuie sa fie egala cu dimensiunea
         stratului de iesire (numarul de neuroni de pe acesta).

@@ -154,6 +154,6 @@ public class Sinapsa
                 + ";\n" + "  - neuron destinatar: " + this.neuronDestinatar.getNumeIdentificare()
                 + ";\n" + "  - pondere sinapsa: " + this.pondere + ";\n  - ajustare pondere " +
                 "sinapsa (delta pondere): " + this.deltaPondere + ";\n  - ultima valoare de " +
-                "iesire: " + this.valoareIesire + "\n";
+                "iesire: " + this.getValoareIesire() + "\n";
     }
 }

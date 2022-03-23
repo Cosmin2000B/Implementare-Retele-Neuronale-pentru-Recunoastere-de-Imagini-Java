@@ -4,6 +4,7 @@ import cosmin.functiiActivare.FunctieActivare;
 import cosmin.neuron.Neuron;
 import cosmin.neuron.Sinapsa;
 import cosmin.straturiNeuronale.StratNeuronal;
+import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratNeuronalLiniar;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost.FunctieDeCost;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,17 +17,13 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * @author Ionescu Cosmin
  */
-public class StratDeIesire implements StratNeuronal
+public class StratDeIesire extends StratNeuronalLiniar implements StratNeuronal
 {
-    private ArrayList<Neuron> neuroni;
-
     // setul de valori pe care vrem sa le
     // obtinem
     private ArrayList<Double> valoriDorite;
 
-    private StratNeuronal stratAnterior;
-
-    private int numarNeuroni;
+    private StratNeuronalLiniar stratAnterior;
     private double eroareaRetelei;
 
     // la nivel de strat
@@ -35,27 +32,29 @@ public class StratDeIesire implements StratNeuronal
     // metoda preferata de calcul a erorii de clasificare
     private FunctieDeCost functieDeCost;
 
+    // --------- Constructori -------------------
+
     public StratDeIesire(int numarNeuroni)
     {
-        this.numarNeuroni = numarNeuroni;
-        this.neuroni = new ArrayList<>(this.numarNeuroni);
+        this.setNumarNeuroni(numarNeuroni);
+        this.setNeuroni(new ArrayList<>(this.getNumarNeuroni()));
 
-        for(int i = 0; i < this.numarNeuroni; ++i)
+        for(int i = 0; i < this.getNumarNeuroni(); ++i)
         {
             Neuron neuron = new Neuron();
-            this.neuroni.add(neuron);
+            this.getNeuroni().add(neuron);
         }
     }
 
     public StratDeIesire(@NotNull List<Double> valoriDorite)
     {
-        this.numarNeuroni = valoriDorite.size();
-        this.neuroni = new ArrayList<>(this.numarNeuroni);
+        this.setNumarNeuroni(valoriDorite.size());
+        this.setNeuroni(new ArrayList<>(this.getNumarNeuroni()));
 
-        for(int i = 0; i < this.numarNeuroni; ++i)
+        for(int i = 0; i < this.getNumarNeuroni(); ++i)
         {
             Neuron neuron = new Neuron();
-            this.neuroni.add(neuron);
+            this.getNeuroni().add(neuron);
         }
 
         this.valoriDorite = new ArrayList<>(valoriDorite.size());
@@ -64,38 +63,41 @@ public class StratDeIesire implements StratNeuronal
             this.valoriDorite.add(valoare);
     }
 
-    public StratDeIesire(StratNeuronal stratAnterior)
+    public StratDeIesire(StratNeuronalLiniar stratAnterior)
     {
         this.stratAnterior = stratAnterior;
-        this.neuroni = new ArrayList<>();
+        this.setNeuroni(new ArrayList<>());
     }
 
-    public StratDeIesire(int numarNeuroni, StratNeuronal stratAnterior, FunctieActivare functieActivare)
+    public StratDeIesire(int numarNeuroni, StratNeuronalLiniar stratAnterior, FunctieActivare functieActivare)
     {
-        this.numarNeuroni = numarNeuroni;
-        this.neuroni = new ArrayList<>(this.numarNeuroni);
+        this.setNumarNeuroni(numarNeuroni);
+        this.setNeuroni(new ArrayList<>(this.getNumarNeuroni()));
 
-        for(int i = 0; i < this.numarNeuroni; ++i)
+        for(int i = 0; i < this.getNumarNeuroni(); ++i)
         {
             Neuron neuron = new Neuron(functieActivare);
-            this.neuroni.add(neuron);
+            this.getNeuroni().add(neuron);
         }
 
         this.stratAnterior = stratAnterior;
         this.functieActivare = functieActivare;
     }
 
+    // ------------- Sfarsit Constructori --------------------------
+
     @Override
     public void calculeazaIesiri()
     {
-        for(Neuron neuron: neuroni)
+        //TODO separat pt softmax
+        for(Neuron neuron: this.getNeuroni())
             neuron.calculeazaIesire();
     }
 
     @Override
     public void reseteazaPonderi()
     {
-        for(Neuron neuron: neuroni)
+        for(Neuron neuron: this.getNeuroni())
         {
             ArrayList<Sinapsa> sinapse = neuron.getSinapseIntrare();
             for(Sinapsa sinapsa: sinapse)
@@ -108,7 +110,7 @@ public class StratDeIesire implements StratNeuronal
     @Override
     public void actualizeazaPonderi(double rataInvatare)
     {
-        for(Neuron neuron: this.neuroni)
+        for(Neuron neuron: this.getNeuroni())
         {
             neuron.getBias().actualizeazaPondere(rataInvatare);
 
@@ -117,74 +119,6 @@ public class StratDeIesire implements StratNeuronal
         }
     }
 
-    // ------ modificare structura strat -------------------
-
-    /**
-     *
-     */
-    public void adaugaNeuron()
-    {
-        Neuron neuron = new Neuron();
-        this.neuroni.add(neuron);
-
-        this.numarNeuroni++;
-    }
-
-    public void adaugaNeuron(Neuron neuron)
-    {
-        this.neuroni.add(neuron);
-
-        this.numarNeuroni++;
-    }
-
-    /**
-     *
-     * @param functieActivare
-     */
-    public void adaugaNeuron(FunctieActivare functieActivare)
-    {
-        Neuron neuron = new Neuron(functieActivare);
-        this.neuroni.add(neuron);
-
-        this.numarNeuroni++;
-    }
-
-    /**
-     *
-     */
-    public void eliminaNeuron()
-    {
-        try
-        {
-            this.neuroni.remove(this.neuroni.size() - 1);
-            this.numarNeuroni--;
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     *
-     * @param index
-     */
-    public void eliminaNeuron(int index)
-    {
-        try
-        {
-            this.neuroni.remove(index);
-            this.numarNeuroni--;
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    // ----------------------------------
-
-    //TODO sterge
     /**
      *
      */
@@ -195,14 +129,6 @@ public class StratDeIesire implements StratNeuronal
 
     // ----------------- Setteri si Getteri -------------------------
 
-    public ArrayList<Neuron> getNeuroni() {
-        return neuroni;
-    }
-
-    public void setNeuroni(ArrayList<Neuron> neuroni) {
-        this.neuroni = neuroni;
-    }
-
     public ArrayList<Double> getValoriDorite() {
         return valoriDorite;
     }
@@ -211,20 +137,12 @@ public class StratDeIesire implements StratNeuronal
         this.valoriDorite = valoriDorite;
     }
 
-    public StratNeuronal getStratAnterior() {
+    public StratNeuronalLiniar getStratAnterior() {
         return stratAnterior;
     }
 
-    public void setStratAnterior(StratNeuronal stratAnterior) {
+    public void setStratAnterior(StratNeuronalLiniar stratAnterior) {
         this.stratAnterior = stratAnterior;
-    }
-
-    public int getNumarNeuroni() {
-        return numarNeuroni;
-    }
-
-    public void setNumarNeuroni(int numarNeuroni) {
-        this.numarNeuroni = numarNeuroni;
     }
 
     public double getEroareaRetelei()
