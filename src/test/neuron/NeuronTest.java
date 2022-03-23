@@ -219,4 +219,15 @@ class NeuronTest
 
         System.out.println(n3);
     }
+
+    @Test
+    public void getValoareIesireTest()
+    {
+        Neuron neuron = new Neuron();
+        neuron.setFunctieActivare(new ReLU());
+        neuron.setValoareIntrare(0);
+        neuron.getBias().setPondere(0);
+
+        assertEquals(0, neuron.getValoareIesire());
+    }
 }

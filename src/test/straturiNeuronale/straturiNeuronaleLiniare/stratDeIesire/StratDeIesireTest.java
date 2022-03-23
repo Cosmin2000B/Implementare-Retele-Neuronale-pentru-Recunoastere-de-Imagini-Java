@@ -51,8 +51,6 @@ class StratDeIesireTest
     @Test
     void SimulareRetea3x3x3x1()
     {
-
-        //TODO iata problema....verificare constructor
         StratDeIntrare stratDeIntrare = new StratDeIntrare(new ArrayList<>(Arrays.asList(2d, 3d, 1d)));
 
         StratAscuns stratAscuns1 = new StratAscuns(3, new ReLU());
@@ -129,7 +127,6 @@ class StratDeIesireTest
         assertEquals(0.98866638208,
                        stratDeIesire.getNeuroni().get(0).getValoareIesire(),
                 Math.pow(10, -9));
-        //TODO nu prea iese
         assertEquals(0.222889198, stratDeIesire.getEroareaRetelei(), Math.pow(10, -6));
     }
 }
