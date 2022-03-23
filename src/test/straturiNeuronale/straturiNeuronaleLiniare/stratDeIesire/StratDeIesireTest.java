@@ -69,6 +69,7 @@ class StratDeIesireTest
         StratDeIesire stratDeIesire = new StratDeIesire(Arrays.asList(0.98866638208d));
         stratDeIesire.setFunctieDeCost(new SumaPatratelorErorilor());
         stratDeIesire.getNeuroni().get(0).setFunctieActivare(new Logistica());
+        stratDeIesire.setValoriDorite(new ArrayList<Double>(Arrays.asList(0.321)));
         //TODO modelat pe caz general numele (strat,nr)
         stratDeIesire.getNeuroni().get(0).setNumeIdentificare("Neuron 0, Strat Iesire");
         stratAscuns2.setStratUlterior(stratDeIesire);
@@ -113,7 +114,7 @@ class StratDeIesireTest
         stratAscuns2.calculeazaIesiri();
         stratDeIesire.calculeazaIesiri();
 
-        //TODO sterge
+        /* --  afisare situatie neuroni
         for(Neuron neuron: stratDeIntrare.getNeuroni())
             System.out.print(neuron);
         System.out.println("----/-----------/----------");
@@ -122,13 +123,13 @@ class StratDeIesireTest
         System.out.println("----/---------/------------");
         for(Neuron neuron: stratAscuns2.getNeuroni())
             System.out.println(neuron);
-
-        //assertEquals(1.9 ,stratAscuns1.getNeuroni().get(0).getValoareIesire());
+        System.out.println(stratDeIesire.getNeuroni().get(0));
+        */
 
         assertEquals(0.98866638208,
                        stratDeIesire.getNeuroni().get(0).getValoareIesire(),
-                Math.pow(1, -9));
+                Math.pow(10, -9));
         //TODO nu prea iese
-        assertEquals(0.222889198, stratDeIesire.getEroareaRetelei(), Math.pow(1, -6));
+        assertEquals(0.222889198, stratDeIesire.getEroareaRetelei(), Math.pow(10, -6));
     }
 }
