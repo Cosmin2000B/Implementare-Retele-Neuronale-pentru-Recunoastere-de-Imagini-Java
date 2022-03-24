@@ -1,5 +1,6 @@
 package cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost;
 
+import cosmin.neuron.Neuron;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
 
 public interface FunctieDeCost
@@ -16,5 +17,5 @@ public interface FunctieDeCost
      * @param input
      * @return
      */
-    public double calculeazaDerivata(double input);
+    public double calculeazaDerivata(Neuron input);
 }

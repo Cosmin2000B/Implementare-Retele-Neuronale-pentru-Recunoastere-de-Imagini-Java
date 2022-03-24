@@ -1,5 +1,6 @@
 package cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost;
 
+import cosmin.neuron.Neuron;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,7 +38,7 @@ public class MediaSumeiPatratelorErorilor implements FunctieDeCost
     }
 
     @Override
-    public double calculeazaDerivata(double input)
+    public double calculeazaDerivata(Neuron input)
     {
         return 0;
     }

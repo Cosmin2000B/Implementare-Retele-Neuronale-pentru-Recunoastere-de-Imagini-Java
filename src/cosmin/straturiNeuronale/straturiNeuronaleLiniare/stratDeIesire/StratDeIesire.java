@@ -1,6 +1,7 @@
 package cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire;
 
 import cosmin.functiiActivare.FunctieActivare;
+import cosmin.functiiActivare.Softmax;
 import cosmin.neuron.Neuron;
 import cosmin.neuron.Sinapsa;
 import cosmin.straturiNeuronale.StratNeuronal;
@@ -89,9 +90,18 @@ public class StratDeIesire extends StratNeuronalLiniar implements StratNeuronal
     @Override
     public void calculeazaIesiri()
     {
-        //TODO separat pt softmax
-        for(Neuron neuron: this.getNeuroni())
-            neuron.calculeazaIesire();
+        if(this.functieActivare instanceof Softmax)
+        {
+            for(Neuron neuron: this.getNeuroni())
+                neuron.
+                        setValoareIesire(this.
+                        functieActivare.valoareFunctie(neuron.getValoareIntrare()));
+        }
+        else
+        {
+            for (Neuron neuron : this.getNeuroni())
+                neuron.calculeazaIesire();
+        }
     }
 
     @Override
@@ -161,8 +171,16 @@ public class StratDeIesire extends StratNeuronalLiniar implements StratNeuronal
         return functieActivare;
     }
 
-    public void setFunctieActivare(FunctieActivare functieActivare) {
+    public void setFunctieActivare(FunctieActivare functieActivare)
+    {
         this.functieActivare = functieActivare;
+
+        /*
+        setam functia de activare decisa la nivel de strat pentru
+        fiecare neuron
+        */
+        for(Neuron neuron: this.getNeuroni())
+            neuron.setFunctieActivare(this.functieActivare);
     }
 
     public FunctieDeCost getFunctieDeCost() {

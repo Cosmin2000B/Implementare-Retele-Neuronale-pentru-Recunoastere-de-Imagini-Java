@@ -1,10 +1,19 @@
 package cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost;
 
+import cosmin.neuron.Neuron;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * @author Ionescu Cosmin
+ */
 public class SumaPatratelorErorilor implements FunctieDeCost
 {
+    /**
+     *
+     * @param stratDeIesire
+     * @return
+     */
     @Override
     public double calculeazaEroarea(@NotNull StratDeIesire stratDeIesire)
     {
@@ -36,7 +45,7 @@ public class SumaPatratelorErorilor implements FunctieDeCost
     }
 
     @Override
-    public double calculeazaDerivata(double input)
+    public double calculeazaDerivata(Neuron input)
     {
         return 0;
     }

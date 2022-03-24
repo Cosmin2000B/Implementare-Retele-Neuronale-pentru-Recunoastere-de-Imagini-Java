@@ -1,6 +1,7 @@
 package test.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire;
 
 import cosmin.functiiActivare.ReLU;
+import cosmin.functiiActivare.Softmax;
 import cosmin.functiiActivare.sigmoide.Logistica;
 import cosmin.neuron.Neuron;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratAscuns;
@@ -17,7 +18,66 @@ import static org.junit.jupiter.api.Assertions.*;
 class StratDeIesireTest
 {
     @Test
-    void calculeazaIesiri() {
+    void calculeazaIesiri()
+    {
+        StratDeIesire stratDeIesire = new StratDeIesire(4);
+        stratDeIesire.setFunctieActivare(new Logistica());
+
+        stratDeIesire.getNeuroni().get(0).setValoareIntrare(0.76);
+        stratDeIesire.getNeuroni().get(1).setValoareIntrare(2.35);
+        stratDeIesire.getNeuroni().get(2).setValoareIntrare(4.17);
+        stratDeIesire.getNeuroni().get(3).setValoareIntrare(1.29);
+
+        stratDeIesire.calculeazaIesiri();
+        ArrayList<Double> valoriAsteptate = new ArrayList<>(Arrays.
+                asList(0.68135373378, 0.91293422756, 0.98478287879, 0.78414718917));
+        ArrayList<Double> valoriRezultate = new ArrayList<>();
+
+        for(Neuron neuron: stratDeIesire.getNeuroni())
+            valoriRezultate.add(neuron.getValoareIesire());
+
+        for(int i = 0; i < valoriRezultate.size(); ++i)
+            assertEquals(
+                    valoriAsteptate.get(i),
+                    valoriRezultate.get(i),
+                    Math.pow(10, -10)
+            );
+    }
+
+    @Test
+    void calculeazaIesiriSoftmax()
+    {
+        StratDeIesire stratDeIesire = new StratDeIesire(4);
+        stratDeIesire.setFunctieActivare(new Softmax(stratDeIesire));
+
+        stratDeIesire.getNeuroni().get(0).setValoareIntrare(0.76);
+        stratDeIesire.getNeuroni().get(1).setValoareIntrare(2.35);
+        stratDeIesire.getNeuroni().get(2).setValoareIntrare(4.17);
+        stratDeIesire.getNeuroni().get(3).setValoareIntrare(1.29);
+
+        stratDeIesire.calculeazaIesiri();
+
+        ArrayList<Double> valoriAsteptate = new ArrayList<>(Arrays.
+                asList(0.02640757281, 0.1294961069, 0.7992316416, 0.04486467865));
+
+        // suma trebuie sa fie 1 (model probabilistic)
+        double suma = 0d;
+        for(Double val: valoriAsteptate)
+            suma += val;
+
+        assertEquals(1, suma, Math.pow(10, -10));
+
+        ArrayList<Double> valoriRezultate = new ArrayList<>();
+        for(Neuron neuron: stratDeIesire.getNeuroni())
+            valoriRezultate.add(neuron.getValoareIesire());
+
+        // verificam valorile calculate
+        for(int i = 0; i < valoriRezultate.size(); ++i)
+            assertEquals(
+                    valoriAsteptate.get(i),
+                    valoriRezultate.get(i),
+                    Math.pow(10, -10)
+            );
     }
 
     @Test
