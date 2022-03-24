@@ -4,9 +4,23 @@ import cosmin.neuron.Neuron;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * @aythor Ionescu Cosmin
+ *
+ * @see FunctieDeCost
+ * @see StratDeIesire
+ */
 public class MediaSumeiPatratelorErorilor implements FunctieDeCost
 {
 
+    /**
+     *
+     * @param stratDeIesire
+     * @return
+     * @throws IllegalArgumentException in cazul in care vectorul de valori
+     * dorite nu are dimensiunea egala cu numarul de neuroni de pe ultimul
+     * strat, aceasta fiind o conditie esentiala pentru structura RNA.
+     */
     @Override
     public double calculeazaEroarea(@NotNull StratDeIesire stratDeIesire)
     {
@@ -37,9 +51,21 @@ public class MediaSumeiPatratelorErorilor implements FunctieDeCost
         return mediaSumeiPatratelorErorilor;
     }
 
+    /**
+     *
+     * @param input
+     * @param index index-ul neuronului curent, pt a face corespondenta
+     *              cu valoarea din valoriDorite
+     * @param stratDeIesire
+     * @return
+     */
     @Override
-    public double calculeazaDerivata(Neuron input)
+    public double calculeazaDerivata(Neuron input, int index, @NotNull StratDeIesire stratDeIesire)
     {
-        return 0;
+        if(stratDeIesire.getValoriDorite().isEmpty())
+            throw new IllegalArgumentException("Lista cu valori dorite este goala!");
+
+        return  (1/stratDeIesire.getNumarNeuroni()) *
+                (stratDeIesire.getValoriDorite().get(index) - input.getValoareIesire());
     }
 }

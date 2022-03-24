@@ -8,6 +8,10 @@ import java.util.ArrayList;
 
 /**
  * @author Ionescu Cosmin
+ *
+ * @see Bias
+ * @see Sinapsa
+ * @see FunctieActivare
  */
 public class Neuron
 {
@@ -142,7 +146,8 @@ public class Neuron
     }
 
     /**
-     * @param neuronEmitent
+     * @param neuronEmitent neuronul care transmite prin cadrul noii sinapse
+     *                      catre neuronul pentru care e invocata metoda
      */
     public void adaugaSinapsaIntrare(Neuron neuronEmitent)
     {
@@ -152,8 +157,10 @@ public class Neuron
 
     /**
      *
-     * @param neuronEmitent
-     * @param pondereSinapsa
+     * @param neuronEmitent neuronul care transmite prin cadrul noii sinapse
+     *                      catre neuronul pentru care e invocata metoda
+     * @param pondereSinapsa ponderea pe care utilizatorul vrea sa o dea
+     *                       sinapsei
      */
     public void adaugaSinapsaIntrare(Neuron neuronEmitent, double pondereSinapsa)
     {
@@ -361,4 +368,5 @@ public class Neuron
 
         return output;
     }
+
 }

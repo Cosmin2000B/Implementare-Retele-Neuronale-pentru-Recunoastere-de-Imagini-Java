@@ -44,9 +44,19 @@ public class SumaPatratelorErorilor implements FunctieDeCost
         return sumaPatratelorErorilor;
     }
 
+    /**
+     *
+     * @param input
+     * @param index
+     * @param stratDeIesire
+     * @return
+     */
     @Override
-    public double calculeazaDerivata(Neuron input)
+    public double calculeazaDerivata(Neuron input, int index, @NotNull StratDeIesire stratDeIesire)
     {
-        return 0;
+        if(stratDeIesire.getValoriDorite().isEmpty())
+            throw new IllegalArgumentException("Lista cu valori dorite este goala!");
+
+        return stratDeIesire.getValoriDorite().get(index) - input.getValoareIesire();
     }
 }

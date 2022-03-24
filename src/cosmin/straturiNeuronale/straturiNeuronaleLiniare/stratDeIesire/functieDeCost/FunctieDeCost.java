@@ -17,5 +17,5 @@ public interface FunctieDeCost
      * @param input
      * @return
      */
-    public double calculeazaDerivata(Neuron input);
+    public double calculeazaDerivata(Neuron input, int index, StratDeIesire stratDeIesire);
 }

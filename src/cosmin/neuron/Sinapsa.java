@@ -4,6 +4,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Ionescu Cosmin
+ *
+ * @see Neuron
  */
 public class Sinapsa
 {
