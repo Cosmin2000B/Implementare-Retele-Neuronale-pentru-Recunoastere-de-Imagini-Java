@@ -5,6 +5,9 @@ import cosmin.neuron.Neuron;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ *
+ */
 public class EntropieIncrucisata implements FunctieDeCost
 {
 
@@ -20,13 +23,14 @@ public class EntropieIncrucisata implements FunctieDeCost
 
         /*
           Inmultim log2(grad_activare_Neuron) cu valoarea de iesire dorita corespunzatoare
+          In practica, se foloseste si ln
          */
         for(int i = 0; i < stratDeIesire.getNeuroni().size(); ++i)
-            eroareClasificare += (-1) *
+            eroareClasificare +=
                     ((Math.log(stratDeIesire.getNeuroni().get(i).getValoareIesire()) / Math.log(2))
                             * stratDeIesire.getValoriDorite().get(i));
 
-        return eroareClasificare;
+        return (-1) * eroareClasificare;
     }
 
     @Override
