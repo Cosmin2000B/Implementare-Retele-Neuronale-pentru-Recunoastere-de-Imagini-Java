@@ -57,6 +57,6 @@ public class SumaPatratelorErorilor implements FunctieDeCost
         if(stratDeIesire.getValoriDorite().isEmpty())
             throw new IllegalArgumentException("Lista cu valori dorite este goala!");
 
-        return stratDeIesire.getValoriDorite().get(index) - input.getValoareIesire();
+        return input.getValoareIesire() - stratDeIesire.getValoriDorite().get(index);
     }
 }

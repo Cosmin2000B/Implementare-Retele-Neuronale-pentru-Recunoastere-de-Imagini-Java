@@ -66,7 +66,7 @@ class SumaPatratelorErorilorTest
         //TODO pe caz general
 
         // delta(index) = valoareDorita(index) - valoareRezultata(index)
-        ArrayList<Double> valoriVruteDerivata = new ArrayList<>(Arrays.asList(-0.2, -0.05, -0.16, -0.30));
+        ArrayList<Double> valoriVruteDerivata = new ArrayList<>(Arrays.asList(0.2, 0.05, 0.16, 0.30));
 
         for(int i = 0; i < 4; ++i)
             assertEquals(valoriVruteDerivata.get(i),

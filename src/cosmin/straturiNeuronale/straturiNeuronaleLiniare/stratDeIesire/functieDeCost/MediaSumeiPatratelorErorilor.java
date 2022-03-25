@@ -66,6 +66,6 @@ public class MediaSumeiPatratelorErorilor implements FunctieDeCost
             throw new IllegalArgumentException("Lista cu valori dorite este goala!");
 
         return  (1/stratDeIesire.getNumarNeuroni()) *
-                (stratDeIesire.getValoriDorite().get(index) - input.getValoareIesire());
+                (input.getValoareIesire() - stratDeIesire.getValoriDorite().get(index));
     }
 }
