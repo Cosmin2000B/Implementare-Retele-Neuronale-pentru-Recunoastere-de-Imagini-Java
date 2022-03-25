@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  *
+ * @see Softmax
  */
 public class EntropieIncrucisata implements FunctieDeCost
 {

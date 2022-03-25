@@ -26,11 +26,18 @@ public class Entropie_Incrucisata_Binara implements FunctieDeCost
             throw new IllegalArgumentException("Clasificarea binara impune existenta"
             + " unui singur neuron pe stratul de iesire!");
 
-        return (-1) *
-                (stratDeIesire.getValoriDorite().get(0)
-                * Math.log(stratDeIesire.getNeuroni().get(0).getValoareIesire())
-                + (1 - stratDeIesire.getValoriDorite().get(0))
-                * Math.log( 1 - stratDeIesire.getNeuroni().get(0).getValoareIesire()));
+        // un numar mic 10^(-16) pentru evitarea calcularii ln(0)
+        double corectie = 0.1e-15;
+
+        if(stratDeIesire.getNeuroni().get(0).getValoareIesire() == 0d)
+            stratDeIesire.
+                    getNeuroni().
+                    get(0).
+                    setValoareIesire(stratDeIesire.getNeuroni().get(0).getValoareIesire() + corectie);
+
+        if(stratDeIesire.getValoriDorite().get(0) == 1d)
+            return (-1) * Math.log(stratDeIesire.getNeuroni().get(0).getValoareIesire());
+        return (-1) * Math.log(1 - stratDeIesire.getNeuroni().get(0).getValoareIesire());
     }
 
     /**
@@ -43,9 +50,10 @@ public class Entropie_Incrucisata_Binara implements FunctieDeCost
     @Override
     public double calculeazaDerivata(Neuron input, int index, @NotNull StratDeIesire stratDeIesire)
     {
-        // un numar ff mic 10^(-10) pentru evitarea impartirii la 0
-        double corectie = 0.1e-9;
+        // un numar ff mic 10^(-15) pentru evitarea impartirii la 0
+        double corectie = 0.1e-14;
 
+        // TODO facut si pt C2
         return (-1) *
                 ((stratDeIesire.getValoriDorite().get(0)/
                         (stratDeIesire.getNeuroni().get(0).getValoareIesire() + corectie))
