@@ -1,7 +1,6 @@
 package test.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost;
 
 import cosmin.functiiActivare.Softmax;
-import cosmin.neuron.Neuron;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost.EntropieIncrucisata;
 import org.junit.jupiter.api.Test;
@@ -9,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class EntropieIncrucisataTest
 {
@@ -26,7 +25,7 @@ class EntropieIncrucisataTest
         for(int i = 0; i < stratDeIesire.getNumarNeuroni(); ++i)
             stratDeIesire.getNeuroni().get(i).setValoareIesire(valoriObtinute.get(i));
 
-            assertEquals(0.5145731728297583, stratDeIesire.getEroareaRetelei(),
+            assertEquals(0.3566749439, stratDeIesire.getEroareaRetelei(),
                     Math.pow(10, -8));
     }
 
@@ -43,7 +42,7 @@ class EntropieIncrucisataTest
         for(int i = 0; i < stratDeIesire.getNumarNeuroni(); ++i)
             stratDeIesire.getNeuroni().get(i).setValoareIesire(valoriObtinute.get(i));
 
-        assertEquals(1.32192809488, stratDeIesire.getEroareaRetelei(),
+        assertEquals(0.9162907319, stratDeIesire.getEroareaRetelei(),
                 Math.pow(10, -8));
     }
 

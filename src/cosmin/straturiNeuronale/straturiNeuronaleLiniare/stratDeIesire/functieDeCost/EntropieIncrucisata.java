@@ -22,17 +22,26 @@ public class EntropieIncrucisata implements FunctieDeCost
         double eroareClasificare = 0d;
 
         /*
-          Inmultim log2(grad_activare_Neuron) cu valoarea de iesire dorita corespunzatoare
-          In practica, se foloseste si ln
+          Inmultim ln(grad_activare_Neuron) cu valoarea de iesire dorita corespunzatoare
+          In practica, se foloseste ln (u.m. = nat) , se poate utiliza si log2
          */
         for(int i = 0; i < stratDeIesire.getNeuroni().size(); ++i)
             eroareClasificare +=
-                    ((Math.log(stratDeIesire.getNeuroni().get(i).getValoareIesire()) / Math.log(2))
+                    (Math.log(stratDeIesire.getNeuroni().get(i).getValoareIesire())
+                            /* /Math.log(2) - pentru calculare in baza 2, -> u.m. = bit */
                             * stratDeIesire.getValoriDorite().get(i));
 
         return (-1) * eroareClasificare;
     }
 
+    /**
+     *  Formula derivatei este particulara utilizarii functiei de cost EntropieIncrucisata
+     * impreuna cu functia de cost Softmax.
+     * @param input
+     * @param index
+     * @param stratDeIesire
+     * @return
+     */
     @Override
     public double calculeazaDerivata(@NotNull Neuron input, int index, @NotNull StratDeIesire stratDeIesire)
     {
