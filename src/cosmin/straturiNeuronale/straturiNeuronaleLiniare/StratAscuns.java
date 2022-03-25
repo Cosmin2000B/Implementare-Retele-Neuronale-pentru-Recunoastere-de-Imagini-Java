@@ -136,7 +136,13 @@ public class StratAscuns extends StratNeuronalLiniar implements StratNeuronal
     @Override
     public void actualizeazaPonderi(double rataInvatare)
     {
-        //TODO de implementat retropropagare
+        for(Neuron neuron: this.getNeuroni())
+        {
+            neuron.getBias().actualizeazaPondere(rataInvatare);
+
+            for(Sinapsa sinapsa: neuron.getSinapseIntrare())
+                sinapsa.actualizeazaPondere(rataInvatare);
+        }
     }
 
     // ------------- Setteri si Getteri ------------------------
