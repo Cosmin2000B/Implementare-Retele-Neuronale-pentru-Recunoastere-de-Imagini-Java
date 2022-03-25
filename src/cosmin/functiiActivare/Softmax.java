@@ -30,7 +30,6 @@ public class Softmax implements FunctieActivare
             this.sumaFunctiiExponentiale += Math.exp(neuron.getValoareIntrare());
     }
 
-    //TODO
     /**
      *
      * @param input valoarea de intrare a neuronului curent

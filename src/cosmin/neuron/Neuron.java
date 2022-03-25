@@ -22,6 +22,7 @@ public class Neuron
 
     private double valoareIntrare;
     private double valoareIesire;
+    private double eroareNeuron;
 
     private ArrayList<Sinapsa> sinapseIntrare;
     private ArrayList<Sinapsa> sinapseIesire;
@@ -306,6 +307,14 @@ public class Neuron
 
         for(Sinapsa sinapsa: sinapseIntrare)
             this.adaugaSinapsaIntrare(sinapsa);
+    }
+
+    public double getEroareNeuron() {
+        return eroareNeuron;
+    }
+
+    public void setEroareNeuron(double eroareNeuron) {
+        this.eroareNeuron = eroareNeuron;
     }
 
     public final ArrayList<Sinapsa> getSinapseIesire()

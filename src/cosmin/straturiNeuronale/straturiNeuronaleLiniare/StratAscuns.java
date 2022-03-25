@@ -5,11 +5,11 @@ import cosmin.neuron.Neuron;
 import cosmin.neuron.Sinapsa;
 import cosmin.straturiNeuronale.StratNeuronal;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-//TODO Constructori si restul...
 
 /**
  * @author Ionescu Cosmin
@@ -22,7 +22,6 @@ public class StratAscuns extends StratNeuronalLiniar implements StratNeuronal
 
     private FunctieActivare functieActivare;
 
-    //TODO constructori
     public StratAscuns(int numarNeuroni)
     {
         this.setNumarNeuroni(numarNeuroni);
@@ -131,6 +130,17 @@ public class StratAscuns extends StratNeuronalLiniar implements StratNeuronal
                     neuronEmitent.adaugaSinapsaIesire(neuronDestinatar, valoriSinapse.get(i++));
             }
         }
+    }
+
+    // TODO testeaza metoda
+    public Sinapsa gasesteSinapsaIntrare(Neuron neuronEmitent, @NotNull Neuron neuronDestinatar)
+    {
+        for(Sinapsa sinapsa: neuronDestinatar.getSinapseIntrare())
+        {
+            if(sinapsa.getNeuronEmitent() == neuronEmitent)
+                return sinapsa;
+        }
+        return null;
     }
 
     @Override

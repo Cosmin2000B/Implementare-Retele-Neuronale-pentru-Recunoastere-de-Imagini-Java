@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-//TODO Constructori si restul...
-
 /**
  * @author Ionescu Cosmin
  */
@@ -127,6 +125,17 @@ public class StratDeIesire extends StratNeuronalLiniar implements StratNeuronal
             for(Sinapsa sinapsa: neuron.getSinapseIntrare())
                 sinapsa.actualizeazaPondere(rataInvatare);
         }
+    }
+
+    // TODO testeaza metoda
+    public Sinapsa gasesteSinapsaIntrare(Neuron neuronEmitent, @NotNull Neuron neuronDestinatar)
+    {
+        for(Sinapsa sinapsa: neuronDestinatar.getSinapseIntrare())
+        {
+            if(sinapsa.getNeuronEmitent() == neuronEmitent)
+                return sinapsa;
+        }
+        return null;
     }
 
     /**

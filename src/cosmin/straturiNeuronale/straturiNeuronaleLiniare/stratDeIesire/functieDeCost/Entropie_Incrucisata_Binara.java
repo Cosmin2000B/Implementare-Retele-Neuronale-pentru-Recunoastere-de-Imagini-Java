@@ -53,7 +53,6 @@ public class Entropie_Incrucisata_Binara implements FunctieDeCost
         // un numar ff mic 10^(-15) pentru evitarea impartirii la 0
         double corectie = 0.1e-14;
 
-        // TODO facut si pt C2
         return (-1) *
                 ((stratDeIesire.getValoriDorite().get(0)/
                         (stratDeIesire.getNeuroni().get(0).getValoareIesire() + corectie))

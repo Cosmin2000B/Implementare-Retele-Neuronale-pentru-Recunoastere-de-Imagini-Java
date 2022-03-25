@@ -40,6 +40,7 @@ class Entropie_Incrucisata_BinaraTest
                 Math.pow(10, -8));
     }
 
+    // TODO teste derivata
     @Test
     void calculeazaDerivata()
     {
