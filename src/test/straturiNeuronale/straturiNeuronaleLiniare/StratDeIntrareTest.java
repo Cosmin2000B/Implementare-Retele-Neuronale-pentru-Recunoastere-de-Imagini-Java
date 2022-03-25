@@ -4,12 +4,10 @@ import cosmin.functiiActivare.sigmoide.TangentaHiperbolica;
 import cosmin.neuron.Neuron;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratDeIntrare;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratNeuronalLiniar;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -28,18 +26,6 @@ class StratDeIntrareTest
             actualValoriIesire.add(neuron.getValoareIesire());
 
         assertEquals (Arrays.asList(0.21d, 0.30d, 0.1d, 0.12d),actualValoriIesire);
-    }
-
-    @Test
-    void stabilireSinapseIesireNeuron() {
-    }
-
-    @Test
-    void reseteazaPonderi() {
-    }
-
-    @Test
-    void actualizeazaPonderi() {
     }
 
     @Test
@@ -62,12 +48,9 @@ class StratDeIntrareTest
                         getFunctieActivare() instanceof TangentaHiperbolica);
     }
 
-
+    //TODO teste
     @Test
-    void eliminaNeuron() {
+    void eliminaNeuron1() {
     }
 
-    @Test
-    void testEliminaNeuron() {
-    }
 }

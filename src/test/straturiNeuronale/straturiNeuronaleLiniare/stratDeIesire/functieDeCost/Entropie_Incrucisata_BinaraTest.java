@@ -35,7 +35,9 @@ class Entropie_Incrucisata_BinaraTest
         stratDeIesire.calculeazaEroareaRetelei();
 
         // predictie corecta -> entropie 0
-        assertEquals(0.051293294, Math.abs(stratDeIesire.getEroareaRetelei()), Math.pow(10, -8));
+        assertEquals(0.051293294,
+                Math.abs(stratDeIesire.getEroareaRetelei()),
+                Math.pow(10, -8));
     }
 
     @Test

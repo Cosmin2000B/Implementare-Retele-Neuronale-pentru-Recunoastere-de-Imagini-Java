@@ -70,15 +70,6 @@ public class StratDeIntrare extends StratNeuronalLiniar
         this.stratUlterior = stratUlterior;
     }
 
-    /**
-     *
-     * @param indexNeuron
-     */
-    public void stabilireSinapseIesireNeuron(int indexNeuron)
-    {
-        //TODO o formula agreabila
-    }
-
     public void reseteazaPonderi()
     {
         for(Neuron neuron: this.getNeuroni())
@@ -93,7 +84,6 @@ public class StratDeIntrare extends StratNeuronalLiniar
      *    In concordanta cu directia de parcurgere a retelei in cadrul procesului de
      *  propagare, un strat neuronal va stabilii sinapse numai cu stratul sau ulterior.
      */
-    //TODO ceva gresit aici...vezi emitent->destinatar
     public void stabilesteStratDens()
     {
         if(this.stratUlterior == null)
