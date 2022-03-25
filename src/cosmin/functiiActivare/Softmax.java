@@ -2,10 +2,12 @@ package cosmin.functiiActivare;
 
 import cosmin.neuron.Neuron;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
+import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost.EntropieIncrucisata;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @aythor IonescuCosmin
+ *   A se utiliza numai la clasificare multi-clasa
  */
 public class Softmax implements FunctieActivare
 {
@@ -38,6 +40,11 @@ public class Softmax implements FunctieActivare
     @Override
     public double valoareFunctie(Double input)
     {
+        // se utilizeaza impreuna cu EntropieIncrucisata
+        if(!(stratDeIesire.getFunctieDeCost() instanceof EntropieIncrucisata))
+            throw new IllegalArgumentException("Functia de cost trebuie sa fie"
+            + " EntropieIncrucisata!");
+
        if(this.sumaFunctiiExponentiale == 0d)
            this.calculeazaSumaFunctiiExponentiale();
 

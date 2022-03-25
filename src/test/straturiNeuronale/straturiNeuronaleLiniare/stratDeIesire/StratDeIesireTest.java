@@ -7,6 +7,7 @@ import cosmin.neuron.Neuron;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratAscuns;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratDeIntrare;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
+import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost.EntropieIncrucisata;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost.SumaPatratelorErorilor;
 import org.junit.jupiter.api.Test;
 
@@ -55,6 +56,9 @@ class StratDeIesireTest
         stratDeIesire.getNeuroni().get(2).setValoareIntrare(4.17);
         stratDeIesire.getNeuroni().get(3).setValoareIntrare(1.29);
 
+        // daca fct de activare nu e EntropieIncrucisata, primim exceptie
+        assertThrows(IllegalArgumentException.class, () -> stratDeIesire.calculeazaIesiri());
+        stratDeIesire.setFunctieDeCost(new EntropieIncrucisata());
         stratDeIesire.calculeazaIesiri();
 
         ArrayList<Double> valoriAsteptate = new ArrayList<>(Arrays.
