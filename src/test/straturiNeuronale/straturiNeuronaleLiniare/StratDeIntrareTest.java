@@ -2,14 +2,16 @@ package test.straturiNeuronale.straturiNeuronaleLiniare;
 
 import cosmin.functiiActivare.sigmoide.TangentaHiperbolica;
 import cosmin.neuron.Neuron;
+import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratAscuns;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratDeIntrare;
-import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratNeuronalLiniar;
+import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class StratDeIntrareTest
 {
@@ -48,9 +50,40 @@ class StratDeIntrareTest
                         getFunctieActivare() instanceof TangentaHiperbolica);
     }
 
-    //TODO teste
     @Test
-    void eliminaNeuron1() {
+    void stabilesteStratDens()
+    {
+        StratDeIntrare si = new StratDeIntrare(3);
+        StratDeIesire sie = new StratDeIesire(5);
+        si.setStratUlterior(sie);
+        si.stabilesteStratDens();
+
+        // nr. total sinapse 3*5 = 15
+        int nrTotalSinapse = 0;
+
+        for(Neuron neuron: si.getNeuroni())
+            nrTotalSinapse += neuron.getSinapseIesire().size();
+            //System.out.println(neuron);
+
+        assertEquals(15, nrTotalSinapse);
     }
 
+    @Test
+    void setStratUlterior()
+    {
+        StratDeIntrare si = new StratDeIntrare(4);
+
+        assertThrows(IllegalArgumentException.class, () ->
+        {
+            StratDeIntrare si2 = new StratDeIntrare(3);
+            si.setStratUlterior(si2);
+            si.stabilesteStratDens();
+        });
+
+        StratAscuns sa = new StratAscuns(3);
+        si.setStratUlterior(sa);
+        si.stabilesteStratDens();
+
+        assertEquals(si, sa.getStratAnterior());
+    }
 }

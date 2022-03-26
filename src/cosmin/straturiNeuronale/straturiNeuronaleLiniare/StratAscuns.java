@@ -161,16 +161,62 @@ public class StratAscuns extends StratNeuronalLiniar implements StratNeuronal
         return stratAnterior;
     }
 
-    public void setStratAnterior(StratNeuronalLiniar stratAnterior) {
-        this.stratAnterior = stratAnterior;
+    public void setStratAnterior(StratNeuronalLiniar stratAnterior)
+    {
+        if(stratAnterior instanceof StratDeIesire)
+            throw new IllegalArgumentException("Un strat ascuns nu poate avea drept strat" +
+                    " anterior un strat de iesire!");
+
+        if(stratAnterior instanceof StratDeIntrare)
+        {
+            this.stratAnterior = stratAnterior;
+
+            if(((StratDeIntrare) stratAnterior).getStratUlterior() == this)
+                return;
+
+            ((StratDeIntrare) stratAnterior).setStratUlterior(this);
+        }
+
+        if(stratAnterior instanceof StratAscuns)
+        {
+            this.stratAnterior = stratAnterior;
+
+            if(((StratAscuns) stratAnterior).getStratUlterior() == this)
+                return;
+
+            ((StratAscuns) stratAnterior).setStratUlterior(this);
+        }
     }
 
     public StratNeuronalLiniar getStratUlterior() {
         return stratUlterior;
     }
 
-    public void setStratUlterior(StratNeuronalLiniar stratUlterior) {
-        this.stratUlterior = stratUlterior;
+    public void setStratUlterior(StratNeuronalLiniar stratUlterior)
+    {
+        if(stratUlterior instanceof StratDeIntrare)
+            throw new IllegalArgumentException("Un strat ascuns nu poate avea drept strat" +
+                    " ulterior un strat de intrare!");
+
+        if(stratUlterior instanceof StratAscuns)
+        {
+            this.stratUlterior = stratUlterior;
+
+            if(((StratAscuns) stratUlterior).getStratAnterior() == this)
+                return;
+
+            ((StratAscuns) stratUlterior).setStratAnterior(this);
+        }
+
+        if(stratUlterior instanceof StratDeIesire)
+        {
+            this.stratUlterior = stratUlterior;
+
+            if(((StratDeIesire) stratUlterior).getStratAnterior() == this)
+                return;
+
+            ((StratDeIesire) stratUlterior).setStratAnterior(this);
+        }
     }
 
     public FunctieActivare getFunctieActivare() {

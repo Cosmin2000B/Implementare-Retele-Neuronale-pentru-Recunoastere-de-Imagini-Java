@@ -5,6 +5,8 @@ import cosmin.functiiActivare.Softmax;
 import cosmin.neuron.Neuron;
 import cosmin.neuron.Sinapsa;
 import cosmin.straturiNeuronale.StratNeuronal;
+import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratAscuns;
+import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratDeIntrare;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratNeuronalLiniar;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost.FunctieDeCost;
 import org.jetbrains.annotations.NotNull;
@@ -160,8 +162,31 @@ public class StratDeIesire extends StratNeuronalLiniar implements StratNeuronal
         return stratAnterior;
     }
 
-    public void setStratAnterior(StratNeuronalLiniar stratAnterior) {
-        this.stratAnterior = stratAnterior;
+    public void setStratAnterior(StratNeuronalLiniar stratAnterior)
+    {
+        if(stratAnterior instanceof StratDeIesire)
+            throw new IllegalArgumentException("Un strat de iesire nu poate avea drept" +
+                    " strat anterior un strat de iesire!");
+
+        if(stratAnterior instanceof StratAscuns)
+        {
+            this.stratAnterior = stratAnterior;
+
+            if(((StratAscuns) stratAnterior).getStratUlterior() == this)
+                return;
+
+            ((StratAscuns) stratAnterior).setStratUlterior(this);
+        }
+
+        if(stratAnterior instanceof StratDeIntrare)
+        {
+            this.stratAnterior = stratAnterior;
+
+            if(((StratDeIntrare) stratAnterior).getStratUlterior() == this)
+                return;
+
+            ((StratDeIntrare) stratAnterior).setStratUlterior(this);
+        }
     }
 
     public double getEroareaRetelei()

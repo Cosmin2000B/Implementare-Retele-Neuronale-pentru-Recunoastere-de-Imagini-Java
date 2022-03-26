@@ -85,10 +85,6 @@ class StratDeIesireTest
     }
 
     @Test
-    void actualizeazaPonderi() {
-    }
-
-    @Test
     void adaugaNeuron() {
     }
 
@@ -192,5 +188,77 @@ class StratDeIesireTest
                        stratDeIesire.getNeuroni().get(0).getValoareIesire(),
                 Math.pow(10, -9));
         assertEquals(0.222889198, stratDeIesire.getEroareaRetelei(), Math.pow(10, -6));
+    }
+
+    @Test
+    void gasesteSinapsaIntrare()
+    {
+        StratAscuns s1 = new StratAscuns(3);
+        StratAscuns s2 = new StratAscuns(4);
+
+        for(int i = 0; i < 3; i++)
+            s1.getNeuroni().get(i).setNumeIdentificare("Strat Ascuns 1, Neuronul " + i);
+
+        for(int i = 0; i < 4; i++)
+            s2.getNeuroni().get(i).setNumeIdentificare("Strat Ascuns 2, Neuronul " + i);
+
+        s1.setStratUlterior(s2);
+        s1.stabilesteStratDens();
+
+        // verificam daca sinapsa gasita corespunde cu realitatea
+        assertEquals( s1.getNeuroni().get(0).getSinapseIesire().get(3).getNeuronDestinatar(),
+                s2.gasesteSinapsaIntrare
+                        (s1.getNeuroni().get(0),s2.getNeuroni().get(3)).getNeuronDestinatar());
+
+    }
+
+    @Test
+    void SimulareRna3x3x3x3()
+    {
+        //Clasificare multi-clasa (3 clase)
+
+        // Strat intrare
+        StratDeIntrare stratDeIntrare = new StratDeIntrare(new ArrayList<>(Arrays.
+                asList(0.1, 0.2, 0.7)));
+        // Strat Ascuns 1, fct activare: ReLU
+        StratAscuns stratAscuns1 = new StratAscuns(3, new ReLU());
+        stratDeIntrare.setStratUlterior(stratAscuns1);
+        stratDeIntrare.stabilesteStratDens(new ArrayList<>(Arrays.
+                asList(0.1, 0.2, 0.3, 0.3, 0.2, 0.7, 0.4, 0.3, 0.9)));
+        // Strat Ascuns 2, fct activare: logistica
+        StratAscuns stratAscuns2 = new StratAscuns(3, new Logistica());
+        stratAscuns2.setStratAnterior(stratAscuns1);
+        stratAscuns1.stabilesteStratDens(new ArrayList<>(Arrays.
+                asList(0.2, 0.3, 0.5, 0.3, 0.5, 0.7, 0.6, 0.4, 0.8)));
+        // Strat de Iesire, fct activare Softmax
+        // calcularea functiei de cost: entropie incrucisata
+        StratDeIesire stratDeIesire = new StratDeIesire(3);
+        stratDeIesire.setFunctieActivare(new Softmax(stratDeIesire));
+        stratDeIesire.setFunctieDeCost(new EntropieIncrucisata());
+
+        stratAscuns2.setStratUlterior(stratDeIesire);
+        stratAscuns2.stabilesteStratDens(new ArrayList<>(Arrays.
+                asList(0.1, 0.4, 0.8, 0.3, 0.7, 0.2, 0.5, 0.2, 0.9)));
+        stratDeIesire.setValoriDorite(new ArrayList<>(Arrays.
+                asList(1d, 0d, 0d)));
+
+        for(Neuron neuron: stratAscuns1.getNeuroni())
+            neuron.getBias().setPondere(-1.0);
+        for(Neuron neuron: stratAscuns2.getNeuroni())
+            neuron.getBias().setPondere(-1.0);
+        for(Neuron neuron: stratDeIesire.getNeuroni())
+            neuron.getBias().setPondere(-1.0);
+
+        stratAscuns1.calculeazaIesiri();
+        stratAscuns2.calculeazaIesiri();
+        stratDeIesire.calculeazaIesiri();
+        stratDeIesire.calculeazaEroareaRetelei();
+
+        //for(Neuron neuron: stratDeIesire.getNeuroni())
+            //System.out.print(neuron.getValoareIesire() + " ");
+        //System.out.println("\n");
+        //System.out.println(stratDeIesire.getEroareaRetelei());
+
+        assertEquals(1.61723375, stratDeIesire.getEroareaRetelei(), Math.pow(10,-8));
     }
 }
