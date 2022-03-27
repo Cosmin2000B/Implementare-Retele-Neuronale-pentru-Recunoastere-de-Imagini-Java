@@ -10,6 +10,7 @@ import java.util.ArrayList;
  */
 public abstract class StratNeuronalLiniar
 {
+    private String numeIdentificare;
     private ArrayList<Neuron> neuroni;
     private int numarNeuroni;
 
@@ -81,6 +82,16 @@ public abstract class StratNeuronalLiniar
     }
 
     // --------------- Setteri si Getteri ----------------------
+
+
+    public String getNumeIdentificare() {
+        return numeIdentificare;
+    }
+
+    public void setNumeIdentificare(String numeIdentificare) {
+        this.numeIdentificare = numeIdentificare;
+    }
+
     public ArrayList<Neuron> getNeuroni() {
         return this.neuroni;
     }

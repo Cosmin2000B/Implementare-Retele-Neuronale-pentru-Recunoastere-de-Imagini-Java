@@ -1,47 +1,57 @@
 package cosmin.reteleNeuronale;
 
-public abstract class ReteaNeuronala
+import cosmin.regulInvatare.RegulaInvatare;
+import cosmin.regulInvatare.multimeAntrenament.MultimeAntrenament;
+
+/**
+ * @author Ionescu Cosmin
+ *   Clasa abstracta care modeleaza generalitati legate de o retea
+ *  neuronala.
+ * @param <Ri> reprezinta regula de invatare agreata de utilizator.
+ */
+public abstract class ReteaNeuronala<Ri extends RegulaInvatare>
 {
-    private double rataInvatare = 0.1d;
-    private double inertie = 0.9d;
+    private String numeIdentificare;
+    private Ri regulaInvatare;
 
     // --------- Constructori ----------------
 
     public ReteaNeuronala(){}
 
-    public ReteaNeuronala(double rataInvatare)
+    public ReteaNeuronala(Ri regulaInvatare)
     {
-        this.rataInvatare = rataInvatare;
+        this.regulaInvatare = regulaInvatare;
     }
 
-    public ReteaNeuronala(double rataInvatare, double inertie)
+    public void antreneaza()
     {
-        this.rataInvatare = rataInvatare;
-        this.inertie = inertie;
+        this.regulaInvatare.antreneaza();
     }
 
     // --------- Sfarsit Constructori --------
 
     public abstract void executaPropagare();
 
-    public abstract void executaRetroPropagare(double rataInvatare);
-    public abstract void executaRetroPropagare(double rataInvatare, double inertie);
-
     // ------- Setteri si Getteri -------------------
 
-    public double getRataInvatare() {
-        return rataInvatare;
+
+    public String getNumeIdentificare()
+    {
+        return numeIdentificare;
     }
 
-    public void setRataInvatare(double rataInvatare) {
-        this.rataInvatare = rataInvatare;
+    public void setNumeIdentificare(String numeIdentificare)
+    {
+        this.numeIdentificare = numeIdentificare;
     }
 
-    public double getInertie() {
-        return inertie;
+    public Ri getRegulaInvatare()
+    {
+        return regulaInvatare;
     }
 
-    public void setInertie(double inertie) {
-        this.inertie = inertie;
+    public void setRegulaInvatare(Ri regulaInvatare)
+    {
+        this.regulaInvatare = regulaInvatare;
     }
 }
