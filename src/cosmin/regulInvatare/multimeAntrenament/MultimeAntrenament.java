@@ -1,6 +1,6 @@
 package cosmin.regulInvatare.multimeAntrenament;
 
-//TODO
+//TODO de implementat pt imagini
 public class MultimeAntrenament
 {
     private String locatieMemorie;
