@@ -63,6 +63,7 @@ public class StratAscuns extends StratNeuronalLiniar implements StratNeuronal
         }
     }
 
+    //TODO de vazut si-n cazul in care se schimba stratul dens existent...
     /**
      *    In concordanta cu directia de parcurgere a retelei in cadrul procesului de
      *  propagare, un strat neuronal va stabilii sinapse numai cu stratul sau ulterior.
