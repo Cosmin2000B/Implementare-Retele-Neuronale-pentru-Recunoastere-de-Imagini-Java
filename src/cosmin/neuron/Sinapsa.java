@@ -70,25 +70,34 @@ public class Sinapsa
     /**
      *  In functie de regula de invatare atasata retelei neuronale, ponderile sinapselor
      * sunt ajustate cu scopul obtinerii unui rezultat mai apropiat de cel dorit. Scopul
-     * acestui proces poate fi cuantificat si prin dorinta de a avea o rata de eroare/
+     * acestui proces poate fi cuantificat si prin dorinta de a avea o functie de cost/
      * eroare de clasificare cat mai mica.
      * @param rataInvatare un hiperparametru ales in cadrul structurii retelei neuronale.
-     *                     Acesta ia, in general, valori rationale din intervalul [0,1]
+     *                     Acesta ia, in general, valori rationale din intervalul (0,1)
      *                     si reprezinta o modalitate de a controla cat de mari vor fi
      *                     ajustarile ponderilor in raport cu erorile de clasificare
      *                     obtinute.
-     *                       Rata de invatare poate sa fie atat statica, cat si dinamica
-     *                     (in functie de cat de mare este rata de eroare). In cazul unei
-     *                     rate de invatare dinamice, apare un nou parametru numit mo-
-     *                     mentum sau inertie, acesta avand rolul de a pondera modificarile
-     *                     suferite de rata de invatare in functie de schimbarile erorii de
-     *                     clasificare.
      */
     public void actualizeazaPondere(double rataInvatare)
     {
         this.pondere += rataInvatare * this.deltaPondere;
     }
 
+    /**
+     *  In functie de regula de invatare atasata retelei neuronale, ponderile sinapselor
+     * sunt ajustate cu scopul obtinerii unui rezultat mai apropiat de cel dorit. Scopul
+     * acestui proces poate fi cuantificat si prin dorinta de a avea o functie de cost/
+     * eroare de clasificare cat mai mica.
+     * @param rataInvatare un hiperparametru ales in cadrul structurii retelei neuronale.
+     *                     Acesta ia, in general, valori rationale din intervalul (0,1)
+     *                     si reprezinta o modalitate de a controla cat de mari vor fi
+     *                     ajustarile ponderilor in raport cu erorile de clasificare
+     *                     obtinute.
+     * @param inertie un hiperparametru ales in cadrul structurii retelei neuronale.
+     *                Acesta ia, in general, valori rationale din intervalul (0,1)
+     *                si reprezinta o modalitate de a controla cat de mare vo fi
+     *                aportul ponderii precedente in ajustarea actuala.
+     */
     public void actualizeazaPondere(double rataInvatare, double inertie)
     {
         this.pondere = inertie * this.pondere + rataInvatare * this.deltaPondere;
