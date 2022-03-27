@@ -65,8 +65,6 @@ public class Sinapsa
         this.pondere = pondere;
     }
 
-    // TODO mai vedem la explicatii actualizeazaPondere
-
     /**
      *  In functie de regula de invatare atasata retelei neuronale, ponderile sinapselor
      * sunt ajustate cu scopul obtinerii unui rezultat mai apropiat de cel dorit. Scopul

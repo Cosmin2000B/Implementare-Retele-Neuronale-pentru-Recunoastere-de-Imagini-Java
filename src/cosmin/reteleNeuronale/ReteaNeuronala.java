@@ -1,4 +1,4 @@
-package cosmin.ReteleNeuronale;
+package cosmin.reteleNeuronale;
 
 public abstract class ReteaNeuronala
 {
