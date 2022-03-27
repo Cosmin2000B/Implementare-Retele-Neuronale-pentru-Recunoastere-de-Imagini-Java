@@ -129,6 +129,18 @@ public class StratDeIesire extends StratNeuronalLiniar implements StratNeuronal
         }
     }
 
+    @Override
+    public void actualizeazaPonderi(double rataInvatare, double inertie)
+    {
+        for(Neuron neuron: this.getNeuroni())
+        {
+            neuron.getBias().actualizeazaPondere(rataInvatare, inertie);
+
+            for(Sinapsa sinapsa: neuron.getSinapseIntrare())
+                sinapsa.actualizeazaPondere(rataInvatare, inertie);
+        }
+    }
+
     // TODO testeaza metoda
     public Sinapsa gasesteSinapsaIntrare(Neuron neuronEmitent, @NotNull Neuron neuronDestinatar)
     {

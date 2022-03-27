@@ -33,6 +33,11 @@ public class Bias
         this.pondere += this.deltaPondere * rataInvatare;
     }
 
+    public void actualizeazaPondere(double rataInvatare, double inertie)
+    {
+        this.pondere = inertie * this.pondere + rataInvatare * this.deltaPondere;
+    }
+
     // --------- Setteri si Getteri --------------------
 
     public double getPondere()

@@ -7,4 +7,5 @@ public interface StratNeuronal
     public void calculeazaIesiri();
     public void reseteazaPonderi();
     public void actualizeazaPonderi(double rataInvatare);
+    public void actualizeazaPonderi(double rataInvatare, double inertie);
 }
