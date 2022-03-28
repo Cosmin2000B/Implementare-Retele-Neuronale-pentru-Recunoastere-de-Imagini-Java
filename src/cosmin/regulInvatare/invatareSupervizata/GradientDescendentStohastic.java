@@ -1,5 +1,6 @@
-package cosmin.regulInvatare;
+package cosmin.regulInvatare.invatareSupervizata;
 
+import cosmin.regulInvatare.RegulaInvatare;
 import cosmin.regulInvatare.multimeAntrenament.MultimeAntrenamentEtichetata;
 
 // TODO
