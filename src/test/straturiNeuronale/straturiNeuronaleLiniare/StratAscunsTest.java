@@ -1,5 +1,6 @@
 package test.straturiNeuronale.straturiNeuronaleLiniare;
 
+import cosmin.neuron.Sinapsa;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratAscuns;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratDeIntrare;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
@@ -47,5 +48,27 @@ class StratAscunsTest {
 
     @Test
     void setStratUlterior() {
+    }
+
+    // TODO vezi strat iesire
+    @Test
+    void gasesteSinapsaIntrare()
+    {
+        StratAscuns stratAscuns = new StratAscuns(2);
+        stratAscuns.getNeuroni().get(0).setNumeIdentificare("S Ascuns, 0");
+        stratAscuns.getNeuroni().get(1).setNumeIdentificare("S Ascuns, 1");
+
+        StratAscuns stratAscuns1 = new StratAscuns(2);
+        stratAscuns1.getNeuroni().get(0).setNumeIdentificare("S Ascuns1, 0");
+        stratAscuns1.getNeuroni().get(1).setNumeIdentificare("S Ascuns1, 1");
+
+        stratAscuns.setStratUlterior(stratAscuns1);
+        stratAscuns.stabilesteStratDens();
+
+        Sinapsa s0a_1i = stratAscuns1.gasesteSinapsaIntrare(stratAscuns.getNeuroni().get(0),
+                stratAscuns1.getNeuroni().get(1));
+
+        assertSame(s0a_1i.getNeuronEmitent(), stratAscuns.getNeuroni().get(0));
+        assertSame(s0a_1i.getNeuronDestinatar(), stratAscuns1.getNeuroni().get(1));
     }
 }

@@ -4,6 +4,7 @@ import cosmin.functiiActivare.ReLU;
 import cosmin.functiiActivare.Softmax;
 import cosmin.functiiActivare.sigmoide.Logistica;
 import cosmin.neuron.Neuron;
+import cosmin.neuron.Sinapsa;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratAscuns;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratDeIntrare;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
@@ -191,7 +192,7 @@ class StratDeIesireTest
     }
 
     @Test
-    void gasesteSinapsaIntrare()
+    void gasesteSinapsaIntrare1()
     {
         StratAscuns s1 = new StratAscuns(3);
         StratAscuns s2 = new StratAscuns(4);
@@ -210,6 +211,27 @@ class StratDeIesireTest
                 s2.gasesteSinapsaIntrare
                         (s1.getNeuroni().get(0),s2.getNeuroni().get(3)).getNeuronDestinatar());
 
+    }
+
+    @Test
+    void gasesteSinapsaIntrare2()
+    {
+        StratAscuns stratAscuns = new StratAscuns(2);
+        stratAscuns.getNeuroni().get(0).setNumeIdentificare("S Ascuns, 0");
+        stratAscuns.getNeuroni().get(1).setNumeIdentificare("S Ascuns, 1");
+
+        StratAscuns stratIesire = new StratAscuns(2);
+        stratIesire.getNeuroni().get(0).setNumeIdentificare("S Iesire, 0");
+        stratIesire.getNeuroni().get(1).setNumeIdentificare("S Iesire, 1");
+
+        stratAscuns.setStratUlterior(stratIesire);
+        stratAscuns.stabilesteStratDens();
+
+        Sinapsa s0a_1i = stratIesire.gasesteSinapsaIntrare(stratAscuns.getNeuroni().get(0),
+                stratIesire.getNeuroni().get(1));
+
+        assertSame(s0a_1i.getNeuronEmitent(), stratAscuns.getNeuroni().get(0));
+        assertSame(s0a_1i.getNeuronDestinatar(), stratIesire.getNeuroni().get(1));
     }
 
     @Test
@@ -261,4 +283,5 @@ class StratDeIesireTest
 
         assertEquals(1.61723375, stratDeIesire.getEroareaRetelei(), Math.pow(10,-8));
     }
+
 }
