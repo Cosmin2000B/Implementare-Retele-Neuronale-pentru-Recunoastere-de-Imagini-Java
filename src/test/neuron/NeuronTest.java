@@ -63,6 +63,19 @@ class NeuronTest
     }
 
     @Test
+    public void adaugaSinapsaIntrare2()
+    {
+        Neuron neuron1 = new Neuron();
+        Neuron neuron2 = new Neuron();
+
+        Sinapsa sinapsa = new Sinapsa(neuron1, neuron2, 0.2d);
+        neuron2.adaugaSinapsaIntrare(sinapsa);
+        neuron2.getSinapseIntrare().get(0).setPondere(0.44d);
+
+        assertEquals(0.44d, neuron1.getSinapseIesire().get(0).getPondere());
+    }
+
+    @Test
     void adaugaSinapsaIesire()
     {
         Neuron n1 = new Neuron();

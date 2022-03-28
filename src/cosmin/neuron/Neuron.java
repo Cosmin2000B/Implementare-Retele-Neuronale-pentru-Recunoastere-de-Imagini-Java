@@ -141,9 +141,7 @@ public class Neuron
         */
         sinapsa.
                 getNeuronEmitent().
-                adaugaSinapsaIesire(
-                        new Sinapsa(sinapsa.getNeuronEmitent(), this, sinapsa.getPondere())
-                );
+                adaugaSinapsaIesire(sinapsa);
     }
 
     /**
@@ -204,9 +202,7 @@ public class Neuron
         */
         sinapsa.
                 getNeuronDestinatar().
-                adaugaSinapsaIntrare(
-                        new Sinapsa(this, sinapsa.getNeuronDestinatar(), sinapsa.getPondere())
-                );
+                adaugaSinapsaIntrare(sinapsa);
     }
 
     /**
