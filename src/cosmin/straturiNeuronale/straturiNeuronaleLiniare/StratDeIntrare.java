@@ -150,6 +150,16 @@ public class StratDeIntrare extends StratNeuronalLiniar
         }
     }
 
+    public Sinapsa gasesteSinapsaIesire(@NotNull Neuron neuronEmitent, Neuron neuronDestinatar)
+    {
+        for(Sinapsa sinapsa: neuronEmitent.getSinapseIesire())
+        {
+            if(sinapsa.getNeuronDestinatar() == neuronDestinatar)
+                return sinapsa;
+        }
+        return null;
+    }
+
     // ---------------------- Setteri si Getteri ------------------------
 
     public StratNeuronalLiniar getStratUlterior() {

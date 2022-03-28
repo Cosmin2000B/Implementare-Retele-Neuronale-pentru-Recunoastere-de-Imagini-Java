@@ -2,6 +2,7 @@ package test.straturiNeuronale.straturiNeuronaleLiniare;
 
 import cosmin.functiiActivare.sigmoide.TangentaHiperbolica;
 import cosmin.neuron.Neuron;
+import cosmin.neuron.Sinapsa;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratAscuns;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratDeIntrare;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
@@ -10,8 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class StratDeIntrareTest
 {
@@ -85,5 +85,20 @@ class StratDeIntrareTest
         si.stabilesteStratDens();
 
         assertEquals(si, sa.getStratAnterior());
+    }
+
+    @Test
+    void gasesteSinapsaIesire()
+    {
+        StratDeIntrare stratDeIntrare = new StratDeIntrare(2);
+        StratAscuns stratAscuns = new StratAscuns(3);
+        stratDeIntrare.setStratUlterior(stratAscuns);
+        stratDeIntrare.stabilesteStratDens();
+
+        Sinapsa s1_2 = stratDeIntrare.gasesteSinapsaIesire(stratDeIntrare.getNeuroni().get(1),
+                stratAscuns.getNeuroni().get(2));
+
+        assertSame(s1_2.getNeuronEmitent(), stratDeIntrare.getNeuroni().get(1));
+        assertSame(s1_2.getNeuronDestinatar(), stratAscuns.getNeuroni().get(2));
     }
 }

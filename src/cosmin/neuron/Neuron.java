@@ -258,8 +258,6 @@ public class Neuron
                                   valoareFunctie(this.valoareIntrare);
     }
 
-    //TODO resetare deltaPonderi
-
     // ---------------- Setteri si Getteri --------------------------
 
 

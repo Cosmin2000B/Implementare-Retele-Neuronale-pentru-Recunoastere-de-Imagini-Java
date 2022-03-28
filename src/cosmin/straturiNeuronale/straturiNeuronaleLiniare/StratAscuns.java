@@ -133,12 +133,21 @@ public class StratAscuns extends StratNeuronalLiniar implements StratNeuronal
         }
     }
 
-    // TODO testeaza metoda
     public Sinapsa gasesteSinapsaIntrare(Neuron neuronEmitent, @NotNull Neuron neuronDestinatar)
     {
         for(Sinapsa sinapsa: neuronDestinatar.getSinapseIntrare())
         {
             if(sinapsa.getNeuronEmitent() == neuronEmitent)
+                return sinapsa;
+        }
+        return null;
+    }
+
+    public Sinapsa gasesteSinapsaIesire(@NotNull Neuron neuronEmitent, Neuron neuronDestinatar)
+    {
+        for(Sinapsa sinapsa: neuronEmitent.getSinapseIesire())
+        {
+            if(sinapsa.getNeuronDestinatar() == neuronDestinatar)
                 return sinapsa;
         }
         return null;

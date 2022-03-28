@@ -71,4 +71,19 @@ class StratAscunsTest {
         assertSame(s0a_1i.getNeuronEmitent(), stratAscuns.getNeuroni().get(0));
         assertSame(s0a_1i.getNeuronDestinatar(), stratAscuns1.getNeuroni().get(1));
     }
+
+    @Test
+    void gasesteSinapsaIesire()
+    {
+        StratAscuns stratAscuns = new StratAscuns(3);
+        StratDeIesire stratDeIesire = new StratDeIesire(2);
+        stratAscuns.setStratUlterior(stratDeIesire);
+        stratAscuns.stabilesteStratDens();
+
+        Sinapsa s2_0 = stratAscuns.gasesteSinapsaIesire(stratAscuns.getNeuroni().get(2),
+                stratDeIesire.getNeuroni().get(0));
+
+        assertSame(stratAscuns.getNeuroni().get(2),s2_0.getNeuronEmitent());
+        assertSame(stratDeIesire.getNeuroni().get(0),s2_0.getNeuronDestinatar());
+    }
 }
