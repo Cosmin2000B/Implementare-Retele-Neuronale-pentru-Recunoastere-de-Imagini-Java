@@ -4,7 +4,9 @@ import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.elementAntrena
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Random;
 
 public class MultimeImagini extends MultimeAntrenamentEtichetata
 {
@@ -82,6 +84,17 @@ public class MultimeImagini extends MultimeAntrenamentEtichetata
         }
 
         return multimeImagini;
+    }
+
+    // TODO cu sursa de aleatorism
+    public static void amestecaAleator(ArrayList<ImagineEtichetata> multimeElemente)
+    {
+        Collections.shuffle(multimeElemente);
+    }
+
+    public static void amestecaAleator(ArrayList<ImagineEtichetata> multimeElemente, Random sursa)
+    {
+        Collections.shuffle(multimeElemente, sursa);
     }
 
     // ------ Setteri si Getteri -----------------

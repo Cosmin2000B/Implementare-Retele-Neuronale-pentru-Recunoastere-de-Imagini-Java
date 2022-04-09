@@ -9,7 +9,7 @@ class MultimeImaginiTest
 {
 
     @Test
-    void citesteMultimeImagini()
+    static void citesteMultimeImagini()
     {
         citsteMultimeImaginiTest
                 ("F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\cifar10",
@@ -23,10 +23,23 @@ class MultimeImaginiTest
                         1);
     }
 
-    // todo de sters
-    static void  citsteMultimeImaginiTest(String locatieMemorie, int nrCanaleCulori)
+    static MultimeImagini citsteMultimeImaginiTest(String locatieMemorie, int nrCanaleCulori)
+    {
+        return MultimeImagini.citesteMultimeImagini(locatieMemorie, nrCanaleCulori);
+    }
+
+    @Test
+    void amestecaAleator()
     {
         MultimeImagini multimeImagini =
-                MultimeImagini.citesteMultimeImagini(locatieMemorie, nrCanaleCulori);
+                citsteMultimeImaginiTest("F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_png",
+                1);
+
+        MultimeImagini.amestecaAleator(multimeImagini.getImaginiAntrenament());
+    }
+
+    @Test
+    void testAmestecaAleator()
+    {
     }
 }
