@@ -5,6 +5,7 @@ import cosmin.neuron.Neuron;
 import cosmin.regulaInvatare.invatareSupervizata.GradientDescendent;
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.MultimeImagini;
 import cosmin.reteleNeuronale.PerceptronMultiStrat;
+import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
 import jdk.swing.interop.SwingInterOpUtils;
 import org.junit.jupiter.api.Test;
 
@@ -16,8 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PerceptronMultiStratTest
 {
-    @Test
-    void executaPropagare1()
+    PerceptronMultiStrat incarcaArhitectura1()
     {
         PerceptronMultiStrat perceptronMultiStrat =
                 new PerceptronMultiStrat(3, 1, 2, 3);
@@ -68,18 +68,10 @@ class PerceptronMultiStratTest
         // strat de iesire
         perceptronMultiStrat.getStratDeIesire().getNeuroni().get(0).getBias().setPondere(0.59);
 
-        perceptronMultiStrat.executaPropagare();
-
-        assertEquals(3.801,perceptronMultiStrat.getStraturiAscunse().get(1).getNeuroni().get(1).getValoareIesire(),
-                Math.pow(10, -8));
-        assertEquals(2.2008,perceptronMultiStrat.getStraturiAscunse().get(1).getNeuroni().get(0).getValoareIesire(),
-                Math.pow(10, -8));
-        assertEquals(0.98866638208, perceptronMultiStrat.getStratDeIesire().getNeuroni().get(0).getValoareIesire(),
-                Math.pow(10, -8));
+        return perceptronMultiStrat;
     }
 
-    @Test
-    void executaPropagare2()
+    PerceptronMultiStrat incarcaArhitectura2()
     {
         PerceptronMultiStrat perceptronMultiStrat =
                 new PerceptronMultiStrat(3,3, 2, 3);
@@ -123,7 +115,38 @@ class PerceptronMultiStratTest
         for(Neuron neuron: perceptronMultiStrat.getStratDeIesire().getNeuroni())
             neuron.getBias().setPondere(-1.0);
 
+        return perceptronMultiStrat;
+    }
+
+    @Test
+    void executaPropagare1()
+    {
+        PerceptronMultiStrat perceptronMultiStrat = incarcaArhitectura1();
         perceptronMultiStrat.executaPropagare();
+
+        assertEquals(3.801,perceptronMultiStrat.getStraturiAscunse().get(1).getNeuroni().get(1).getValoareIesire(),
+                Math.pow(10, -8));
+        assertEquals(2.2008,perceptronMultiStrat.getStraturiAscunse().get(1).getNeuroni().get(0).getValoareIesire(),
+                Math.pow(10, -8));
+        assertEquals(0.98866638208, perceptronMultiStrat.getStratDeIesire().getNeuroni().get(0).getValoareIesire(),
+                Math.pow(10, -8));
+    }
+
+    @Test
+    void executaPropagare2()
+    {
+        PerceptronMultiStrat perceptronMultiStrat = incarcaArhitectura2();
+        perceptronMultiStrat.executaPropagare();
+
+        assertEquals(0.19858,
+                perceptronMultiStrat.getStratDeIesire().getNeuroni().get(0).getValoareIesire(),
+                Math.pow(10, -3));
+        assertEquals(0.28559,
+                perceptronMultiStrat.getStratDeIesire().getNeuroni().get(1).getValoareIesire(),
+                Math.pow(10, -3));
+        assertEquals(0.51583,
+                perceptronMultiStrat.getStratDeIesire().getNeuroni().get(2).getValoareIesire(),
+                Math.pow(10, -3));
 
         assertEquals(1.61723375,
                 perceptronMultiStrat.getStratDeIesire().getEroareaRetelei(), Math.pow(10,-8));
@@ -132,6 +155,29 @@ class PerceptronMultiStratTest
     @Test
     void retropropagareStratIesire()
     {
+        PerceptronMultiStrat perceptronMultiStrat = incarcaArhitectura2();
+        perceptronMultiStrat.executaPropagare();
+        // pt a imparti la 1 (sa nu modifice rezultatul)
+        perceptronMultiStrat.retropropagareStratIesire(1);
+
+        System.out.println(perceptronMultiStrat.getStraturiAscunse().get(1).getNeuroni().get(2).getValoareIesire());
+
+        StratDeIesire stratDeIesire = perceptronMultiStrat.getStratDeIesire();
+        assertEquals(-0.80155d,
+                stratDeIesire.getNeuroni().get(0).getEroareNeuron(), Math.pow(10, -5));
+        assertEquals(0.28559d,
+                stratDeIesire.getNeuroni().get(1).getEroareNeuron(), Math.pow(10, -3));
+        assertEquals(0.51583d,
+                stratDeIesire.getNeuroni().get(2).getEroareNeuron(), Math.pow(10, -3));
+        assertEquals(-0.7525202237d,
+                stratDeIesire.getNeuroni().get(0).getSinapseIntrare().get(0).getDeltaPondere(),
+                Math.pow(10, -4));
+        assertEquals(-0.7525202237,
+                stratDeIesire.getNeuroni().get(0).getSinapseIntrare().get(1).getDeltaPondere(),
+                Math.pow(10, -2));
+        assertEquals(-0.7871896707,
+                stratDeIesire.getNeuroni().get(0).getSinapseIntrare().get(2).getDeltaPondere(),
+                Math.pow(10, -5));
     }
 
     @Test

@@ -5,8 +5,6 @@ import cosmin.reteleNeuronale.ReteaNeuronala;
 
 import java.io.Serializable;
 
-//TODO SGD, GD
-
 /**
  *   Regula de antrenament stabileste modul in care ajustam RNA pentru
  *  a obtine rezultate mai apropiate de cele asteptate.
