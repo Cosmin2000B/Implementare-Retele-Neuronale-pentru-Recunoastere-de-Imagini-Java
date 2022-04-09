@@ -3,10 +3,11 @@ package cosmin.reteleNeuronale;
 import cosmin.functiiActivare.ReLU;
 import cosmin.functiiActivare.Softmax;
 import cosmin.functiiActivare.sigmoide.Logistica;
-import cosmin.regulInvatare.RegulaInvatare;
-import cosmin.regulInvatare.multimeAntrenament.MultimeAntrenamentEtichetata;
+import cosmin.neuron.Neuron;
+import cosmin.neuron.Sinapsa;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratAscuns;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratDeIntrare;
+import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratNeuronalLiniar;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost.EntropieIncrucisata;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost.Entropie_Incrucisata_Binara;
@@ -16,7 +17,7 @@ import java.util.LinkedList;
 /**
  * @author Ionescu Cosmin
  */
-public class PerceptronMultiStrat extends ReteaNeuronala<RegulaInvatare<MultimeAntrenamentEtichetata>>
+public class PerceptronMultiStrat extends ReteaNeuronalaFeedForward
 {
     private StratDeIntrare stratDeIntrare;
     private LinkedList<StratAscuns> straturiAscunse;
@@ -86,6 +87,18 @@ public class PerceptronMultiStrat extends ReteaNeuronala<RegulaInvatare<MultimeA
 
             this.straturiAscunse.add(stratAscuns);
         }
+
+        // nu avem straturi ascunse
+        if(this.straturiAscunse.isEmpty())
+        {
+            stratDeIntrare.setStratUlterior(stratDeIesire);
+            stratDeIntrare.setStratUlterior(stratDeIesire);
+        }
+        else // avem straturi ascunse
+        {
+            straturiAscunse.getLast().setStratUlterior(stratDeIesire);
+            straturiAscunse.getLast().stabilesteStratDens();
+        }
     }
 
 
@@ -93,9 +106,74 @@ public class PerceptronMultiStrat extends ReteaNeuronala<RegulaInvatare<MultimeA
     @Override
     public void executaPropagare()
     {
-        this.straturiAscunse.forEach(stratAscuns -> stratAscuns.calculeazaIesiri());
+        this.straturiAscunse.forEach(StratAscuns::calculeazaIesiri);
         this.stratDeIesire.calculeazaIesiri();
         this.stratDeIesire.calculeazaEroareaRetelei();
+    }
+
+    // todo in 2 etape -> actualizeaza = durere
+    public void retropropagareStratIesire(int dimSubmultimeAntrenament)
+    {
+        for(int i = 0; i < stratDeIesire.getNumarNeuroni(); ++i)
+        {
+            // ------- Strat de Iesire ----------
+            Neuron neuronCurent = stratDeIesire.getNeuroni().get(i);
+            double eroareNeuronIteratie = 0d;
+            neuronCurent.setEroareNeuron(
+                            stratDeIesire.getFunctieDeCost().calculeazaDerivata(neuronCurent, i, stratDeIesire) *
+                                    neuronCurent.getFunctieActivare().valoareDerivata(neuronCurent.getValoareIntrare()));
+            // bias
+            neuronCurent.getBias().setDeltaPondere
+                    (neuronCurent.getBias().getDeltaPondere()
+                            + neuronCurent.getEroareNeuron() / dimSubmultimeAntrenament);
+
+            // randul sinapselor -> sinapse intrare
+            for(Sinapsa sinapsaIntrare: neuronCurent.getSinapseIntrare())
+                sinapsaIntrare.setDeltaPondere(sinapsaIntrare.getDeltaPondere() +
+                        neuronCurent.getEroareNeuron() * sinapsaIntrare.getNeuronEmitent().getValoareIesire()
+                                / dimSubmultimeAntrenament);
+        }
+    }
+
+    public void retropropagareStratAscuns(int dimSubmultimeAntrenament, StratAscuns stratAscuns)
+    {
+        for(int i = 0; i < stratAscuns.getNumarNeuroni(); ++i)
+        {
+            Neuron neuronCurent = stratAscuns.getNeuroni().get(i);
+            // strat ulterior in contextul propagarii, fiind anterior in
+            // retropropagare
+            double sumaEroriPonderate = 0d;
+            StratNeuronalLiniar stratUlterior = stratAscuns.getStratUlterior();
+
+            for(Neuron neuronUlterior: stratUlterior.getNeuroni())
+                sumaEroriPonderate +=
+                        // se respecta ordinea din stabilirea stratului dens (determinare sinapsa corespondenta)
+                        neuronUlterior.getEroareNeuron() * neuronUlterior.getSinapseIntrare().get(i).getPondere();
+
+            neuronCurent.setEroareNeuron
+                    (sumaEroriPonderate * neuronCurent.getFunctieActivare().
+                            valoareDerivata(neuronCurent.getValoareIntrare()) / dimSubmultimeAntrenament);
+
+            // bias
+            neuronCurent.getBias().setDeltaPondere(neuronCurent.getBias().getDeltaPondere()
+                    + neuronCurent.getEroareNeuron() / dimSubmultimeAntrenament);
+
+            // sinapse -> sinapse intrare
+            for(Sinapsa sinapsaIntrare: neuronCurent.getSinapseIntrare())
+                sinapsaIntrare.setDeltaPondere(sinapsaIntrare.getDeltaPondere() + neuronCurent.getEroareNeuron() *
+                        sinapsaIntrare.getNeuronEmitent().getValoareIesire());
+        }
+    }
+
+    @Override
+    public void executaRetropropagare(int dimSubmultimeAntrenament)
+    {
+        retropropagareStratIesire(dimSubmultimeAntrenament);
+
+        for(int i = straturiAscunse.size() - 1; i >= 0; --i)
+            retropropagareStratAscuns(dimSubmultimeAntrenament, straturiAscunse.get(i));
+
+        // todo de vazut actualizare
     }
 
     // ----- Setteri si Getteri --------

@@ -1,6 +1,7 @@
 package cosmin.straturiNeuronale.straturiNeuronaleLiniare;
 
 import cosmin.functiiActivare.FunctieActivare;
+import cosmin.functiiActivare.ReLU;
 import cosmin.neuron.Neuron;
 import cosmin.neuron.Sinapsa;
 import cosmin.straturiNeuronale.StratNeuronal;
@@ -28,7 +29,17 @@ public class StratAscuns extends StratNeuronalLiniar implements StratNeuronal
         this.setNeuroni(new ArrayList<>(numarNeuroni));
 
         for(int i = 0; i < numarNeuroni; ++i)
-            this.getNeuroni().add(new Neuron());
+        {
+            if(this.getFunctieActivare() != null)
+            // s-a stabilit functia de activare la nivel de strat
+                this.getNeuroni().add(new Neuron(this.functieActivare));
+            else
+            {
+                // nu s-a stabilit functia la nivel de strat, aplicam varianta default
+                this.functieActivare = new ReLU();
+                this.getNeuroni().add(new Neuron(this.functieActivare));
+            }
+        }
     }
 
     public StratAscuns(int numarNeuroni, FunctieActivare functieActivare)
@@ -174,6 +185,9 @@ public class StratAscuns extends StratNeuronalLiniar implements StratNeuronal
 
             for(Sinapsa sinapsa: neuron.getSinapseIntrare())
                 sinapsa.actualizeazaPondere(rataInvatare, inertie);
+
+            // resetam eroarea acumulata in neuron
+            neuron.setEroareNeuron(0d);
         }
     }
 

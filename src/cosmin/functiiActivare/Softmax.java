@@ -47,6 +47,11 @@ public class Softmax implements FunctieActivare
        if(this.sumaFunctiiExponentiale == 0d)
            this.calculeazaSumaFunctiiExponentiale();
 
+       // in urma calcularii este 0, atribuim o valoare foarte mica, a.i. sa
+        // evitam impartirea la 0
+       if(this.sumaFunctiiExponentiale == 0d)
+           this.sumaFunctiiExponentiale = 0.00000001d;
+
        return Math.exp(input) / this.sumaFunctiiExponentiale;
     }
 
@@ -64,6 +69,31 @@ public class Softmax implements FunctieActivare
     @Override
     public double valoareDerivata(Double input)
     {
+        // resetam suma pentru urmatoarea propagare
+        this.sumaFunctiiExponentiale = 0d;
+
         return 1d;
+    }
+
+    // ------------------ Getteri si Setteri -----------------------
+
+    public double getSumaFunctiiExponentiale()
+    {
+        return sumaFunctiiExponentiale;
+    }
+
+    public void setSumaFunctiiExponentiale(double sumaFunctiiExponentiale)
+    {
+        this.sumaFunctiiExponentiale = sumaFunctiiExponentiale;
+    }
+
+    public StratDeIesire getStratDeIesire()
+    {
+        return stratDeIesire;
+    }
+
+    public void setStratDeIesire(StratDeIesire stratDeIesire)
+    {
+        this.stratDeIesire = stratDeIesire;
     }
 }

@@ -78,7 +78,9 @@ public class Sinapsa
      */
     public void actualizeazaPondere(double rataInvatare)
     {
-        this.pondere += rataInvatare * this.deltaPondere;
+        this.pondere -= rataInvatare * this.deltaPondere;
+        // cand actualizam, resetam eroarea acumulata
+        this.deltaPondere = 0;
     }
 
     /**
@@ -98,7 +100,9 @@ public class Sinapsa
      */
     public void actualizeazaPondere(double rataInvatare, double inertie)
     {
-        this.pondere = inertie * this.pondere + rataInvatare * this.deltaPondere;
+        this.pondere = inertie * this.pondere - rataInvatare * this.deltaPondere;
+        // cand actualizam, resetam eroarea acumulata
+        this.deltaPondere = 0;
     }
 
     // ------------ Setter si Getteri -------------------------------------//

@@ -6,7 +6,6 @@ import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIe
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -33,7 +32,8 @@ public class StratDeIntrare extends StratNeuronalLiniar
 
     /**
      *
-     * @param valoriIesire
+     * @param valoriIesire valorile de intrare (inputul) pentru reteaua neuronala.
+     *
      */
     public StratDeIntrare(@NotNull List<Double> valoriIesire)
     {
@@ -158,6 +158,21 @@ public class StratDeIntrare extends StratNeuronalLiniar
                 return sinapsa;
         }
         return null;
+    }
+
+    /**
+     *
+     * @param valoriInput
+     * @throws IllegalArgumentException
+     */
+    public void stabilesteInputRetea(ArrayList<Double> valoriInput)
+    {
+        if(valoriInput.size() != this.getNumarNeuroni())
+            throw new IllegalArgumentException("Setul de date are alta domensiune fata de configuratia" +
+                    " retelei!");
+
+        for(int i = 0; i < this.getNumarNeuroni(); ++i)
+            this.getNeuroni().get(i).setValoareIesire(valoriInput.get(i));
     }
 
     // ---------------------- Setteri si Getteri ------------------------

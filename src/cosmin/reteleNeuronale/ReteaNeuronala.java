@@ -1,7 +1,6 @@
 package cosmin.reteleNeuronale;
 
-import cosmin.regulInvatare.RegulaInvatare;
-import cosmin.regulInvatare.multimeAntrenament.MultimeAntrenament;
+import cosmin.regulaInvatare.RegulaInvatare;
 
 /**
  * @author Ionescu Cosmin
@@ -29,8 +28,6 @@ public abstract class ReteaNeuronala<Ri extends RegulaInvatare>
     }
 
     // --------- Sfarsit Constructori --------
-
-    public abstract void executaPropagare();
 
     // ------- Setteri si Getteri -------------------
 

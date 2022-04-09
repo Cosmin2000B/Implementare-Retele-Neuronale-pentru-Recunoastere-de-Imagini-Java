@@ -30,12 +30,16 @@ public class Bias
 
     public void actualizeazaPondere(double rataInvatare)
     {
-        this.pondere += this.deltaPondere * rataInvatare;
+        this.pondere -= this.deltaPondere * rataInvatare;
+        // cand actualizam, resetam eroarea acumulata
+        this.deltaPondere = 0;
     }
 
     public void actualizeazaPondere(double rataInvatare, double inertie)
     {
-        this.pondere = inertie * this.pondere + rataInvatare * this.deltaPondere;
+        this.pondere = inertie * this.pondere - rataInvatare * this.deltaPondere;
+        // cand actualizam, resetam eroarea acumulata
+        this.deltaPondere = 0;
     }
 
     // --------- Setteri si Getteri --------------------

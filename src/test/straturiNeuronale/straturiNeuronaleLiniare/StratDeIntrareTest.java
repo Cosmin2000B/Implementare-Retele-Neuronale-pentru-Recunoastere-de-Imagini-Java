@@ -69,6 +69,17 @@ class StratDeIntrareTest
     }
 
     @Test
+    void stabilesteStratDens2()
+    {
+        StratDeIntrare si = new StratDeIntrare(2);
+        StratDeIesire sie = new StratDeIesire(3);
+        si.setStratUlterior(sie);
+        si.stabilesteStratDens();
+
+       // todo vzt test
+    }
+
+    @Test
     void setStratUlterior()
     {
         StratDeIntrare si = new StratDeIntrare(4);

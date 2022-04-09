@@ -42,7 +42,7 @@ public class StratDeIesire extends StratNeuronalLiniar implements StratNeuronal
 
         for(int i = 0; i < this.getNumarNeuroni(); ++i)
         {
-            Neuron neuron = new Neuron();
+            Neuron neuron = new Neuron(this.functieActivare);
             this.getNeuroni().add(neuron);
         }
     }
@@ -54,14 +54,12 @@ public class StratDeIesire extends StratNeuronalLiniar implements StratNeuronal
 
         for(int i = 0; i < this.getNumarNeuroni(); ++i)
         {
-            Neuron neuron = new Neuron();
+            Neuron neuron = new Neuron(this.functieActivare);
             this.getNeuroni().add(neuron);
         }
 
         this.valoriDorite = new ArrayList<>(valoriDorite.size());
-
-        for(Double valoare: valoriDorite)
-            this.valoriDorite.add(valoare);
+        this.valoriDorite.addAll(valoriDorite);
     }
 
     public StratDeIesire(StratNeuronalLiniar stratAnterior)
@@ -96,6 +94,9 @@ public class StratDeIesire extends StratNeuronalLiniar implements StratNeuronal
                 neuron.
                         setValoareIesire(this.
                         functieActivare.valoareFunctie(neuron.getValoareIntrare()));
+
+            // resetam pt urmatoarea propagare
+            ((Softmax) this.functieActivare).setSumaFunctiiExponentiale(0d);
         }
         else
         {
@@ -138,6 +139,9 @@ public class StratDeIesire extends StratNeuronalLiniar implements StratNeuronal
 
             for(Sinapsa sinapsa: neuron.getSinapseIntrare())
                 sinapsa.actualizeazaPondere(rataInvatare, inertie);
+
+            // resetam eroarea acumulata in neuron
+            neuron.setEroareNeuron(0d);
         }
     }
 

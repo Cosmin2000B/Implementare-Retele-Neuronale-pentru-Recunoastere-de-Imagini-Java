@@ -234,9 +234,9 @@ public class Neuron
     public void calculeazaIntrare()
     {
         this.valoareIntrare = 0d;
-
         for(Sinapsa sinapsa: this.sinapseIntrare)
             this.valoareIntrare += sinapsa.getValoareIesire();
+
         this.valoareIntrare += this.bias.calculeazaValoare();
     }
     /**
@@ -355,23 +355,23 @@ public class Neuron
     @Override
     public String toString()
     {
-        String output = "Neuronul " + this.getNumeIdentificare() + ":\n" +
+        StringBuilder output = new StringBuilder("Neuronul " + this.getNumeIdentificare() + ":\n" +
                 " A. valoare intrare (suma intrarilor ponderata + bias): "
                 + this.valoareIntrare + ";\n B. valoare iesire (grad"
                 + " de activare): " + this.valoareIesire + ";\n" +
-                " C. Sinapse intrare:\n";
+                " C. Sinapse intrare:\n");
 
         for(Sinapsa sinapsa: sinapseIntrare)
-            output += sinapsa;
+            output.append(sinapsa);
 
-        output += " D. Sinapse iesire:\n";
+        output.append(" D. Sinapse iesire:\n");
         for(Sinapsa sinapsa: this.sinapseIesire)
-            output += sinapsa;
+            output.append(sinapsa);
 
-        output += " E. Functie Activare: " + this.functieActivare.getClass().getSimpleName() + ";\n"
-        + " F. Bias: \n" + this.bias + "\n";
+        output.append(" E. Functie Activare: ").append(this.functieActivare.getClass().getSimpleName()).
+                append(";\n").append(" F. Bias: \n").append(this.bias).append("\n");
 
-        return output;
+        return output.toString();
     }
 
 }
