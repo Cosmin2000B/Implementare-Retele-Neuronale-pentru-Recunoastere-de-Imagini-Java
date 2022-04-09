@@ -94,9 +94,6 @@ public class StratDeIesire extends StratNeuronalLiniar implements StratNeuronal
                 neuron.
                         setValoareIesire(this.
                         functieActivare.valoareFunctie(neuron.getValoareIntrare()));
-
-            // resetam pt urmatoarea propagare
-            ((Softmax) this.functieActivare).setSumaFunctiiExponentiale(0d);
         }
         else
         {
