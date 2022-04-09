@@ -1,9 +1,11 @@
 package test.reteleNeuronale;
 
 import cosmin.functiiActivare.sigmoide.Logistica;
+import cosmin.neuron.Neuron;
 import cosmin.regulaInvatare.invatareSupervizata.GradientDescendent;
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.MultimeImagini;
 import cosmin.reteleNeuronale.PerceptronMultiStrat;
+import jdk.swing.interop.SwingInterOpUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -14,9 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PerceptronMultiStratTest
 {
-    //TODO teste - de rezolvat
     @Test
-    void executaPropagare()
+    void executaPropagare1()
     {
         PerceptronMultiStrat perceptronMultiStrat =
                 new PerceptronMultiStrat(3, 1, 2, 3);
@@ -69,14 +70,63 @@ class PerceptronMultiStratTest
 
         perceptronMultiStrat.executaPropagare();
 
-        // todo de vzt cu fct de activare
-
         assertEquals(3.801,perceptronMultiStrat.getStraturiAscunse().get(1).getNeuroni().get(1).getValoareIesire(),
                 Math.pow(10, -8));
         assertEquals(2.2008,perceptronMultiStrat.getStraturiAscunse().get(1).getNeuroni().get(0).getValoareIesire(),
                 Math.pow(10, -8));
         assertEquals(0.98866638208, perceptronMultiStrat.getStratDeIesire().getNeuroni().get(0).getValoareIesire(),
                 Math.pow(10, -8));
+    }
+
+    @Test
+    void executaPropagare2()
+    {
+        PerceptronMultiStrat perceptronMultiStrat =
+                new PerceptronMultiStrat(3,3, 2, 3);
+
+        // strat intrare
+        perceptronMultiStrat.getStratDeIntrare().stabilesteInputRetea(new ArrayList<>(Arrays.
+                asList(0.1, 0.2, 0.7)));
+        for(Neuron neuronIntrare: perceptronMultiStrat.getStratDeIntrare().getNeuroni())
+            neuronIntrare.getSinapseIesire().clear();
+        // ---- strat ascuns 1, defaul: ReLU
+        for(Neuron neuronIntrare: perceptronMultiStrat.getStraturiAscunse().get(0).getNeuroni())
+        {
+            neuronIntrare.getSinapseIntrare().clear();
+            neuronIntrare.getSinapseIesire().clear();
+        }
+        // -- strat ascuns 2, logistica
+        for(Neuron neuronIntrare: perceptronMultiStrat.getStraturiAscunse().get(1).getNeuroni())
+        {
+            neuronIntrare.getSinapseIesire().clear();
+            neuronIntrare.getSinapseIntrare().clear();
+        }
+
+        perceptronMultiStrat.getStraturiAscunse().get(1).setFunctieActivare(new Logistica());
+        // -- strat de iesire, default: Softmax, calcul eroare: Entropie incrucisata
+        perceptronMultiStrat.getStratDeIesire().setValoriDorite(new ArrayList<>(Arrays.
+                asList(1d, 0d, 0d)));
+        for(Neuron neuron: perceptronMultiStrat.getStratDeIesire().getNeuroni())
+            neuron.getSinapseIntrare().clear();
+
+        perceptronMultiStrat.getStratDeIntrare().stabilesteStratDens(new ArrayList<>(Arrays.
+                asList(0.1, 0.2, 0.3, 0.3, 0.2, 0.7, 0.4, 0.3, 0.9)));
+        perceptronMultiStrat.getStraturiAscunse().get(0).stabilesteStratDens(new ArrayList<>(Arrays.
+                asList(0.2, 0.3, 0.5, 0.3, 0.5, 0.7, 0.6, 0.4, 0.8)));
+        perceptronMultiStrat.getStraturiAscunse().get(1).stabilesteStratDens(new ArrayList<>(Arrays.
+                asList(0.1, 0.4, 0.8, 0.3, 0.7, 0.2, 0.5, 0.2, 0.9)));
+
+        for(Neuron neuron: perceptronMultiStrat.getStraturiAscunse().get(0).getNeuroni())
+            neuron.getBias().setPondere(-1.0);
+        for(Neuron neuron: perceptronMultiStrat.getStraturiAscunse().get(1).getNeuroni())
+            neuron.getBias().setPondere(-1.0);
+        for(Neuron neuron: perceptronMultiStrat.getStratDeIesire().getNeuroni())
+            neuron.getBias().setPondere(-1.0);
+
+        perceptronMultiStrat.executaPropagare();
+
+        assertEquals(1.61723375,
+                perceptronMultiStrat.getStratDeIesire().getEroareaRetelei(), Math.pow(10,-8));
     }
 
     @Test

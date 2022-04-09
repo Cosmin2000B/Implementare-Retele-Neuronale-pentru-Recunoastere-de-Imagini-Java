@@ -28,18 +28,13 @@ public class StratAscuns extends StratNeuronalLiniar implements StratNeuronal
         this.setNumarNeuroni(numarNeuroni);
         this.setNeuroni(new ArrayList<>(numarNeuroni));
 
+        if(this.functieActivare == null)
+            // nu s-a stabilit functia la nivel de strat, aplicam varianta default
+            // default -> ReLU
+            this.functieActivare = new ReLU();
+
         for(int i = 0; i < numarNeuroni; ++i)
-        {
-            if(this.getFunctieActivare() != null)
-            // s-a stabilit functia de activare la nivel de strat
                 this.getNeuroni().add(new Neuron(this.functieActivare));
-            else
-            {
-                // nu s-a stabilit functia la nivel de strat, aplicam varianta default
-                this.functieActivare = new ReLU();
-                this.getNeuroni().add(new Neuron(this.functieActivare));
-            }
-        }
     }
 
     public StratAscuns(int numarNeuroni, FunctieActivare functieActivare)
@@ -259,7 +254,11 @@ public class StratAscuns extends StratNeuronalLiniar implements StratNeuronal
         return functieActivare;
     }
 
-    public void setFunctieActivare(FunctieActivare functieActivare) {
+    public void setFunctieActivare(FunctieActivare functieActivare)
+    {
         this.functieActivare = functieActivare;
+
+        for(Neuron neuron: this.getNeuroni())
+            neuron.setFunctieActivare(this.functieActivare);
     }
 }

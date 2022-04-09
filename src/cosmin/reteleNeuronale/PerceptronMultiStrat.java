@@ -92,7 +92,7 @@ public class PerceptronMultiStrat extends ReteaNeuronalaFeedForward
         if(this.straturiAscunse.isEmpty())
         {
             stratDeIntrare.setStratUlterior(stratDeIesire);
-            stratDeIntrare.setStratUlterior(stratDeIesire);
+            stratDeIntrare.stabilesteStratDens();
         }
         else // avem straturi ascunse
         {
@@ -111,14 +111,12 @@ public class PerceptronMultiStrat extends ReteaNeuronalaFeedForward
         this.stratDeIesire.calculeazaEroareaRetelei();
     }
 
-    // todo in 2 etape -> actualizeaza = durere
     public void retropropagareStratIesire(int dimSubmultimeAntrenament)
     {
         for(int i = 0; i < stratDeIesire.getNumarNeuroni(); ++i)
         {
             // ------- Strat de Iesire ----------
             Neuron neuronCurent = stratDeIesire.getNeuroni().get(i);
-            double eroareNeuronIteratie = 0d;
             neuronCurent.setEroareNeuron(
                             stratDeIesire.getFunctieDeCost().calculeazaDerivata(neuronCurent, i, stratDeIesire) *
                                     neuronCurent.getFunctieActivare().valoareDerivata(neuronCurent.getValoareIntrare()));
@@ -166,6 +164,18 @@ public class PerceptronMultiStrat extends ReteaNeuronalaFeedForward
     }
 
     @Override
+    public void executaOptimizare(double rataInvatare, double inertie)
+    {
+        this.stratDeIesire.actualizeazaPonderi(rataInvatare, inertie);
+
+        if(!this.getStraturiAscunse().isEmpty())
+        {
+            for(int i = this.straturiAscunse.size() - 1; i >= 0; --i)
+                this.straturiAscunse.get(i).actualizeazaPonderi(rataInvatare, inertie);
+        }
+    }
+
+    @Override
     public void executaRetropropagare(int dimSubmultimeAntrenament)
     {
         retropropagareStratIesire(dimSubmultimeAntrenament);
@@ -173,7 +183,7 @@ public class PerceptronMultiStrat extends ReteaNeuronalaFeedForward
         for(int i = straturiAscunse.size() - 1; i >= 0; --i)
             retropropagareStratAscuns(dimSubmultimeAntrenament, straturiAscunse.get(i));
 
-        // todo de vazut actualizare
+        // todo de vazut calcul erori strat intrare
     }
 
     // ----- Setteri si Getteri --------

@@ -234,7 +234,11 @@ public class StratDeIesire extends StratNeuronalLiniar implements StratNeuronal
         return functieDeCost;
     }
 
-    public void setFunctieDeCost(FunctieDeCost functieDeCost) {
+    public void setFunctieDeCost(FunctieDeCost functieDeCost)
+    {
         this.functieDeCost = functieDeCost;
+
+        for(Neuron neuron: this.getNeuroni())
+            neuron.setFunctieActivare(this.functieActivare);
     }
 }

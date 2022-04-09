@@ -7,4 +7,5 @@ public abstract class ReteaNeuronalaFeedForward extends ReteaNeuronala<RegulaInv
 {
     public abstract void executaPropagare();
     public abstract void executaRetropropagare(int dimSubmultimeAntrenament);
+    public abstract void executaOptimizare(double rataInvatare, double inertie);
 }

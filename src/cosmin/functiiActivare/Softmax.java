@@ -47,11 +47,6 @@ public class Softmax implements FunctieActivare
        if(this.sumaFunctiiExponentiale == 0d)
            this.calculeazaSumaFunctiiExponentiale();
 
-       // in urma calcularii este 0, atribuim o valoare foarte mica, a.i. sa
-        // evitam impartirea la 0
-       if(this.sumaFunctiiExponentiale == 0d)
-           this.sumaFunctiiExponentiale = 0.00000001d;
-
        return Math.exp(input) / this.sumaFunctiiExponentiale;
     }
 
