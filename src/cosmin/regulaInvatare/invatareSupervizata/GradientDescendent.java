@@ -60,7 +60,7 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
         int nrEpociEfectuate = 0;
 
         // eroarea curenta a sistemului
-        double eroareCurenta = 0;
+        double eroareCurenta = 1;
 
         while(nrEpociEfectuate < nrMaximEpoci && eroareCurenta > eroareAdmisa)
         {
@@ -77,7 +77,14 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
                 ((ReteaNeuronalaFeedForward) this.getReteaNeuronala()).
                         executaRetropropagare(this.dimensiuneSubmutlime);
 
+                // am terminat o iteratie
+                if(i % dimensiuneSubmutlime == 0)
+                    // actualizam ponderile
+                    ((ReteaNeuronalaFeedForward) this.
+                            getReteaNeuronala()).executaOptimizare(rataInvatare, inertie);
             }
+            //todo eroareCurenta - DE ACTUALIZAT
+            nrEpociEfectuate++;
         }
 
     }

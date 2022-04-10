@@ -20,6 +20,8 @@ class GradientDescendentTest
                         1);
         GradientDescendent gradientDescendent = new GradientDescendent();
         gradientDescendent.setMultimeAntrenament(multimeImagini);
+        gradientDescendent.setDimensiuneSubmutlime(32);
+        gradientDescendent.setRataInvatare(0.1);
         gradientDescendent.setNrMaximEpoci(50);
 
 
@@ -45,5 +47,7 @@ class GradientDescendentTest
     @Test
     void antreneaza()
     {
+        PerceptronMultiStrat perceptronMultiStrat = genereazaPerceptronMultiStrat();
+        perceptronMultiStrat.antreneaza();
     }
 }
