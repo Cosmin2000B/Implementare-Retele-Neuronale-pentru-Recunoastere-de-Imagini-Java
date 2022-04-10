@@ -160,8 +160,6 @@ class PerceptronMultiStratTest
         // pt a imparti la 1 (sa nu modifice rezultatul)
         perceptronMultiStrat.retropropagareStratIesire(1);
 
-        System.out.println(perceptronMultiStrat.getStraturiAscunse().get(1).getNeuroni().get(2).getValoareIesire());
-
         StratDeIesire stratDeIesire = perceptronMultiStrat.getStratDeIesire();
         assertEquals(-0.80155d,
                 stratDeIesire.getNeuroni().get(0).getEroareNeuron(), Math.pow(10, -5));
