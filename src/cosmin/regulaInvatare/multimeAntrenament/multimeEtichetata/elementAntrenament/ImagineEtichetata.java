@@ -107,4 +107,24 @@ public class ImagineEtichetata
     {
         this.valori = valori;
     }
+
+    public MultimeImagini getMultimeImagini()
+    {
+        return multimeImagini;
+    }
+
+    public void setMultimeImagini(MultimeImagini multimeImagini)
+    {
+        this.multimeImagini = multimeImagini;
+    }
+
+    public int getIndexClasa()
+    {
+        return indexClasa;
+    }
+
+    public void setIndexClasa(int indexClasa)
+    {
+        this.indexClasa = indexClasa;
+    }
 }
