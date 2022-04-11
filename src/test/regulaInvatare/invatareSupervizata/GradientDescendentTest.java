@@ -1,10 +1,16 @@
 package test.regulaInvatare.invatareSupervizata;
 
+import cosmin.neuron.Neuron;
 import cosmin.regulaInvatare.invatareSupervizata.GradientDescendent;
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.MultimeImagini;
+import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.elementAntrenament.ImagineEtichetata;
 import cosmin.reteleNeuronale.PerceptronMultiStrat;
 import cosmin.reteleNeuronale.ReteaNeuronala;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,12 +45,23 @@ class GradientDescendentTest
         PerceptronMultiStrat perceptronMultiStrat = genereazaPerceptronMultiStrat();
         if(perceptronMultiStrat.getRegulaInvatare() instanceof GradientDescendent)
         {
-            ((GradientDescendent) perceptronMultiStrat.getRegulaInvatare()).pregatesteInputIesiriRetea(30000);
-            assert (perceptronMultiStrat.getStratDeIesire().getValoriDorite().get(4) == 1);
+            ((GradientDescendent) perceptronMultiStrat.getRegulaInvatare()).pregatesteInputIesiriRetea(0);
+            assert (perceptronMultiStrat.getStratDeIesire().getValoriDorite().get(0) == 1);
+
+            // test atribuire valori
+            ImagineEtichetata imagineEtichetata = new ImagineEtichetata(new MultimeImagini(new File(""),
+                    new HashMap<Integer, String>(), 1),
+                    new File("F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_png\\training\\0\\1.png"),
+                    0);
+
+            ArrayList<Double> valoriImagine = imagineEtichetata.getValoriLiniarizat();
+            for(int i = 0; i < perceptronMultiStrat.getStratDeIntrare().getNeuroni().size(); ++i)
+                assertEquals(valoriImagine.get(i), perceptronMultiStrat.
+                        getStratDeIntrare().getNeuroni().get(i).getValoareIesire());
         }
     }
 
-    @Test
+    //@Test
     void antreneaza()
     {
         PerceptronMultiStrat perceptronMultiStrat = genereazaPerceptronMultiStrat();

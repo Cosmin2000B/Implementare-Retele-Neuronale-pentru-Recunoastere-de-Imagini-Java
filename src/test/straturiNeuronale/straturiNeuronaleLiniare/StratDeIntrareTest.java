@@ -3,13 +3,17 @@ package test.straturiNeuronale.straturiNeuronaleLiniare;
 import cosmin.functiiActivare.sigmoide.TangentaHiperbolica;
 import cosmin.neuron.Neuron;
 import cosmin.neuron.Sinapsa;
+import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.MultimeImagini;
+import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.elementAntrenament.ImagineEtichetata;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratAscuns;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratDeIntrare;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -111,5 +115,19 @@ class StratDeIntrareTest
 
         assertSame(s1_2.getNeuronEmitent(), stratDeIntrare.getNeuroni().get(1));
         assertSame(s1_2.getNeuronDestinatar(), stratAscuns.getNeuroni().get(2));
+    }
+
+    @Test
+    void stabilesteInputRetea()
+    {
+        ImagineEtichetata imagineEtichetata = new ImagineEtichetata(new MultimeImagini(new File(""),
+                new HashMap<Integer, String>(), 1),
+                new File("F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_png\\training\\7\\38.png"),
+                0);
+        StratDeIntrare stratDeIntrare = new StratDeIntrare(784);
+        ArrayList<Double> valoriImagine = imagineEtichetata.getValoriLiniarizat();
+        stratDeIntrare.stabilesteInputRetea(valoriImagine);
+        for(int i = 0; i < valoriImagine.size(); ++i)
+            assertEquals(valoriImagine.get(i), stratDeIntrare.getNeuroni().get(i).getValoareIesire());
     }
 }

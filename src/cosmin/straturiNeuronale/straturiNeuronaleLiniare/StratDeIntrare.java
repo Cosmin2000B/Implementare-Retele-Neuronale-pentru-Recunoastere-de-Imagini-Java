@@ -1,5 +1,6 @@
 package cosmin.straturiNeuronale.straturiNeuronaleLiniare;
 
+import cosmin.functiiActivare.FunctieLiniaraIdentitate;
 import cosmin.neuron.Neuron;
 import cosmin.neuron.Sinapsa;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
@@ -27,7 +28,11 @@ public class StratDeIntrare extends StratNeuronalLiniar
         this.setNeuroni(new ArrayList<>(numarNeuroni));
 
         for(int i = 0; i < numarNeuroni; ++i)
-            this.getNeuroni().add(new Neuron());
+        {
+            Neuron neuron = new Neuron(new FunctieLiniaraIdentitate());
+            neuron.getBias().setPondere(0d);
+            this.getNeuroni().add(neuron);
+        }
     }
 
     /**
@@ -44,7 +49,8 @@ public class StratDeIntrare extends StratNeuronalLiniar
 
         for(Double valoareIesire: valoriIesire)
         {
-            Neuron neuron = new Neuron();
+            Neuron neuron = new Neuron(new FunctieLiniaraIdentitate());
+            neuron.getBias().setPondere(0d);
             neuron.setValoareIesire(valoareIesire);
             this.getNeuroni().add(neuron);
         }
