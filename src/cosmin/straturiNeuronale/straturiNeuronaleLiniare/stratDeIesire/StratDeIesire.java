@@ -136,9 +136,6 @@ public class StratDeIesire extends StratNeuronalLiniar implements StratNeuronal
 
             for(Sinapsa sinapsa: neuron.getSinapseIntrare())
                 sinapsa.actualizeazaPondere(rataInvatare, inertie);
-
-            // resetam eroarea acumulata in neuron
-            neuron.setEroareNeuron(0d);
         }
     }
 

@@ -161,6 +161,12 @@ public class PerceptronMultiStrat extends ReteaNeuronalaFeedForward
                 sinapsaIntrare.setDeltaPondere(sinapsaIntrare.getDeltaPondere() + neuronCurent.getEroareNeuron() *
                         sinapsaIntrare.getNeuronEmitent().getValoareIesire());
         }
+
+        // resetam starea neuronilor pt. urmatoarea propagare
+        // todo de testat
+        StratNeuronalLiniar stratUlterior = stratAscuns.getStratUlterior();
+        for(Neuron neuronUlterior: stratUlterior.getNeuroni())
+            neuronUlterior.reseteazaStare();
     }
 
     @Override

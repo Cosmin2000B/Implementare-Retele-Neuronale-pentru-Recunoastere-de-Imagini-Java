@@ -254,6 +254,16 @@ public class Neuron
                                   valoareFunctie(this.valoareIntrare);
     }
 
+    /**
+     *  Reseteaza atat valoarea de intrare a neuronului, cat si pe cea de iesire
+     * cu 0.
+     */
+    public void reseteazaStare()
+    {
+        this.valoareIntrare = 0d;
+        this.valoareIesire = 0d;
+    }
+
     // ---------------- Setteri si Getteri --------------------------
 
 

@@ -1,5 +1,6 @@
 package cosmin.regulaInvatare.invatareSupervizata;
 
+import cosmin.neuron.Neuron;
 import cosmin.regulaInvatare.RegulaInvatare;
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.MultimeAntrenamentEtichetata;
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.MultimeImagini;
@@ -79,9 +80,23 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
 
                 // am terminat o iteratie
                 if(i % dimensiuneSubmutlime == 0)
+                {
                     // actualizam ponderile
                     ((ReteaNeuronalaFeedForward) this.
                             getReteaNeuronala()).executaOptimizare(rataInvatare, inertie);
+                    // todo de sters ---- elminat acolada if
+                    System.out.println("Epoca " + nrEpociEfectuate + ", Iteratia " + i / dimensiuneSubmutlime +
+                            ", Eroarea retelei:" +
+                            ((PerceptronMultiStrat) this.getReteaNeuronala()).getStratDeIesire().getEroareaRetelei());
+                    System.out.print("Erori neuroni: ");
+                    for (Neuron neuron: ((PerceptronMultiStrat) this.getReteaNeuronala()).getStratDeIesire().getNeuroni())
+                        System.out.print(neuron.getEroareNeuron() + " ");
+                    System.out.println();
+                    System.out.println("Valori de iesire:");
+                    for (Neuron neuron: ((PerceptronMultiStrat) this.getReteaNeuronala()).getStratDeIesire().getNeuroni())
+                        System.out.print(neuron.getValoareIesire() + " ");
+                    System.out.println();
+                }
             }
             //todo eroareCurenta - DE ACTUALIZAT
             nrEpociEfectuate++;
