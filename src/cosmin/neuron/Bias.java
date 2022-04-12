@@ -11,6 +11,7 @@ public class Bias
 {
     private static final double SEMN = -1.0d;
     private double pondere;
+    private double penultimaDeltaPondere = 0d;
     private double deltaPondere;
 
     public Bias()
@@ -35,9 +36,18 @@ public class Bias
         this.deltaPondere = 0;
     }
 
+    /**
+     *
+     * @param rataInvatare
+     * @param inertie
+     */
     public void actualizeazaPondere(double rataInvatare, double inertie)
     {
-        this.pondere = inertie * this.pondere - rataInvatare * this.deltaPondere;
+        this.pondere = this.pondere -
+                rataInvatare * (inertie * this.deltaPondere + (1 - inertie) * this.penultimaDeltaPondere);
+
+        // adaugam deltaPondere actuala la penultimaDeltaPondere
+        this.penultimaDeltaPondere += inertie * deltaPondere;
         // cand actualizam, resetam eroarea acumulata
         this.deltaPondere = 0;
     }

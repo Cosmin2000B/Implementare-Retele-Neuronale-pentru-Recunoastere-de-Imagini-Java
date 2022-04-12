@@ -16,6 +16,7 @@ public class Sinapsa
     private Neuron neuronDestinatar;
 
     private double pondere;
+    private double penultimaDeltaPondere = 0d;
     private double deltaPondere;
 
     private double valoareIesire;
@@ -100,7 +101,11 @@ public class Sinapsa
      */
     public void actualizeazaPondere(double rataInvatare, double inertie)
     {
-        this.pondere = inertie * this.pondere - rataInvatare * this.deltaPondere;
+        this.pondere = this.pondere -
+                rataInvatare * (inertie * this.deltaPondere + (1 - inertie) * this.penultimaDeltaPondere);
+
+        // adaugam deltaPondere actuala la penultimaDeltaPondere
+        this.penultimaDeltaPondere += inertie * deltaPondere;
         // cand actualizam, resetam eroarea acumulata
         this.deltaPondere = 0;
     }

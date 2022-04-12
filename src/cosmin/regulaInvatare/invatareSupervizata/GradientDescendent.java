@@ -20,7 +20,7 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
     private double rataInvatare = 0.1d;
     private double inertie = 0.9d;
 
-    int nrMaximEpoci = 10;
+    int nrMaximEpoci = 100;
     double eroareAdmisa = 0.005d;
 
     public GradientDescendent()
@@ -75,6 +75,8 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
                 this.pregatesteInputIesiriRetea(i);
 
                 ((ReteaNeuronalaFeedForward) this.getReteaNeuronala()).executaPropagare();
+                // sa se imparta la dimSubmultimeAntrenament
+                eroareCurenta += ((ReteaNeuronalaFeedForward) this.getReteaNeuronala()).getEroareaRetelei();
                 ((ReteaNeuronalaFeedForward) this.getReteaNeuronala()).
                         executaRetropropagare(this.dimensiuneSubmutlime);
 
@@ -84,21 +86,37 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
                     // actualizam ponderile
                     ((ReteaNeuronalaFeedForward) this.
                             getReteaNeuronala()).executaOptimizare(rataInvatare, inertie);
-                    // todo de sters ---- elminat acolada if
+                    eroareCurenta /= dimensiuneSubmutlime;
+                    // todo de sters ---- elminat acolada if --------------------------------
                     System.out.println("Epoca " + nrEpociEfectuate + ", Iteratia " + i / dimensiuneSubmutlime +
-                            ", Eroarea retelei:" +
-                            ((PerceptronMultiStrat) this.getReteaNeuronala()).getStratDeIesire().getEroareaRetelei());
+                            ", Eroarea retelei:" + eroareCurenta);
                     System.out.print("Erori neuroni: ");
                     for (Neuron neuron: ((PerceptronMultiStrat) this.getReteaNeuronala()).getStratDeIesire().getNeuroni())
                         System.out.print(neuron.getEroareNeuron() + " ");
                     System.out.println();
-                    System.out.println("Valori de iesire:");
+                    System.out.println("Valori de iesire strat de iesire:");
                     for (Neuron neuron: ((PerceptronMultiStrat) this.getReteaNeuronala()).getStratDeIesire().getNeuroni())
                         System.out.print(neuron.getValoareIesire() + " ");
                     System.out.println();
+                    System.out.println("Valori de intrare strat de iesire:");
+                    for (Neuron neuron: ((PerceptronMultiStrat) this.getReteaNeuronala()).getStratDeIesire().getNeuroni())
+                        System.out.print(neuron.getValoareIntrare() + " ");
+                    System.out.println();
+                    System.out.println("Valori intrare strat Ascuns 0:");
+                    for (Neuron neuron: ((PerceptronMultiStrat) this.getReteaNeuronala()).getStraturiAscunse().
+                            get(0).getNeuroni())
+                        System.out.print(neuron.getValoareIntrare() + " ");
+                    System.out.println();
+                    System.out.println("Valori iesire strat Intrare:");
+                    for (Neuron neuron: ((PerceptronMultiStrat) this.getReteaNeuronala()).getStratDeIntrare().
+                            getNeuroni())
+                        System.out.print(neuron.getValoareIesire() + " ");
+                    System.out.println();
+                    System.out.println();
+                    // todo sterge intervalul asta ----------------------------------
                 }
             }
-            //todo eroareCurenta - DE ACTUALIZAT
+            //todo eroareCurenta - DE ACTUALIZAT si mai ales cum
             nrEpociEfectuate++;
         }
 

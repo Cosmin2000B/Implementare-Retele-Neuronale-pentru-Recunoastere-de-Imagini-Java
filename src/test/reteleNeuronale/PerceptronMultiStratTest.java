@@ -182,4 +182,19 @@ class PerceptronMultiStratTest
     void executaRetropropagare()
     {
     }
+
+    @Test
+    void executaPropagare()
+    {
+    }
+
+    @Test
+    void retropropagareStratAscuns()
+    {
+    }
+
+    @Test
+    void executaOptimizare()
+    {
+    }
 }

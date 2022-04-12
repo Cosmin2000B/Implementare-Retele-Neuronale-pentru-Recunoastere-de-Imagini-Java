@@ -6,6 +6,9 @@ import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratDeIntrare;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class StratAscunsTest {
@@ -19,7 +22,28 @@ class StratAscunsTest {
     }
 
     @Test
-    void stabilesteStratDens() {
+    void stabilesteStratDens()
+    {
+        StratAscuns stratAscuns1 = new StratAscuns(3);
+        StratAscuns stratAscuns2 = new StratAscuns(3);
+
+        stratAscuns1.setStratUlterior(stratAscuns2);
+        stratAscuns1.stabilesteStratDens();
+
+        assertEquals(3, stratAscuns1.getNeuroni().get(0).getSinapseIesire().size());
+        assertEquals(3, stratAscuns1.getNeuroni().get(1).getSinapseIesire().size());
+        assertEquals(3, stratAscuns1.getNeuroni().get(2).getSinapseIesire().size());
+
+        assertEquals(3, stratAscuns2.getNeuroni().get(0).getSinapseIntrare().size());
+        assertEquals(3, stratAscuns2.getNeuroni().get(1).getSinapseIntrare().size());
+        assertEquals(3, stratAscuns2.getNeuroni().get(2).getSinapseIntrare().size());
+
+        assert(stratAscuns1.getNeuroni().get(0).getSinapseIesire().get(0).getNeuronDestinatar()
+                == stratAscuns2.getNeuroni().get(0));
+        assert(stratAscuns1.getNeuroni().get(1).getSinapseIesire().get(2).getNeuronDestinatar()
+                == stratAscuns2.getNeuroni().get(2));
+        assert(stratAscuns1.getNeuroni().get(2).getSinapseIesire().get(0).getNeuronDestinatar()
+                == stratAscuns2.getNeuroni().get(0));
     }
 
     @Test

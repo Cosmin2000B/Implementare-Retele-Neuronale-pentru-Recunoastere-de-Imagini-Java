@@ -1,6 +1,9 @@
 package test.regulaInvatare.invatareSupervizata;
 
+import cosmin.functiiActivare.LeakyReLU;
+import cosmin.functiiActivare.ReLU;
 import cosmin.functiiActivare.sigmoide.Logistica;
+import cosmin.functiiActivare.sigmoide.TangentaHiperbolica;
 import cosmin.neuron.Neuron;
 import cosmin.regulaInvatare.invatareSupervizata.GradientDescendent;
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.MultimeImagini;
@@ -22,15 +25,16 @@ class GradientDescendentTest
     public PerceptronMultiStrat genereazaPerceptronMultiStrat()
     {
         PerceptronMultiStrat perceptronMultiStrat = new PerceptronMultiStrat(784, 10,
-                2, 32);
+                2, 128);
         MultimeImagini multimeImagini = MultimeImagini.
                 citesteMultimeImagini("F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_png",
                         1);
         GradientDescendent gradientDescendent = new GradientDescendent();
         gradientDescendent.setMultimeAntrenament(multimeImagini);
         gradientDescendent.setDimensiuneSubmutlime(32);
-        gradientDescendent.setRataInvatare(0.05);
-        gradientDescendent.setNrMaximEpoci(50);
+        gradientDescendent.setRataInvatare(0.001);
+        gradientDescendent.setInertie(0.7d);
+        gradientDescendent.setNrMaximEpoci(100);
 
 
         // todo atentie la implementari
@@ -67,8 +71,8 @@ class GradientDescendentTest
     void antreneaza()
     {
         PerceptronMultiStrat perceptronMultiStrat = genereazaPerceptronMultiStrat();
-        perceptronMultiStrat.getStraturiAscunse().get(0).setFunctieActivare(new Logistica());
-        perceptronMultiStrat.getStraturiAscunse().get(1).setFunctieActivare(new Logistica());
+        perceptronMultiStrat.getStraturiAscunse().get(0).setFunctieActivare(new ReLU());
+        //perceptronMultiStrat.getStraturiAscunse().get(1).setFunctieActivare(new ReLU());
         perceptronMultiStrat.antreneaza();
     }
 }

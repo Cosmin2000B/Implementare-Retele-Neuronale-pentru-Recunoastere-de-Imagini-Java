@@ -14,6 +14,9 @@ public class Softmax implements FunctieActivare
     private double sumaFunctiiExponentiale;
     private StratDeIesire stratDeIesire;
 
+    // pt stabilitate numerica
+    private double maxVal;
+
     public Softmax(StratDeIesire stratDeIesire)
     {
         this.stratDeIesire = stratDeIesire;
@@ -26,8 +29,12 @@ public class Softmax implements FunctieActivare
      */
     public void calculeazaSumaFunctiiExponentiale()
     {
+        maxVal = getStratDeIesire().getNeuroni().get(0).getValoareIntrare();
+        for(Neuron neuron: stratDeIesire.getNeuroni())
+            maxVal = Math.max(maxVal, neuron.getValoareIntrare());
+
         for(Neuron neuron: this.stratDeIesire.getNeuroni())
-            this.sumaFunctiiExponentiale += Math.exp(neuron.getValoareIntrare());
+            this.sumaFunctiiExponentiale += Math.exp(neuron.getValoareIntrare() - maxVal);
     }
 
     /**
@@ -42,13 +49,36 @@ public class Softmax implements FunctieActivare
         // se utilizeaza impreuna cu EntropieIncrucisata
         if(!(stratDeIesire.getFunctieDeCost() instanceof EntropieIncrucisata))
             throw new IllegalArgumentException("Functia de cost trebuie sa fie"
-            + " EntropieIncrucisata!");
+                    + " EntropieIncrucisata!");
 
-       if(this.sumaFunctiiExponentiale == 0d)
-           this.calculeazaSumaFunctiiExponentiale();
+        if(this.sumaFunctiiExponentiale == 0d)
+            this.calculeazaSumaFunctiiExponentiale();
 
-       return Math.exp(input) / this.sumaFunctiiExponentiale;
+        return Math.exp(input - maxVal) / this.sumaFunctiiExponentiale;
     }
+
+    /*
+    varianta instabila numeric ------------------------------------------------
+  public void calculeazaSumaFunctiiExponentiale()
+  {
+      for(Neuron neuron: this.stratDeIesire.getNeuroni())
+          this.sumaFunctiiExponentiale += Math.exp(neuron.getValoareIntrare());
+  }
+
+  @Override
+  public double valoareFunctie(Double input)
+  {
+      // se utilizeaza impreuna cu EntropieIncrucisata
+      if(!(stratDeIesire.getFunctieDeCost() instanceof EntropieIncrucisata))
+          throw new IllegalArgumentException("Functia de cost trebuie sa fie"
+                  + " EntropieIncrucisata!");
+
+      if(this.sumaFunctiiExponentiale == 0d)
+          this.calculeazaSumaFunctiiExponentiale();
+
+      return Math.exp(input) / this.sumaFunctiiExponentiale;
+  }
+     --------------------------------------------------------------------------*/
 
     /**
      *    Derivata are formula specifica pentru cazul particular in care functia
@@ -90,5 +120,15 @@ public class Softmax implements FunctieActivare
     public void setStratDeIesire(StratDeIesire stratDeIesire)
     {
         this.stratDeIesire = stratDeIesire;
+    }
+
+    public double getMaxVal()
+    {
+        return maxVal;
+    }
+
+    public void setMaxVal(double maxVal)
+    {
+        this.maxVal = maxVal;
     }
 }

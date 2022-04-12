@@ -109,6 +109,7 @@ public class PerceptronMultiStrat extends ReteaNeuronalaFeedForward
         this.straturiAscunse.forEach(StratAscuns::calculeazaIesiri);
         this.stratDeIesire.calculeazaIesiri();
         this.stratDeIesire.calculeazaEroareaRetelei();
+        this.setEroareaRetelei(this.stratDeIesire.getEroareaRetelei());
     }
 
     public void retropropagareStratIesire(int dimSubmultimeAntrenament)
@@ -163,10 +164,19 @@ public class PerceptronMultiStrat extends ReteaNeuronalaFeedForward
         }
 
         // resetam starea neuronilor pt. urmatoarea propagare
+        for(Neuron neuron: stratDeIesire.getNeuroni())
+            neuron.reseteazaStare();
+        // resetam starea neuronilor pt. urmatoarea propagare
         // todo de testat
-        StratNeuronalLiniar stratUlterior = stratAscuns.getStratUlterior();
-        for(Neuron neuronUlterior: stratUlterior.getNeuroni())
+        for(Neuron neuronUlterior: stratAscuns.getStratUlterior().getNeuroni())
             neuronUlterior.reseteazaStare();
+
+        if(stratAscuns == straturiAscunse.get(0))
+        {
+            for(Neuron neuron: stratAscuns.getNeuroni())
+                neuron.reseteazaStare();
+        }
+
     }
 
     @Override
