@@ -102,10 +102,10 @@ public class Sinapsa
     public void actualizeazaPondere(double rataInvatare, double inertie)
     {
         this.pondere = this.pondere -
-                rataInvatare * (inertie * this.deltaPondere + (1 - inertie) * this.penultimaDeltaPondere);
+                (rataInvatare * this.deltaPondere + inertie * this.penultimaDeltaPondere);
 
         // adaugam deltaPondere actuala la penultimaDeltaPondere
-        this.penultimaDeltaPondere += inertie * deltaPondere;
+        this.penultimaDeltaPondere = rataInvatare * deltaPondere + inertie * penultimaDeltaPondere;
         // cand actualizam, resetam eroarea acumulata
         this.deltaPondere = 0;
     }
@@ -149,6 +149,16 @@ public class Sinapsa
 
     public void setDeltaPondere(double deltaPondere) {
         this.deltaPondere = deltaPondere;
+    }
+
+    public double getPenultimaDeltaPondere()
+    {
+        return penultimaDeltaPondere;
+    }
+
+    public void setPenultimaDeltaPondere(double penultimaDeltaPondere)
+    {
+        this.penultimaDeltaPondere = penultimaDeltaPondere;
     }
 
     /**

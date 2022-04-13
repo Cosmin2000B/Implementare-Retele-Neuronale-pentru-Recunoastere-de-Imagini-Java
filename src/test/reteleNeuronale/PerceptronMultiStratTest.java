@@ -1,11 +1,13 @@
 package test.reteleNeuronale;
 
+import cosmin.functiiActivare.ReLU;
 import cosmin.functiiActivare.sigmoide.Logistica;
 import cosmin.neuron.Neuron;
 import cosmin.regulaInvatare.invatareSupervizata.GradientDescendent;
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.MultimeImagini;
 import cosmin.reteleNeuronale.PerceptronMultiStrat;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
+import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost.MediaSumeiPatratelorErorilor;
 import jdk.swing.interop.SwingInterOpUtils;
 import org.junit.jupiter.api.Test;
 
@@ -118,9 +120,48 @@ class PerceptronMultiStratTest
         return perceptronMultiStrat;
     }
 
+    PerceptronMultiStrat incarcaArhitectura3()
+    {
+        PerceptronMultiStrat perceptronMultiStrat = new PerceptronMultiStrat
+                (2, 2, 1,2);
+
+        perceptronMultiStrat.getStraturiAscunse().get(0).setFunctieActivare(new Logistica());
+        perceptronMultiStrat.getStratDeIesire().setFunctieActivare(new ReLU());
+        perceptronMultiStrat.getStratDeIesire().setFunctieDeCost(new MediaSumeiPatratelorErorilor());
+
+        perceptronMultiStrat.getStratDeIntrare().stabilesteInputRetea
+                (new ArrayList<>(Arrays.asList(1d, 2d)));
+        perceptronMultiStrat.getStratDeIntrare().getNeuroni().get(0).getSinapseIesire().get(0).setPondere(0.1);
+        perceptronMultiStrat.getStratDeIntrare().getNeuroni().get(0).getSinapseIesire().get(1).setPondere(0.2);
+        perceptronMultiStrat.getStratDeIntrare().getNeuroni().get(1).getSinapseIesire().get(0).setPondere(0.3);
+        perceptronMultiStrat.getStratDeIntrare().getNeuroni().get(1).getSinapseIesire().get(1).setPondere(0.4);
+
+        perceptronMultiStrat.getStraturiAscunse().get(0).
+                getNeuroni().get(0).getSinapseIesire().get(0).setPondere(0.5);
+        perceptronMultiStrat.getStraturiAscunse().get(0).
+                getNeuroni().get(0).getSinapseIesire().get(1).setPondere(0.6);
+        perceptronMultiStrat.getStraturiAscunse().get(0).
+                getNeuroni().get(0).getBias().setPondere(0d);
+        perceptronMultiStrat.getStraturiAscunse().get(0).
+                getNeuroni().get(1).getSinapseIesire().get(0).setPondere(0.7);
+        perceptronMultiStrat.getStraturiAscunse().get(0).
+                getNeuroni().get(1).getSinapseIesire().get(1).setPondere(0.8);
+        perceptronMultiStrat.getStraturiAscunse().get(0).
+                getNeuroni().get(1).getBias().setPondere(0d);
+
+        perceptronMultiStrat.getStratDeIesire().getNeuroni().get(0).getBias().setPondere(0d);
+        perceptronMultiStrat.getStratDeIesire().getNeuroni().get(1).getBias().setPondere(0d);
+        perceptronMultiStrat.getStratDeIesire().setValoriDorite(new ArrayList<>(Arrays.asList(0d, 1d)));
+
+        return perceptronMultiStrat;
+    }
+
+    // --------------------------------------------------
+
     @Test
     void executaPropagare1()
     {
+        // arhitectura 1
         PerceptronMultiStrat perceptronMultiStrat = incarcaArhitectura1();
         perceptronMultiStrat.executaPropagare();
 
@@ -135,6 +176,7 @@ class PerceptronMultiStratTest
     @Test
     void executaPropagare2()
     {
+        // arhitectura 2
         PerceptronMultiStrat perceptronMultiStrat = incarcaArhitectura2();
         perceptronMultiStrat.executaPropagare();
 
@@ -155,6 +197,7 @@ class PerceptronMultiStratTest
     @Test
     void retropropagareStratIesire()
     {
+        // arhitectura 2
         PerceptronMultiStrat perceptronMultiStrat = incarcaArhitectura2();
         perceptronMultiStrat.executaPropagare();
         // pt a imparti la 1 (sa nu modifice rezultatul)
@@ -184,13 +227,51 @@ class PerceptronMultiStratTest
     }
 
     @Test
-    void executaPropagare()
+    void executaPropagare3()
     {
+        // arhitectura 3 - retea mai mica
+        PerceptronMultiStrat perceptronMultiStrat = incarcaArhitectura3();
+        perceptronMultiStrat.executaPropagare();
+
+        assertEquals(0.668818, perceptronMultiStrat.getStraturiAscunse().
+                get(0).getNeuroni().get(0).getValoareIesire(), Math.pow(10, -3));
+        assertEquals(0.71094, perceptronMultiStrat.getStraturiAscunse().
+                get(0).getNeuroni().get(1).getValoareIesire(), Math.pow(10, -1));
+
+        assertEquals(0.832067,
+                perceptronMultiStrat.getStratDeIesire().getNeuroni().get(0).getValoareIesire()
+        , Math.pow(10, -1));
+        assertEquals(0.9799428,
+                perceptronMultiStrat.getStratDeIesire().getNeuroni().get(1).getValoareIesire()
+                , Math.pow(10, -1));
+
+        assertEquals(0.17077, perceptronMultiStrat.getStratDeIesire().getEroareaRetelei(),
+                Math.pow(10, -2));
+    }
+
+    @Test
+    void retropropagareStratIesire_Arhitectura3()
+    {
+        PerceptronMultiStrat perceptronMultiStrat = incarcaArhitectura3();
+        perceptronMultiStrat.executaPropagare();
+
+        perceptronMultiStrat.retropropagareStratIesire(1);
+        assertEquals(0.42, perceptronMultiStrat.
+                getStratDeIesire().getNeuroni().get(0).getEroareNeuron(),
+                Math.pow(10, -1));
     }
 
     @Test
     void retropropagareStratAscuns()
     {
+        PerceptronMultiStrat perceptronMultiStrat = incarcaArhitectura2();
+        // sa nu modifice rezultatele
+        perceptronMultiStrat.retropropagareStratIesire(1);
+        perceptronMultiStrat.retropropagareStratAscuns(1,
+                perceptronMultiStrat.getStraturiAscunse().get(1));
+        assertEquals(0.034, perceptronMultiStrat.
+                getStraturiAscunse().get(1).getNeuroni().get(0).getSinapseIntrare().get(0).getDeltaPondere()
+        ,Math.pow(10, -3));
     }
 
     @Test

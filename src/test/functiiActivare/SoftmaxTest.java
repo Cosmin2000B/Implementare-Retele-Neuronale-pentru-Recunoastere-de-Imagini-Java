@@ -33,8 +33,12 @@ class SoftmaxTest
         stratDeIesire.setFunctieDeCost(new EntropieIncrucisata());
 
         stratDeIesire.calculeazaIesiri();
-        for(Neuron neuron: stratDeIesire.getNeuroni())
-            System.out.print(neuron.getValoareIesire() + " ");
+
+        ArrayList<Double> valoriDorite = new ArrayList<>(Arrays.asList(0.24472, 0.0900305, 0.66524));
+
+        for(int i = 0; i < stratDeIesire.getNumarNeuroni(); ++i)
+            assertEquals(valoriDorite.get(i),
+                    stratDeIesire.getNeuroni().get(i).getValoareIesire(), 0.1e-4);
     }
 
     @Test

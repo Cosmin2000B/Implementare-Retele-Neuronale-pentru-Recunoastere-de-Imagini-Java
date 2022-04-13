@@ -24,4 +24,14 @@ class BiasTest
         Bias b1 = new Bias(0.33d);
         System.out.println(b1);
     }
+
+    @Test
+    void actualizeazaPondere()
+    {
+    }
+
+    @Test
+    void testActualizeazaPondere()
+    {
+    }
 }

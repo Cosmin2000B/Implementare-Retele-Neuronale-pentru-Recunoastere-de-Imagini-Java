@@ -113,8 +113,6 @@ public class StratDeIesire extends StratNeuronalLiniar implements StratNeuronal
         }
     }
 
-    //TODO greul ramane la nivel de retea
-
     @Override
     public void actualizeazaPonderi(double rataInvatare)
     {

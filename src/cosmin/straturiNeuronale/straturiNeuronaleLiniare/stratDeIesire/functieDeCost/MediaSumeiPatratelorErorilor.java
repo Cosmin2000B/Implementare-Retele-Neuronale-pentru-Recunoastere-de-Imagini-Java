@@ -46,7 +46,7 @@ public class MediaSumeiPatratelorErorilor implements FunctieDeCost
 
         // factorul de 1/2 este introdus pentru anularea factorului de 2 de la derivata
         // functiei
-        mediaSumeiPatratelorErorilor /= (2 * stratDeIesire.getNumarNeuroni());
+        mediaSumeiPatratelorErorilor /= (2d * stratDeIesire.getNumarNeuroni());
 
         return mediaSumeiPatratelorErorilor;
     }
@@ -65,7 +65,7 @@ public class MediaSumeiPatratelorErorilor implements FunctieDeCost
         if(stratDeIesire.getValoriDorite().isEmpty())
             throw new IllegalArgumentException("Lista cu valori dorite este goala!");
 
-        return  (1/stratDeIesire.getNumarNeuroni()) *
+        return  (1d / stratDeIesire.getNumarNeuroni()) *
                 (input.getValoareIesire() - stratDeIesire.getValoriDorite().get(index));
     }
 }

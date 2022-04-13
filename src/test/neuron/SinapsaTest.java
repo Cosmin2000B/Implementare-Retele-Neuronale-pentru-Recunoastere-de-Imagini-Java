@@ -48,4 +48,32 @@ class SinapsaTest
 
         System.out.println(s1);
     }
+
+    @Test
+    void actualizeazaPondere()
+    {
+        Sinapsa sinapsa = new Sinapsa(new Neuron(), new Neuron(), 0d);
+        sinapsa.setDeltaPondere(-0.9);
+        sinapsa.setPondere(0d);
+        sinapsa.actualizeazaPondere(1, 0.9);
+        assertEquals(0.9d, sinapsa.getPondere());
+
+        assertEquals(-0.9, sinapsa.getPenultimaDeltaPondere(), Math.pow(10, -4));
+        sinapsa.setDeltaPondere(0.2d);
+        sinapsa.actualizeazaPondere(1, 0.9);
+        assertEquals(-0.61d, sinapsa.getPenultimaDeltaPondere(), Math.pow(10, -4));
+        assertEquals(1.51d, sinapsa.getPondere(), Math.pow(10, -3));
+        sinapsa.setDeltaPondere(0.8);
+        sinapsa.actualizeazaPondere(1, 0.9);
+        assertEquals(0.251d, sinapsa.getPenultimaDeltaPondere(),
+                Math.pow(10, -3));
+        assertEquals(1.2596d, sinapsa.getPondere(),
+                Math.pow(10, -3));
+
+    }
+
+    @Test
+    void testActualizeazaPondere()
+    {
+    }
 }

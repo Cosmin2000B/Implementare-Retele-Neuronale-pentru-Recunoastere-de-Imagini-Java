@@ -25,15 +25,15 @@ class GradientDescendentTest
     public PerceptronMultiStrat genereazaPerceptronMultiStrat()
     {
         PerceptronMultiStrat perceptronMultiStrat = new PerceptronMultiStrat(784, 10,
-                2, 128);
+                2, 100);
         MultimeImagini multimeImagini = MultimeImagini.
                 citesteMultimeImagini("F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_png",
                         1);
         GradientDescendent gradientDescendent = new GradientDescendent();
         gradientDescendent.setMultimeAntrenament(multimeImagini);
         gradientDescendent.setDimensiuneSubmutlime(32);
-        gradientDescendent.setRataInvatare(0.001);
-        gradientDescendent.setInertie(0.7d);
+        gradientDescendent.setRataInvatare(0.0001);
+        gradientDescendent.setInertie(0.9d);
         gradientDescendent.setNrMaximEpoci(100);
 
 
@@ -72,7 +72,7 @@ class GradientDescendentTest
     {
         PerceptronMultiStrat perceptronMultiStrat = genereazaPerceptronMultiStrat();
         perceptronMultiStrat.getStraturiAscunse().get(0).setFunctieActivare(new ReLU());
-        //perceptronMultiStrat.getStraturiAscunse().get(1).setFunctieActivare(new ReLU());
+        perceptronMultiStrat.getStraturiAscunse().get(1).setFunctieActivare(new ReLU());
         perceptronMultiStrat.antreneaza();
     }
 }

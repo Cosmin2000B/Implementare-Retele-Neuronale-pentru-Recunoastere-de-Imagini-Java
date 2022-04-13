@@ -36,8 +36,9 @@ public class Entropie_Incrucisata_Binara implements FunctieDeCost
                     setValoareIesire(stratDeIesire.getNeuroni().get(0).getValoareIesire() + corectie);
 
         if(stratDeIesire.getValoriDorite().get(0) == 1d)
-            return (-1) * Math.log(stratDeIesire.getNeuroni().get(0).getValoareIesire());
-        return (-1) * Math.log(1 - stratDeIesire.getNeuroni().get(0).getValoareIesire());
+            return (-1) * Math.log(Math.max(stratDeIesire.getNeuroni().get(0).getValoareIesire(), 1e-9));
+        return (-1) * Math.log(Math.max(1 - stratDeIesire.getNeuroni().get(0).getValoareIesire(),
+                1e-9));
     }
 
     /**
