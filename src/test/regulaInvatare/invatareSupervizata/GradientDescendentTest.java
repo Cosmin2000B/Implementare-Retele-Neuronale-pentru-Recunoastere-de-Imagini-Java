@@ -25,7 +25,7 @@ class GradientDescendentTest
     public PerceptronMultiStrat genereazaPerceptronMultiStrat()
     {
         PerceptronMultiStrat perceptronMultiStrat = new PerceptronMultiStrat(784, 10,
-                2, 100);
+                2, 128);
         MultimeImagini multimeImagini = MultimeImagini.
                 citesteMultimeImagini("F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_png",
                         1);

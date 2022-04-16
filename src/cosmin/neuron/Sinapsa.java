@@ -101,11 +101,13 @@ public class Sinapsa
      */
     public void actualizeazaPondere(double rataInvatare, double inertie)
     {
-        this.pondere = this.pondere -
-                (rataInvatare * this.deltaPondere + inertie * this.penultimaDeltaPondere);
+        // formula utilizata cu (1 - inertie) pentru evitarea scalarii ratei de invatare
+        this.pondere -=
+                rataInvatare * (inertie * this.penultimaDeltaPondere + (1 - inertie) * this.deltaPondere);
 
         // adaugam deltaPondere actuala la penultimaDeltaPondere
-        this.penultimaDeltaPondere = rataInvatare * deltaPondere + inertie * penultimaDeltaPondere;
+        this.penultimaDeltaPondere = inertie * this.penultimaDeltaPondere
+                + (1 - inertie) * this.deltaPondere;
         // cand actualizam, resetam eroarea acumulata
         this.deltaPondere = 0;
     }

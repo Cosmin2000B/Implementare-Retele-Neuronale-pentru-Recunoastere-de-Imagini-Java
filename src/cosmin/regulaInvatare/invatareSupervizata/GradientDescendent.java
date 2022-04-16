@@ -1,5 +1,7 @@
 package cosmin.regulaInvatare.invatareSupervizata;
 
+import cosmin.indiciPerformanta.clasificare.EvaluatorPerformantaClasificare;
+import cosmin.indiciPerformanta.clasificare.MetriciPerformantaClasificare;
 import cosmin.neuron.Neuron;
 import cosmin.regulaInvatare.RegulaInvatare;
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.MultimeAntrenamentEtichetata;
@@ -18,7 +20,8 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
     // == dimMultime -> actualizare dupa o epoca ( epoca = iteratie)
     private int dimensiuneSubmutlime = 1;
     private double rataInvatare = 0.1d;
-    private double inertie = 0.9d;
+    // initial 0 => fara inertie
+    private double inertie = 0d;
 
     int nrMaximEpoci = 100;
     double eroareAdmisa = 0.005d;
@@ -63,11 +66,17 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
         // eroarea curenta a sistemului
         double eroareCurenta = 1;
 
+        EvaluatorPerformantaClasificare.ClasificareMultiClasa clasificareMultiClasa
+                = new EvaluatorPerformantaClasificare.ClasificareMultiClasa
+                (getMultimeAntrenament().getCorespondentaEticheta().values().toArray(new String[0]));
+
         while(nrEpociEfectuate < nrMaximEpoci && eroareCurenta > eroareAdmisa)
         {
             // la fiecare epoca, rearanjam aleator elementele
             MultimeImagini.amestecaAleator(((MultimeImagini) this.getMultimeAntrenament())
                     .getImaginiAntrenament());
+            // resetam eroarea la fiecare epoca
+            eroareCurenta = 0;
 
             for(int i = 0;
                 i < ((MultimeImagini) this.getMultimeAntrenament()).getImaginiAntrenament().size(); ++i)
@@ -75,7 +84,16 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
                 this.pregatesteInputIesiriRetea(i);
 
                 ((ReteaNeuronalaFeedForward) this.getReteaNeuronala()).executaPropagare();
-                // sa se imparta la dimSubmultimeAntrenament
+                // inregistrat situatie ---------------------------------
+                /*
+                if(getReteaNeuronala() instanceof PerceptronMultiStrat)
+                    clasificareMultiClasa.
+                            proceseazaRezultatRna(((PerceptronMultiStrat) getReteaNeuronala()).
+                                            getStratDeIesire().getValoriIesire(),
+                                    ((PerceptronMultiStrat) getReteaNeuronala()).
+                                    getStratDeIesire().getValoriDorite());
+                 */
+                // sa se imparta la dimSubmultimeAntrenament ------------------
                 eroareCurenta += ((ReteaNeuronalaFeedForward) this.getReteaNeuronala()).getEroareaRetelei();
                 ((ReteaNeuronalaFeedForward) this.getReteaNeuronala()).
                         executaRetropropagare(this.dimensiuneSubmutlime);
@@ -86,8 +104,10 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
                     // actualizam ponderile
                     ((ReteaNeuronalaFeedForward) this.
                             getReteaNeuronala()).executaOptimizare(rataInvatare, inertie);
-                    eroareCurenta /= dimensiuneSubmutlime;
+
+                    // eroareCurenta /= dimensiuneSubmutlime; // eroare la nivel de submultime
                     // todo de sters ---- elminat acolada if --------------------------------
+                    /*
                     System.out.println("Epoca " + nrEpociEfectuate + ", Iteratia " + i / dimensiuneSubmutlime +
                             ", Eroarea retelei:" + eroareCurenta);
                     System.out.print("Erori neuroni: ");
@@ -113,10 +133,15 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
                         System.out.print(neuron.getValoareIesire() + " ");
                     System.out.println();
                     System.out.println();
+                     */
                     // todo sterge intervalul asta ----------------------------------
                 }
-            }
-            //todo eroareCurenta - DE ACTUALIZAT si mai ales cum
+            } // s-a terminat o epoca
+            if(getMultimeAntrenament() instanceof MultimeImagini)
+                // eroare la nivel de epoca
+                eroareCurenta /= ((MultimeImagini) getMultimeAntrenament()).getImaginiAntrenament().size();
+            // todo de sters
+            System.out.println("Epoca " + nrEpociEfectuate + ", eroare: " + eroareCurenta);
             nrEpociEfectuate++;
         }
 

@@ -236,4 +236,17 @@ public class StratDeIesire extends StratNeuronalLiniar implements StratNeuronal
         for(Neuron neuron: this.getNeuroni())
             neuron.setFunctieActivare(this.functieActivare);
     }
+
+    /**
+     *
+     * @return
+     */
+    public ArrayList<Double> getValoriIesire()
+    {
+       ArrayList<Double> valoriIesire = new ArrayList<>(getNumarNeuroni());
+       for(Neuron neuron: getNeuroni())
+           valoriIesire.add(neuron.getValoareIesire());
+
+       return valoriIesire;
+    }
 }
