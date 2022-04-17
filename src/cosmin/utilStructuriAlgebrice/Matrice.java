@@ -106,6 +106,21 @@ public class Matrice implements Serializable
                     (valori[i], 0, this.valori[i], 0, valori[0].length);
     }
 
+    /**
+     *
+     * @param indexLinie
+     * @param indexColoana
+     * @param valoare
+     * @throws IllegalArgumentException
+     */
+    public void setValoareElement(int indexLinie, int indexColoana, double valoare)
+    {
+        if(indexLinie > this.nrLinii || indexColoana > this.nrColoane)
+            throw new IllegalArgumentException("Nu exista aceasta pozitie in matrice!");
+
+        this.valori[indexLinie][indexColoana] = valoare;
+    }
+
     // ----------------- Sfarsit Getteri si Setteri ------------
 
     @Override
