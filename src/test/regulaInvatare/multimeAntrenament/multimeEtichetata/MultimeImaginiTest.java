@@ -3,6 +3,9 @@ package test.regulaInvatare.multimeAntrenament.multimeEtichetata;
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.MultimeImagini;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.util.HashMap;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MultimeImaginiTest
@@ -41,5 +44,19 @@ class MultimeImaginiTest
     @Test
     void testAmestecaAleator()
     {
+    }
+
+    @Test
+    void etichete()
+    {
+        HashMap<Integer, String> corespEtichete = new HashMap<>();
+        for(int i = 0; i < 6; ++i)
+            corespEtichete.put(i, Integer.toString(i));
+
+        MultimeImagini multimeImagini =
+                new MultimeImagini(new File(""), corespEtichete, 1);
+
+        for(int i = 0; i < 6; ++i)
+            assertEquals(1, multimeImagini.getEtichete().get(i).get(i));
     }
 }
