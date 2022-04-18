@@ -9,7 +9,14 @@ import java.util.*;
 public class MultimeImagini extends MultimeAntrenamentEtichetata
 {
     private int nrCanaleCulori = 1;
+    /**
+     * utilizate in procesul de antrenare pentru determinarea parametrilor
+     * clasificatorului ( ponderi sinapse, eventual bias-uri )
+     */
     ArrayList<ImagineEtichetata> imaginiAntrenament;
+    /**
+     * utilizate pentru a analiza performantele unui clasificator antrenat
+     */
     ArrayList<ImagineEtichetata> imaginiTestare;
 
     public MultimeImagini(File locatieMemorie, HashMap<Integer, String> corespondentaEticheta,
