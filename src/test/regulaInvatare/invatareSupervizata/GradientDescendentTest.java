@@ -75,4 +75,45 @@ class GradientDescendentTest
         perceptronMultiStrat.getStraturiAscunse().get(1).setFunctieActivare(new ReLU());
         perceptronMultiStrat.antreneaza();
     }
+
+    @Test
+    public void citesteMNISTliniarizat()
+    {
+        HashMap<Integer, String> eticheteMNIST = new HashMap<>();
+        for(int i = 0; i < 10; ++i)
+            eticheteMNIST.put(i, Integer.toString(i));
+        MultimeImagini mnist = new MultimeImagini(new File("x"), eticheteMNIST,1);
+        mnist.setImaginiAntrenament(MultimeImagini.
+                citesteMultimeMNISTLiniarizat(mnist, "F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_vanilla\\train-images.idx3-ubyte",
+                        "F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_vanilla\\train-labels.idx1-ubyte"));
+    }
+
+    //@Test
+    void antreneazaMNIST()
+    {
+        PerceptronMultiStrat perceptronMultiStrat = new PerceptronMultiStrat(784, 10,
+                2, 128);
+
+        GradientDescendent gradientDescendent = new GradientDescendent();
+        gradientDescendent.setDimensiuneSubmutlime(32);
+        gradientDescendent.setRataInvatare(0.0001);
+        gradientDescendent.setInertie(0.9d);
+        gradientDescendent.setNrMaximEpoci(100);
+
+        // todo de setat etichete
+        HashMap<Integer, String> eticheteMNIST = new HashMap<>();
+        for(int i = 0; i < 10; ++i)
+            eticheteMNIST.put(i, Integer.toString(i));
+        MultimeImagini mnist = new MultimeImagini(new File("x"), eticheteMNIST,1);
+        mnist.setImaginiAntrenament(MultimeImagini.
+                citesteMultimeMNISTLiniarizat(mnist, "F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_vanilla\\train-images.idx3-ubyte",
+                        "F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_vanilla\\train-labels.idx1-ubyte"));
+
+        gradientDescendent.setMultimeAntrenament(mnist);
+        perceptronMultiStrat.setRegulaInvatare(gradientDescendent);
+        gradientDescendent.setReteaNeuronala(perceptronMultiStrat);
+
+        perceptronMultiStrat.antreneaza();
+
+    }
 }

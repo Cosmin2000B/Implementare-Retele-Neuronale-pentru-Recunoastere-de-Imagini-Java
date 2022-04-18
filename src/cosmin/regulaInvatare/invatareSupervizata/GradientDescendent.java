@@ -1,7 +1,6 @@
 package cosmin.regulaInvatare.invatareSupervizata;
 
 import cosmin.indiciPerformanta.clasificare.EvaluatorPerformantaClasificare;
-import cosmin.indiciPerformanta.clasificare.MetriciPerformantaClasificare;
 import cosmin.neuron.Neuron;
 import cosmin.regulaInvatare.RegulaInvatare;
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.MultimeAntrenamentEtichetata;
@@ -21,7 +20,7 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
     private int dimensiuneSubmutlime = 1;
     private double rataInvatare = 0.1d;
     // initial 0 => fara inertie
-    private double inertie = 0d;
+    private double inertie = 0.9d;
 
     int nrMaximEpoci = 100;
     double eroareAdmisa = 0.005d;
@@ -50,9 +49,9 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
     @Override
     public void antreneaza()
     {
-        if(!(this.getReteaNeuronala() instanceof ReteaNeuronalaFeedForward))
-            throw new IllegalArgumentException("Nu este permisa decat antrenarea cu GradientDescendent"
-            + " a RNA de tip FeedForward!");
+        if(this.getReteaNeuronala() == null)
+            throw new IllegalArgumentException("Nicio retea neuronala nu este ascoiata" +
+                    "acestei reguli de invatare!");
 
         if(this.getMultimeAntrenament() == null)
             throw new IllegalStateException("Nu este incarcata nicio multime de antrenament!");
@@ -94,16 +93,15 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
                                     getStratDeIesire().getValoriDorite());
                  */
                 // sa se imparta la dimSubmultimeAntrenament ------------------
-                eroareCurenta += ((ReteaNeuronalaFeedForward) this.getReteaNeuronala()).getEroareaRetelei();
-                ((ReteaNeuronalaFeedForward) this.getReteaNeuronala()).
+                eroareCurenta +=  this.getReteaNeuronala().getEroareaRetelei();
+                 this.getReteaNeuronala().
                         executaRetropropagare(this.dimensiuneSubmutlime);
 
                 // am terminat o iteratie
                 if(i % dimensiuneSubmutlime == 0)
                 {
                     // actualizam ponderile
-                    ((ReteaNeuronalaFeedForward) this.
-                            getReteaNeuronala()).executaOptimizare(rataInvatare, inertie);
+                     this.getReteaNeuronala().executaOptimizare(rataInvatare, inertie);
 
                     // eroareCurenta /= dimensiuneSubmutlime; // eroare la nivel de submultime
                     // todo de sters ---- elminat acolada if --------------------------------
@@ -197,5 +195,16 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
     public void setEroareAdmisa(double eroareAdmisa)
     {
         this.eroareAdmisa = eroareAdmisa;
+    }
+
+    @Override
+    public ReteaNeuronalaFeedForward getReteaNeuronala()
+    {
+        return (ReteaNeuronalaFeedForward) super.getReteaNeuronala();
+    }
+
+    public void setReteaNeuronala(ReteaNeuronalaFeedForward reteaNeuronala)
+    {
+        super.setReteaNeuronala(reteaNeuronala);
     }
 }

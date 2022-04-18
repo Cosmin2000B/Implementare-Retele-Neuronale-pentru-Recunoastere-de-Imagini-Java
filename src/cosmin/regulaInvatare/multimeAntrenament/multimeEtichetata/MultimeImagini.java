@@ -1,12 +1,10 @@
 package cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata;
 
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.elementAntrenament.ImagineEtichetata;
+import cosmin.utilStructuriAlgebrice.Matrice;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Random;
+import java.io.*;
+import java.util.*;
 
 public class MultimeImagini extends MultimeAntrenamentEtichetata
 {
@@ -24,6 +22,7 @@ public class MultimeImagini extends MultimeAntrenamentEtichetata
         this.imaginiTestare = new ArrayList<>();
     }
 
+    // ------- Varianta generica -------------------------------
     /**
      *
      * @param locatieMemorie localizarea in memorie a fisierului ce contine
@@ -84,6 +83,126 @@ public class MultimeImagini extends MultimeAntrenamentEtichetata
         }
 
         return multimeImagini;
+    }
+
+    // ---------------------------------------------
+
+    public static ArrayList<ImagineEtichetata> citesteMultimeMNIST
+            (MultimeImagini multimeImagini, String locatieMemorieDate, String locatieMemorieEtichete)
+    {
+        try
+        {
+            DataInputStream dataInputStream =
+                    new DataInputStream(new BufferedInputStream(new FileInputStream(locatieMemorieDate)));
+
+            int nrMagic = dataInputStream.readInt();
+            int nrElemente = dataInputStream.readInt();
+
+            int nrLinii = dataInputStream.readInt();
+            int nrColoane = dataInputStream.readInt();
+
+            ArrayList<ImagineEtichetata> imaginiEtichetate = new ArrayList<>(nrElemente);
+
+            HashMap<Integer, String> corespondentaEticheta = new HashMap<>();
+            for(int i = 0; i < 10; ++i)
+                corespondentaEticheta.put(i, Integer.toString(i));
+            multimeImagini.setCorespondentaEticheta(corespondentaEticheta);
+            //- ---------
+
+            DataInputStream eticheteInputStream =
+                    new DataInputStream(new BufferedInputStream(new FileInputStream(locatieMemorieEtichete)));
+            int nrMagicEtichete = eticheteInputStream.readInt();
+            int nrEtichete = eticheteInputStream.readInt();
+
+            for(int i = 0; i < nrElemente; ++i)
+            {
+                int indexClasa = eticheteInputStream.readUnsignedByte();
+                ImagineEtichetata imagineEtichetata =
+                        new ImagineEtichetata(multimeImagini, new File("x"), indexClasa);
+
+                Matrice matrice = new Matrice(nrLinii, nrColoane);
+                for(int x = 0; x < nrLinii; ++x)
+                    for(int y = 0; y < nrColoane; ++y)
+                        matrice.setValoareElement(x, y,
+                                dataInputStream.readUnsignedByte() / 255d);
+
+                ArrayList<Matrice> val = new ArrayList<>();
+                val.add(matrice);
+                imagineEtichetata.setValori(val);
+
+                imaginiEtichetate.add(imagineEtichetata);
+            }
+
+            dataInputStream.close();
+            eticheteInputStream.close();
+
+            return imaginiEtichetate;
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static ArrayList<ImagineEtichetata> citesteMultimeMNISTLiniarizat
+            (MultimeImagini multimeImagini, String locatieMemorieDate, String locatieMemorieEtichete)
+    {
+        try
+        {
+            DataInputStream dataInputStream =
+                    new DataInputStream(new BufferedInputStream(new FileInputStream(locatieMemorieDate)));
+
+            int nrMagic = dataInputStream.readInt();
+            int nrElemente = dataInputStream.readInt();
+
+            int nrLinii = dataInputStream.readInt();
+            int nrColoane = dataInputStream.readInt();
+
+            ArrayList<ImagineEtichetata> imaginiEtichetate = new ArrayList<>(nrElemente);
+
+            // todo de vzt
+            HashMap<Integer, String> corespondentaEticheta = new HashMap<>();
+            for(int i = 0; i < 10; ++i)
+                corespondentaEticheta.put(i, Integer.toString(i));
+            multimeImagini.setCorespondentaEticheta(corespondentaEticheta);
+            //- ---------
+
+            DataInputStream eticheteInputStream =
+                    new DataInputStream(new BufferedInputStream(new FileInputStream(locatieMemorieEtichete)));
+            int nrMagicEtichete = eticheteInputStream.readInt();
+            int nrEtichete = eticheteInputStream.readInt();
+
+            for(int i = 0; i < nrElemente; ++i)
+            {
+                int indexClasa = eticheteInputStream.readUnsignedByte();
+                // TODO are ros sa-i mai dau locatia?
+                ImagineEtichetata imagineEtichetata =
+                        new ImagineEtichetata(multimeImagini, new File("x"), indexClasa);
+
+                ArrayList<Double> valoriLiniarizat = new ArrayList<>(nrLinii * nrColoane);
+
+                for(int k = 0; k < nrLinii * nrColoane; k++)
+                        valoriLiniarizat.add(
+                                dataInputStream.readUnsignedByte() / 255d);
+
+                imagineEtichetata.setValoriLiniarizat(valoriLiniarizat);
+
+                imaginiEtichetate.add(imagineEtichetata);
+            }
+
+            dataInputStream.close();
+            eticheteInputStream.close();
+
+            return imaginiEtichetate;
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     // TODO cu sursa de aleatorism

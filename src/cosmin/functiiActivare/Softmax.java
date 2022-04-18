@@ -3,6 +3,7 @@ package cosmin.functiiActivare;
 import cosmin.neuron.Neuron;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost.EntropieIncrucisata;
+import org.apache.commons.math3.util.FastMath;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -34,7 +35,7 @@ public class Softmax implements FunctieActivare
             maxVal = Math.max(maxVal, neuron.getValoareIntrare());
 
         for(Neuron neuron: this.stratDeIesire.getNeuroni())
-            this.sumaFunctiiExponentiale += Math.exp(neuron.getValoareIntrare() - maxVal);
+            this.sumaFunctiiExponentiale += FastMath.exp(neuron.getValoareIntrare() - maxVal);
     }
 
     /**
@@ -54,7 +55,7 @@ public class Softmax implements FunctieActivare
         if(this.sumaFunctiiExponentiale == 0d)
             this.calculeazaSumaFunctiiExponentiale();
 
-        return Math.exp(input - maxVal) / this.sumaFunctiiExponentiale;
+        return FastMath.exp(input - maxVal) / this.sumaFunctiiExponentiale;
     }
 
     /*

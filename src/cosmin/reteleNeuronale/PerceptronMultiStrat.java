@@ -12,6 +12,7 @@ import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIe
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost.EntropieIncrucisata;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost.Entropie_Incrucisata_Binara;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -186,8 +187,9 @@ public class PerceptronMultiStrat extends ReteaNeuronalaFeedForward
 
         if(!this.getStraturiAscunse().isEmpty())
         {
-            for(int i = this.straturiAscunse.size() - 1; i >= 0; --i)
-                this.straturiAscunse.get(i).actualizeazaPonderi(rataInvatare, inertie);
+            Iterator<StratAscuns> it = straturiAscunse.descendingIterator();
+            while(it.hasNext())
+                it.next().actualizeazaPonderi(rataInvatare, inertie);
         }
     }
 
@@ -196,8 +198,9 @@ public class PerceptronMultiStrat extends ReteaNeuronalaFeedForward
     {
         retropropagareStratIesire(dimSubmultimeAntrenament);
 
-        for(int i = straturiAscunse.size() - 1; i >= 0; --i)
-            retropropagareStratAscuns(dimSubmultimeAntrenament, straturiAscunse.get(i));
+        Iterator<StratAscuns> it = straturiAscunse.descendingIterator();
+        while(it.hasNext())
+            retropropagareStratAscuns(dimSubmultimeAntrenament, it.next());
 
         // todo de vazut calcul erori strat intrare
     }

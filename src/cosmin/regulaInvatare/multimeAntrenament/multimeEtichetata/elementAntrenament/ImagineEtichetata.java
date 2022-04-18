@@ -17,7 +17,10 @@ public class ImagineEtichetata
     private MultimeImagini multimeImagini;
     private String numeIdentificare;
     private File locatieMemorie;
-    private LinkedList<Matrice> valori;
+
+    private ArrayList<Matrice> valori;
+    private ArrayList<Double> valoriLiniarizat;
+
     private int indexClasa;
 
     /**
@@ -59,12 +62,12 @@ public class ImagineEtichetata
      *
      * @return
      */
-    public LinkedList<Matrice> getValori()
+    public ArrayList<Matrice> getValori()
     {
         if(valori != null)
             return this.valori;
 
-        valori = new LinkedList<Matrice>();
+        valori = new ArrayList<>();
 
         if(this.multimeImagini.getNrCanaleCulori() == 1)
             this.valori.add(new Matrice(ObtinereValoriImagineAN.
@@ -80,32 +83,38 @@ public class ImagineEtichetata
         return valori;
     }
 
+    public void setValori(ArrayList<Matrice> valori)
+    {
+        this.valori = valori;
+    }
+
     /**
      *
      * @return
      */
     public ArrayList<Double> getValoriLiniarizat()
     {
+        if(this.valoriLiniarizat != null)
+            return valoriLiniarizat;
+
         if(this.valori == null)
             this.valori = this.getValori();
 
-        ArrayList<Double> output;
-
         if(this.multimeImagini.getNrCanaleCulori() == 1)
-            output = Matrice.liniarizare(valori.get(0));
+            valoriLiniarizat = Matrice.liniarizare(valori.get(0));
         else
         {
-            output = new ArrayList<>();
+            valoriLiniarizat = new ArrayList<>();
             this.valori.forEach(matrice ->
-                    output.addAll(Matrice.liniarizare(matrice)));
+                    valoriLiniarizat.addAll(Matrice.liniarizare(matrice)));
         }
 
-        return output;
+        return valoriLiniarizat;
     }
 
-    public void setValori(LinkedList<Matrice> valori)
+    public void setValoriLiniarizat(ArrayList<Double> valoriLiniarizat)
     {
-        this.valori = valori;
+        this.valoriLiniarizat = valoriLiniarizat;
     }
 
     public MultimeImagini getMultimeImagini()
