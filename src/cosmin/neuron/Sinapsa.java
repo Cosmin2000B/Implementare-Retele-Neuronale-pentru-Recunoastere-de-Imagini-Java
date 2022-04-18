@@ -1,5 +1,7 @@
 package cosmin.neuron;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -7,19 +9,29 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  * @see Neuron
  */
-public class Sinapsa
+public class Sinapsa implements Serializable
 {
+    /**
+     * pentru identificarea cu compatibilitatii cu
+     * versiuni anterioare ale clasei
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     /**
      *
      */
     private Neuron neuronEmitent;
+    /**
+     *
+     */
     private Neuron neuronDestinatar;
 
     private double pondere;
-    private double penultimaDeltaPondere = 0d;
-    private double deltaPondere;
+    private transient double penultimaDeltaPondere = 0d;
+    private transient double deltaPondere;
 
-    private double valoareIesire;
+    private transient double valoareIesire;
 
     /**
      *  Constructorul cu doi parametrii de tip Neuron creaza o sinapsa care va

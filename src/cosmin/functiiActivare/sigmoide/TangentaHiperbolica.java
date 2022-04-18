@@ -2,11 +2,21 @@ package cosmin.functiiActivare.sigmoide;
 
 import cosmin.functiiActivare.FunctieActivare;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * @author Ionescu Cosmin
  */
-public class TangentaHiperbolica implements FunctieActivare
+public class TangentaHiperbolica implements FunctieActivare, Serializable
 {
+    /**
+     * pentru identificarea cu compatibilitatii cu
+     * versiuni anterioare ale clasei
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     /**
      *
      * @param input

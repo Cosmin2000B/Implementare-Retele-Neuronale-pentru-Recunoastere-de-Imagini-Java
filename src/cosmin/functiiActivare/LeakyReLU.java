@@ -1,10 +1,20 @@
 package cosmin.functiiActivare;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * @author Ionescu Cosmin
  */
-public class LeakyReLU implements FunctieActivare
+public class LeakyReLU implements FunctieActivare, Serializable
 {
+    /**
+     * pentru identificarea cu compatibilitatii cu
+     * versiuni anterioare ale clasei
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private double panta;
 
     public LeakyReLU()

@@ -3,9 +3,21 @@ package cosmin.reteleNeuronale;
 import cosmin.regulaInvatare.RegulaInvatare;
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.MultimeAntrenamentEtichetata;
 
-public abstract class ReteaNeuronalaFeedForward extends ReteaNeuronala<RegulaInvatare<MultimeAntrenamentEtichetata>>
+import java.io.Serial;
+import java.io.Serializable;
+
+public abstract class ReteaNeuronalaFeedForward
+                                                extends ReteaNeuronala<RegulaInvatare<MultimeAntrenamentEtichetata>>
+                                                implements Serializable
 {
-    double eroareaRetelei;
+    /**
+     * pentru identificarea cu compatibilitatii cu
+     * versiuni anterioare ale clasei
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    private transient double eroareaRetelei;
 
     public abstract void executaPropagare();
     public abstract void executaRetropropagare(int dimSubmultimeAntrenament);

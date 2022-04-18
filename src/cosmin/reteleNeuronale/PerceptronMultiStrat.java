@@ -12,14 +12,25 @@ import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIe
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost.EntropieIncrucisata;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost.Entropie_Incrucisata_Binara;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
  * @author Ionescu Cosmin
  */
-public class PerceptronMultiStrat extends ReteaNeuronalaFeedForward
+public class PerceptronMultiStrat
+                                  extends ReteaNeuronalaFeedForward
+                                  implements Serializable
 {
+    /**
+     * pentru identificarea cu compatibilitatii cu
+     * versiuni anterioare ale clasei
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private StratDeIntrare stratDeIntrare;
     private LinkedList<StratAscuns> straturiAscunse;
     private StratDeIesire stratDeIesire;

@@ -4,6 +4,9 @@ import cosmin.neuron.Neuron;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  *   Entropia incrucisata binara este un caz special al entropiei incrucisate, se
  *  se utilizeaza pentru probleme de clasificare binara, stratul de iesire avand
@@ -11,8 +14,14 @@ import org.jetbrains.annotations.NotNull;
  * @see cosmin.functiiActivare.sigmoide.Logistica
  * @see cosmin.functiiActivare.sigmoide.TangentaHiperbolica
  */
-public class Entropie_Incrucisata_Binara implements FunctieDeCost
+public class Entropie_Incrucisata_Binara implements FunctieDeCost, Serializable
 {
+    /**
+     * pentru identificarea cu compatibilitatii cu
+     * versiuni anterioare ale clasei
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      *

@@ -6,17 +6,27 @@ import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDe
 import org.apache.commons.math3.util.FastMath;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * @aythor IonescuCosmin
  *   A se utiliza numai la clasificare multi-clasa
  */
-public class Softmax implements FunctieActivare
+public class Softmax implements FunctieActivare, Serializable
 {
-    private double sumaFunctiiExponentiale;
+    /**
+     * pentru identificarea cu compatibilitatii cu
+     * versiuni anterioare ale clasei
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    private transient double sumaFunctiiExponentiale;
     private StratDeIesire stratDeIesire;
 
     // pt stabilitate numerica
-    private double maxVal;
+    private transient double maxVal;
 
     public Softmax(StratDeIesire stratDeIesire)
     {

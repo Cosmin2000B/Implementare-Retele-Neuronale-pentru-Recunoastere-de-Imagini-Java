@@ -2,16 +2,26 @@ package cosmin.reteleNeuronale;
 
 import cosmin.regulaInvatare.RegulaInvatare;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * @author Ionescu Cosmin
  *   Clasa abstracta care modeleaza generalitati legate de o retea
  *  neuronala.
  * @param <Ri> reprezinta regula de invatare agreata de utilizator.
  */
-public abstract class ReteaNeuronala<Ri extends RegulaInvatare>
+public abstract class ReteaNeuronala<Ri extends RegulaInvatare> implements Serializable
 {
+    /**
+     * pentru identificarea cu compatibilitatii cu
+     * versiuni anterioare ale clasei
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private String numeIdentificare;
-    private Ri regulaInvatare;
+    private transient Ri regulaInvatare;
 
     // --------- Constructori ----------------
 

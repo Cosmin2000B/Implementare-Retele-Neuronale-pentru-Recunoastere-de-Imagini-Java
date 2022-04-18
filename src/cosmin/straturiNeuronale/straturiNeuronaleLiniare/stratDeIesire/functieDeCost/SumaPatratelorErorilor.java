@@ -4,11 +4,21 @@ import cosmin.neuron.Neuron;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * @author Ionescu Cosmin
  */
-public class SumaPatratelorErorilor implements FunctieDeCost
+public class SumaPatratelorErorilor implements FunctieDeCost, Serializable
 {
+    /**
+     * pentru identificarea cu compatibilitatii cu
+     * versiuni anterioare ale clasei
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     /**
      *
      * @param stratDeIesire

@@ -6,6 +6,8 @@ import cosmin.neuron.Sinapsa;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -18,8 +20,17 @@ import java.util.concurrent.ThreadLocalRandom;
  *   Asadar, neuronii de pe acest strat nu trebuie vazuti drept unitati de
  *  calcul, ci ca o "poarta" de propagare a intrarilor in restul retelei.
  */
-public class StratDeIntrare extends StratNeuronalLiniar
+public class StratDeIntrare
+                            extends StratNeuronalLiniar
+                            implements Serializable
 {
+    /**
+     * pentru identificarea cu compatibilitatii cu
+     * versiuni anterioare ale clasei
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private StratNeuronalLiniar stratUlterior;
 
     public StratDeIntrare(int numarNeuroni)

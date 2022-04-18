@@ -3,13 +3,22 @@ package cosmin.straturiNeuronale.straturiNeuronaleLiniare;
 import cosmin.functiiActivare.FunctieActivare;
 import cosmin.neuron.Neuron;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * @author Ionescu Cosmin
  */
-public abstract class StratNeuronalLiniar
+public abstract class StratNeuronalLiniar implements Serializable
 {
+    /**
+     * pentru identificarea cu compatibilitatii cu
+     * versiuni anterioare ale clasei
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private String numeIdentificare;
     private ArrayList<Neuron> neuroni;
     private int numarNeuroni;

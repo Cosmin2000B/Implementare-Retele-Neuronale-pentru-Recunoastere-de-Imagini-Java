@@ -8,6 +8,8 @@ import cosmin.straturiNeuronale.StratNeuronal;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -15,8 +17,16 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * @author Ionescu Cosmin
  */
-public class StratAscuns extends StratNeuronalLiniar implements StratNeuronal
+public class StratAscuns
+                         extends StratNeuronalLiniar
+                         implements StratNeuronal, Serializable
 {
+    /**
+     * pentru identificarea cu compatibilitatii cu
+     * versiuni anterioare ale clasei
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private StratNeuronalLiniar stratAnterior;
     private StratNeuronalLiniar stratUlterior;

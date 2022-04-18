@@ -4,6 +4,8 @@ import cosmin.functiiActivare.FunctieActivare;
 import cosmin.functiiActivare.sigmoide.Logistica;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -13,16 +15,23 @@ import java.util.ArrayList;
  * @see Sinapsa
  * @see FunctieActivare
  */
-public class Neuron
+public class Neuron implements Serializable
 {
+    /**
+     * pentru identificarea cu compatibilitatii cu
+     * versiuni anterioare ale clasei
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     /**
      *
      */
     private String numeIdentificare;
 
-    private double valoareIntrare;
-    private double valoareIesire;
-    private double eroareNeuron;
+    private transient double valoareIntrare;
+    private transient double valoareIesire;
+    private transient double eroareNeuron;
 
     private ArrayList<Sinapsa> sinapseIntrare;
     private ArrayList<Sinapsa> sinapseIesire;
@@ -368,17 +377,19 @@ public class Neuron
         StringBuilder output = new StringBuilder("Neuronul " + this.getNumeIdentificare() + ":\n" +
                 " A. valoare intrare (suma intrarilor ponderata + bias): "
                 + this.valoareIntrare + ";\n B. valoare iesire (grad"
-                + " de activare): " + this.valoareIesire + ";\n" +
-                " C. Sinapse intrare:\n");
+                + " de activare): " + this.valoareIesire + ";\n"
+                + " C. eroare neuron (raportata la functia de cost): "
+                + this.eroareNeuron+ ";\n" +
+                " D. Sinapse intrare:\n");
 
         for(Sinapsa sinapsa: sinapseIntrare)
             output.append(sinapsa);
 
-        output.append(" D. Sinapse iesire:\n");
+        output.append(" E. Sinapse iesire:\n");
         for(Sinapsa sinapsa: this.sinapseIesire)
             output.append(sinapsa);
 
-        output.append(" E. Functie Activare: ").append(this.functieActivare.getClass().getSimpleName()).
+        output.append(" F. Functie Activare: ").append(this.functieActivare.getClass().getSimpleName()).
                 append(";\n").append(" F. Bias: \n").append(this.bias).append("\n");
 
         return output.toString();

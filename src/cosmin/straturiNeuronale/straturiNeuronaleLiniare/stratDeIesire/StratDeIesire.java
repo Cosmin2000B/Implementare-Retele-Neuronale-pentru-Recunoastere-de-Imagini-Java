@@ -11,6 +11,8 @@ import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratNeuronalLiniar;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost.FunctieDeCost;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -18,14 +20,23 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * @author Ionescu Cosmin
  */
-public class StratDeIesire extends StratNeuronalLiniar implements StratNeuronal
+public class StratDeIesire
+                           extends StratNeuronalLiniar
+                           implements StratNeuronal, Serializable
 {
+    /**
+     * pentru identificarea cu compatibilitatii cu
+     * versiuni anterioare ale clasei
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     // setul de valori pe care vrem sa le
     // obtinem
-    private ArrayList<Double> valoriDorite;
+    private transient ArrayList<Double> valoriDorite;
 
     private StratNeuronalLiniar stratAnterior;
-    private double eroareaRetelei;
+    private transient double eroareaRetelei;
 
     // la nivel de strat
     private FunctieActivare functieActivare;
