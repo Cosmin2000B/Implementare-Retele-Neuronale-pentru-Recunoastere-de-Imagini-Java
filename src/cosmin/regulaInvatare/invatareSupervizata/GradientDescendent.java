@@ -82,7 +82,7 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
             {
                 this.pregatesteInputIesiriRetea(i);
 
-                ((ReteaNeuronalaFeedForward) this.getReteaNeuronala()).executaPropagare();
+                this.getReteaNeuronala().executaPropagare();
                 // inregistrat situatie ---------------------------------
                 /*
                 if(getReteaNeuronala() instanceof PerceptronMultiStrat)
