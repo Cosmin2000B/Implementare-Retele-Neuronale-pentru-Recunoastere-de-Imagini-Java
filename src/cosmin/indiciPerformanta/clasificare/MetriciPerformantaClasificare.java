@@ -166,7 +166,7 @@ public final class MetriciPerformantaClasificare
             acurateteMedie += metriciPerformantaClasificare.obtineAcurateteClasificare();
         }
 
-        return acurateteMedie /= matriceDeConfuzie.getNrClase();
+        return acurateteMedie / matriceDeConfuzie.getNrClase();
     }
 
     /**
@@ -188,7 +188,7 @@ public final class MetriciPerformantaClasificare
             acurateteMedie += metriciPerformantaClasificare.obtinerePrecizieClasificare();
         }
 
-        return acurateteMedie /= matriceDeConfuzie.getNrClase();
+        return acurateteMedie / matriceDeConfuzie.getNrClase();
     }
 
     // ------------------ Setteri si Getteri ----------------------------
