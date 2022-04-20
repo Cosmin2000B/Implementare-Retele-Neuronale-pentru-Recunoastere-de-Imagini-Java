@@ -124,13 +124,6 @@ public class PerceptronMultiStrat
     {
         this.straturiAscunse.forEach(StratAscuns::calculeazaIesiri);
         this.stratDeIesire.calculeazaIesiri();
-
-        // ============ salvam valorile de iesire ==================
-        setValoriIesire(new ArrayList<>(stratDeIesire.getNumarNeuroni()));
-        for(Neuron neuron: stratDeIesire.getNeuroni())
-            getValoriIesire().add(neuron.getValoareIesire());
-        // ==========================================================
-
         this.stratDeIesire.calculeazaEroareaRetelei();
         this.setEroareaRetelei(this.stratDeIesire.getEroareaRetelei());
     }
@@ -251,6 +244,16 @@ public class PerceptronMultiStrat
 
     public void setStratDeIesire(StratDeIesire stratDeIesire) {
         this.stratDeIesire = stratDeIesire;
+    }
+
+    @Override
+    public ArrayList<Double> getValoriIesire()
+    {
+        ArrayList<Double> valIesire = new ArrayList<>(stratDeIesire.getNumarNeuroni());
+        for(Neuron neuron: stratDeIesire.getNeuroni())
+            valIesire.add(neuron.getValoareIesire());
+
+        return valIesire;
     }
 
 //TODO configuratii standard

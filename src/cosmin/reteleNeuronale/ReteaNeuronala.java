@@ -23,7 +23,7 @@ public abstract class ReteaNeuronala<Ri extends RegulaInvatare> implements Seria
 
     private String numeIdentificare;
     private transient Ri regulaInvatare;
-    private ArrayList<Double> valoriIesire;
+    private  transient ArrayList<Double> valoriIesire;
 
     // --------- Constructori ----------------
 
@@ -62,6 +62,7 @@ public abstract class ReteaNeuronala<Ri extends RegulaInvatare> implements Seria
     public void setRegulaInvatare(Ri regulaInvatare)
     {
         this.regulaInvatare = regulaInvatare;
+        regulaInvatare.setReteaNeuronala(this);
     }
 
     public ArrayList<Double> getValoriIesire()

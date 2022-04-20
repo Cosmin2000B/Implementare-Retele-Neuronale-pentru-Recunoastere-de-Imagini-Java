@@ -76,7 +76,7 @@ class GradientDescendentTest
         perceptronMultiStrat.antreneaza();
     }
 
-    @Test
+    //@Test
     public void citesteMNISTliniarizat()
     {
         HashMap<Integer, String> eticheteMNIST = new HashMap<>();

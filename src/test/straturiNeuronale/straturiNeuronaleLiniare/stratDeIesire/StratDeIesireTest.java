@@ -125,7 +125,7 @@ class StratDeIesireTest
         stratAscuns1.stabilesteStratDens(new ArrayList<>(Arrays.
                 asList(0.13, 0.42, 0.61, 0.5, 0.3, 0.46, 0.12, 0.7, 0.143)));
 
-        StratDeIesire stratDeIesire = new StratDeIesire(Arrays.asList(0.98866638208d));
+        StratDeIesire stratDeIesire = new StratDeIesire(new ArrayList<>(Arrays.asList(0.98866638208d)));
         stratDeIesire.setFunctieDeCost(new SumaPatratelorErorilor());
         stratDeIesire.getNeuroni().get(0).setFunctieActivare(new Logistica());
         stratDeIesire.setValoriDorite(new ArrayList<Double>(Arrays.asList(0.321)));

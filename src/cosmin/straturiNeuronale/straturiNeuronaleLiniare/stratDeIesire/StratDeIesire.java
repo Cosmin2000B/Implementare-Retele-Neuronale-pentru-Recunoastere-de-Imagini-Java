@@ -248,16 +248,4 @@ public class StratDeIesire
             neuron.setFunctieActivare(this.functieActivare);
     }
 
-    /**
-     *
-     * @return
-     */
-    public ArrayList<Double> getValoriIesire()
-    {
-       ArrayList<Double> valoriIesire = new ArrayList<>(getNumarNeuroni());
-       for(Neuron neuron: getNeuroni())
-           valoriIesire.add(neuron.getValoareIesire());
-
-       return valoriIesire;
-    }
 }
