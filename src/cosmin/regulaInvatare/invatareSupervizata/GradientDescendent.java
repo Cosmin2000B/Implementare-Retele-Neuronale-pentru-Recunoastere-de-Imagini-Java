@@ -225,5 +225,6 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
     public void setReteaNeuronala(ReteaNeuronalaFeedForward reteaNeuronala)
     {
         super.setReteaNeuronala(reteaNeuronala);
+        reteaNeuronala.setRegulaInvatare(this);
     }
 }
