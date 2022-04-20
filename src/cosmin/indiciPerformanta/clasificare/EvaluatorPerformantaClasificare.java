@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import static java.lang.Math.*;
 
 /**
- *
+ * Clasa utilizata pentru procesarea rezultatelor.
  */
-public abstract class EvaluatorPerformantaClasificare implements EvaluatorPerformanta<MatriceDeConfuzie>
+public abstract class EvaluatorPerformantaClasificare
+                                                      implements EvaluatorPerformanta<MatriceDeConfuzie>
 {
     //todo vezi hashmap
     private final String[] eticheteClasa;
@@ -28,8 +29,8 @@ public abstract class EvaluatorPerformantaClasificare implements EvaluatorPerfor
     }
 
     /**
-     *     Varianta standard a metodei proceseazaRezultatRna este
-     *     pentru clasificare binara
+     *  Varianta standard a metodei proceseazaRezultatRna este
+     * pentru clasificare binara
      * @param valoriIesire valorile neuronilor de pe stratul de iesire
      * @param valoriDorite valorile dorite pentru exemplul respectiv
      */
@@ -60,6 +61,9 @@ public abstract class EvaluatorPerformantaClasificare implements EvaluatorPerfor
         return this.matriceDeConfuzie;
     }
 
+    /**
+     * reseteaza matricea de confuzie asociata acestui evaluator.
+     */
     @Override
     public void reseteazaEvaluator()
     {
@@ -114,7 +118,7 @@ public abstract class EvaluatorPerformantaClasificare implements EvaluatorPerfor
     }
 
     /**
-     *
+     * Se utilizeaza in cazul in care clasificarea se face pentru mai mult de 2 clase.
      */
     public static class ClasificareMultiClasa extends EvaluatorPerformantaClasificare
     {
@@ -124,10 +128,13 @@ public abstract class EvaluatorPerformantaClasificare implements EvaluatorPerfor
         }
 
         /**
-         *
+         *  Proceseaza rezultatul obtinut de RNA in raport cu valorile dorite,
+         * incrementeaza corespunzator in matricea de confuzie.
          * @param valoriIesire valorile neuronilor de pe stratul de iesire
          * @param valoriDorite valorile dorite pentru exemplul respectiv
-         * @throws IllegalArgumentException
+         * @throws IllegalArgumentException in cazul in care dimensiunea
+         * vectorului de valori dorite nu coincide cu cea a vectorului de
+         * iesiri ale RNA.
          */
         @Override
         public void proceseazaRezultatRna(ArrayList<Double> valoriIesire,
@@ -145,8 +152,12 @@ public abstract class EvaluatorPerformantaClasificare implements EvaluatorPerfor
             {
                 //todo de vazut cu treapta
 
+                // stabilim clasa prezisa de RNA (cea cu valoarea de iesire
+                // cea maimare
                 if(valoriDorite.get(i) > valoriDorite.get(clasaDorita))
                     clasaDorita = i;
+                // stabilim clasa dorita pentru acest set de intrare ( cea
+                // cu valoarea cea mai mare)
                 if(valoriIesire.get(i) > valoriIesire.get(clasaIesire))
                     clasaIesire = i;
             }

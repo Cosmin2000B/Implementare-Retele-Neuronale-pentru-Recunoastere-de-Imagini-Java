@@ -14,6 +14,7 @@ import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDe
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -41,10 +42,13 @@ public class PerceptronMultiStrat
     // TODO explicatii constructor
     /**
      *
-     * @param dimensiuneSetIntrare
-     * @param dimensiuneIesire
-     * @param nrStraturiAscunse
-     * @param nrNeuroniPerStratAscuns
+     * @param dimensiuneSetIntrare numarul de neuroni de pe stratul de intrare. Trebuie
+     *                             sa coincida cu dimensiunea setului de intrare in RNA.
+     * @param dimensiuneIesire numarul de neuroni de pe stratul de iesire. Trebuie sa
+     *                         coincida cu dimensiunea unei etichete hardcodate sub forma
+     *                         unui vector.
+     * @param nrStraturiAscunse numarul de neuroni pe care dorim sa-l aiba reteaua neuronala.
+     * @param nrNeuroniPerStratAscuns numarul de neuroni de pe fiecare strat ascuns.
      * @see StratDeIntrare
      * @see StratAscuns
      * @see StratDeIesire
@@ -120,6 +124,13 @@ public class PerceptronMultiStrat
     {
         this.straturiAscunse.forEach(StratAscuns::calculeazaIesiri);
         this.stratDeIesire.calculeazaIesiri();
+
+        // ============ salvam valorile de iesire ==================
+        setValoriIesire(new ArrayList<>(stratDeIesire.getNumarNeuroni()));
+        for(Neuron neuron: stratDeIesire.getNeuroni())
+            getValoriIesire().add(neuron.getValoareIesire());
+        // ==========================================================
+
         this.stratDeIesire.calculeazaEroareaRetelei();
         this.setEroareaRetelei(this.stratDeIesire.getEroareaRetelei());
     }
@@ -218,7 +229,6 @@ public class PerceptronMultiStrat
 
     // ----- Setteri si Getteri --------
 
-
     public StratDeIntrare getStratDeIntrare() {
         return stratDeIntrare;
     }
@@ -243,7 +253,7 @@ public class PerceptronMultiStrat
         this.stratDeIesire = stratDeIesire;
     }
 
-    //TODO configuratii standard
+//TODO configuratii standard
     // ------------- Configuratii standard --------------------
 
     public static PerceptronMultiStrat getClasificatorBinar()

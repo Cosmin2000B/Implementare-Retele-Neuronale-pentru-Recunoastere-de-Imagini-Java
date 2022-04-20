@@ -1,6 +1,7 @@
 package cosmin.regulaInvatare.invatareSupervizata;
 
 import cosmin.indiciPerformanta.clasificare.EvaluatorPerformantaClasificare;
+import cosmin.indiciPerformanta.clasificare.MetriciPerformantaClasificare;
 import cosmin.neuron.Neuron;
 import cosmin.regulaInvatare.RegulaInvatare;
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.MultimeAntrenamentEtichetata;
@@ -9,6 +10,7 @@ import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.elementAntrena
 import cosmin.reteleNeuronale.PerceptronMultiStrat;
 import cosmin.reteleNeuronale.ReteaNeuronalaFeedForward;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 // TODO
@@ -24,6 +26,9 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
 
     int nrMaximEpoci = 100;
     double eroareAdmisa = 0.005d;
+
+    // format pt afisarea valorilor
+    private final static DecimalFormat df = new DecimalFormat(".##");
 
     public GradientDescendent()
     {}
@@ -65,9 +70,20 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
         // eroarea curenta a sistemului
         double eroareCurenta = 1;
 
-        EvaluatorPerformantaClasificare.ClasificareMultiClasa clasificareMultiClasa
-                = new EvaluatorPerformantaClasificare.ClasificareMultiClasa
-                (getMultimeAntrenament().getCorespondentaEticheta().values().toArray(new String[0]));
+        EvaluatorPerformantaClasificare clasificare = null;
+        if(getMultimeAntrenament().getCorespondentaEticheta().size() > 2)
+        {
+            // ================= Clasificare multi-clasa ===========================
+            clasificare
+                    = new EvaluatorPerformantaClasificare.ClasificareMultiClasa
+                    (getMultimeAntrenament().getCorespondentaEticheta().values().toArray(new String[0]));
+        }
+        else // ===================== Clasificare binara ===========================
+        {
+            clasificare =
+                    new EvaluatorPerformantaClasificare.ClasificareBinara(0.51d);
+        }
+
 
         while(nrEpociEfectuate < nrMaximEpoci && eroareCurenta > eroareAdmisa)
         {
@@ -83,16 +99,11 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
                 this.pregatesteInputIesiriRetea(i);
 
                 this.getReteaNeuronala().executaPropagare();
-                // inregistrat situatie ---------------------------------
-                /*
-                if(getReteaNeuronala() instanceof PerceptronMultiStrat)
-                    clasificareMultiClasa.
-                            proceseazaRezultatRna(((PerceptronMultiStrat) getReteaNeuronala()).
-                                            getStratDeIesire().getValoriIesire(),
-                                    ((PerceptronMultiStrat) getReteaNeuronala()).
-                                    getStratDeIesire().getValoriDorite());
-                 */
-                // sa se imparta la dimSubmultimeAntrenament ------------------
+                clasificare.proceseazaRezultatRna(getReteaNeuronala().getValoriIesire(),
+                        this.getMultimeAntrenament().
+                                getEtichetaCorespunzatoare(((MultimeImagini) getMultimeAntrenament())
+                                        .getImaginiAntrenament().get(i).getIndexClasa()));
+
                 eroareCurenta +=  this.getReteaNeuronala().getEroareaRetelei();
                  this.getReteaNeuronala().
                         executaRetropropagare(this.dimensiuneSubmutlime);
@@ -135,12 +146,20 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
                     // todo sterge intervalul asta ----------------------------------
                 }
             } // s-a terminat o epoca
+
             if(getMultimeAntrenament() instanceof MultimeImagini)
                 // eroare la nivel de epoca
                 eroareCurenta /= ((MultimeImagini) getMultimeAntrenament()).getImaginiAntrenament().size();
+
             // todo de sters
-            System.out.println("Epoca " + nrEpociEfectuate + ", eroare: " + eroareCurenta);
+            System.out.println("Epoca " + nrEpociEfectuate + ", eroare: " + eroareCurenta
+            + ", acuratete: " + df.format(MetriciPerformantaClasificare.getAcurateteMedie(clasificare.getMatriceDeConfuzie()))
+            + ", precizie: " +  df.format(MetriciPerformantaClasificare.getPrecizieMedie(clasificare.getMatriceDeConfuzie())));
+            // -----------------------
             nrEpociEfectuate++;
+
+            // resetam dupa fiecare epoca
+            clasificare.reseteazaEvaluator();
         }
 
     }

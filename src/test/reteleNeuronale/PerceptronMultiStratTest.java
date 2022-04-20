@@ -250,6 +250,23 @@ class PerceptronMultiStratTest
     }
 
     @Test
+    void executaPropagare4() // testare atribuire valori de iesire
+    {
+        // arhitectura 2
+        PerceptronMultiStrat perceptronMultiStrat = incarcaArhitectura2();
+        perceptronMultiStrat.executaPropagare();
+
+        ArrayList<Double> valAsteptate = new ArrayList<>(
+                Arrays.asList(0.1985d, 0.28559d, 0.51583d));
+
+        ArrayList<Double> valReale = perceptronMultiStrat.getValoriIesire();
+
+        for(int i = 0; i < valAsteptate.size(); ++i)
+            assertEquals(valAsteptate.get(i), valReale.get(i),
+                    Math.pow(10, -3));
+    }
+
+    @Test
     void retropropagareStratIesire_Arhitectura3()
     {
         PerceptronMultiStrat perceptronMultiStrat = incarcaArhitectura3();

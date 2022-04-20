@@ -1,13 +1,30 @@
 package cosmin.indiciPerformanta.clasificare;
 
 /**
- * Clasa container metrici de clasificare
+ *   Clasa container metrici de clasificare
+ * la nivel de clasa.
  */
 public final class MetriciPerformantaClasificare
 {
+    /**
+     * numarul de date clasificate corect ca apartinand
+     * clasei de interes
+     */
     private double adevaratPozitive;
+    /**
+     * numarul de date clasificate corect ca neapartinand
+     * clasei de interes
+     */
     private double adevaratNegative;
+    /**
+     * numarul de date clasificate incorect ca apartinand
+     * clasei de interes
+     */
     private double falsPozitive;
+    /**
+     * numarul de date clasificate incorect ca neapartinand
+     * clasei de interes
+     */
     private double falsNegative;
     ///**
      //* Coeficientul de corelatie r ( Karl Pearson )
@@ -73,7 +90,12 @@ public final class MetriciPerformantaClasificare
     }
 
     /**
-     *
+     *  Calculeaza metricii de performanta pentru fiecare clasa in parte.
+     * @param matriceDeConfuzie matricea de confuzie aferenta clasificarilor
+     *                          facute de RNA.
+     * @return un vector primitiv de MetriciPerformantaClasificare clasificare, fiecare
+     * element de tipul MetriciPerformantaClasificare corespunde prin index-ul din vector
+     * unei clase.
      */
     public static MetriciPerformantaClasificare[] genereazaMetriciClasificare
     (MatriceDeConfuzie matriceDeConfuzie)
@@ -104,6 +126,7 @@ public final class MetriciPerformantaClasificare
                     new MetriciPerformantaClasificare[nrClase];
             String[] eticheteClase = matriceDeConfuzie.getEticheteleClaselor();
 
+            // pentru fiecare clasa
             for(int indexClasa = 0; indexClasa < matriceDeConfuzie.getNrClase(); ++indexClasa)
             {
                 int adevaratPozitive = matriceDeConfuzie.obtineAdevaratPozitive(indexClasa);
@@ -121,6 +144,51 @@ public final class MetriciPerformantaClasificare
 
             return metriciPerformantaClasificare;
         }
+    }
+
+    // todo de vzt cum merge
+    /**
+     * acuratetea tuturor clasificarilor, calculata prin media sumei
+     * acuratetii claselor
+     */
+    public static double getAcurateteMedie(MatriceDeConfuzie matriceDeConfuzie)
+    {
+        double acurateteMedie = 0d;
+
+        for(int i = 0; i < matriceDeConfuzie.getNrClase(); ++i)
+        {
+            MetriciPerformantaClasificare metriciPerformantaClasificare =
+                    new MetriciPerformantaClasificare(
+                            matriceDeConfuzie.obtineAdevaratPozitive(i),
+                            matriceDeConfuzie.obtinereAdevaratNegative(i),
+                            matriceDeConfuzie.obtinereFalsPozitive(i),
+                            matriceDeConfuzie.obtinereFalsNegative(i));
+            acurateteMedie += metriciPerformantaClasificare.obtineAcurateteClasificare();
+        }
+
+        return acurateteMedie /= matriceDeConfuzie.getNrClase();
+    }
+
+    /**
+     * acuratetea tuturor clasificarilor, calculata prin media sumei
+     * acuratetii claselor
+     */
+    public static double getPrecizieMedie(MatriceDeConfuzie matriceDeConfuzie)
+    {
+        double acurateteMedie = 0d;
+
+        for(int i = 0; i < matriceDeConfuzie.getNrClase(); ++i)
+        {
+            MetriciPerformantaClasificare metriciPerformantaClasificare =
+                    new MetriciPerformantaClasificare(
+                            matriceDeConfuzie.obtineAdevaratPozitive(i),
+                            matriceDeConfuzie.obtinereAdevaratNegative(i),
+                            matriceDeConfuzie.obtinereFalsPozitive(i),
+                            matriceDeConfuzie.obtinereFalsNegative(i));
+            acurateteMedie += metriciPerformantaClasificare.obtinerePrecizieClasificare();
+        }
+
+        return acurateteMedie /= matriceDeConfuzie.getNrClase();
     }
 
     // ------------------ Setteri si Getteri ----------------------------
@@ -177,6 +245,10 @@ public final class MetriciPerformantaClasificare
     }
      */
 
+    /**
+     *  returneaza numarul total de clasificari efectuate
+     * @return numarul de clasificari efectuate
+     */
     public double getNrTotalElemente()
     {
         return nrTotalElemente;

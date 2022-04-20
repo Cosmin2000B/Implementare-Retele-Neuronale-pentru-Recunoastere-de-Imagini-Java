@@ -4,6 +4,7 @@ import cosmin.regulaInvatare.RegulaInvatare;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * @author Ionescu Cosmin
@@ -22,6 +23,7 @@ public abstract class ReteaNeuronala<Ri extends RegulaInvatare> implements Seria
 
     private String numeIdentificare;
     private transient Ri regulaInvatare;
+    private ArrayList<Double> valoriIesire;
 
     // --------- Constructori ----------------
 
@@ -60,5 +62,15 @@ public abstract class ReteaNeuronala<Ri extends RegulaInvatare> implements Seria
     public void setRegulaInvatare(Ri regulaInvatare)
     {
         this.regulaInvatare = regulaInvatare;
+    }
+
+    public ArrayList<Double> getValoriIesire()
+    {
+        return valoriIesire;
+    }
+
+    public void setValoriIesire(ArrayList<Double> valoriIesire)
+    {
+        this.valoriIesire = valoriIesire;
     }
 }

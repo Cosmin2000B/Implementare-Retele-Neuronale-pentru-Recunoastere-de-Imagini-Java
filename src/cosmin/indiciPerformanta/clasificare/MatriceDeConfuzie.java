@@ -1,11 +1,10 @@
 package cosmin.indiciPerformanta.clasificare;
 
-import cosmin.utilStructuriAlgebrice.Matrice;
-
 public class MatriceDeConfuzie
 {
     /**
      * numarul total de elemente inregistrate in matrice
+     * (numarul de clasificari efectuate)
      */
     private int nrTotalElemente = 0;
 
@@ -54,8 +53,8 @@ public class MatriceDeConfuzie
     }
 
     /**
-     * @param valoareDorita index-ul real al clasei
-     * @param valoareIesire index-ul clasei date de rna
+     * @param valoareDorita index-ul real al clasei dorite
+     * @param valoareIesire index-ul clasei prezise de rna
      */
     public void incrementeazaElement(int valoareDorita, int valoareIesire)
     {
@@ -64,8 +63,11 @@ public class MatriceDeConfuzie
     }
 
     /**
-     *
-     * @param indexClasa
+     *  Returneaza nr de clasificari Adevarat-Pozitive, acesta aflandu-se in
+     * pozitia elementului de pe diagonala principala cu indicele indexClasa.
+     * @param indexClasa index-ul clasei pentru care dorim sa aflam numarul de
+     *                   clasificari Adevarat-Pozitive
+     * @return numarul de clasificari Adevarat-Pozitive pentru clasa indexClasa
      */
     public int obtineAdevaratPozitive(int indexClasa)
     {
@@ -73,9 +75,12 @@ public class MatriceDeConfuzie
     }
 
     /**
-     *
-     * @param indexClasa
-     * @return
+     *  Returneaza nr de clasificari Adevarat-Negative, acesta fiind obtinut
+     * prin adunarea tuturor elementelor din matrice, inafara de cele aflate pe
+     * linia sau coloana indexClasa.
+     * @param indexClasa index-ul clasei pentru care dorim sa aflam numarul de
+     *                   clasificari Adevarat-Negative
+     * @return numarul de clasificari Adevarat-Negative pentru clasa indexClasa
      */
     public int obtinereAdevaratNegative(int indexClasa)
     {
@@ -99,9 +104,12 @@ public class MatriceDeConfuzie
     }
 
     /**
-     *
-     * @param indexClasa
-     * @return
+     *  Returneaza numarul de clasificari Fals-Pozitive, acesta fiind obtinut
+     * prin adunarea tuturor elementelor de pe coloana cu indicele indexClasa,
+     * inafara de cel aflat pe linia cu indicele indexClasa.
+     * @param indexClasa index-ul clasei pentru care dorim sa aflam numarul de
+     *                   clasificari Fals-Pozitive.
+     * @return numarul de clasificari Fals-Pozitive pentru clasa indexClasa.
      */
     public int obtinereFalsPozitive(int indexClasa)
     {
@@ -118,9 +126,12 @@ public class MatriceDeConfuzie
     }
 
     /**
-     *
-     * @param indexClasa
-     * @return
+     *  Returneaza numarul de clasificari Fals-Negative, acesta fiind obtinut
+     * prin adunarea valorilor de pe linia cu indicele indexClasa, inafara de
+     * elementul de pe coloana index clasa.
+     * @param indexClasa index-ul clasei pentru care dorim sa aflam numarul de
+     *                   clasificari Fals-Negative.
+     * @return numarul de clasificari Fals-Negative.
      */
     public int obtinereFalsNegative(int indexClasa)
     {
