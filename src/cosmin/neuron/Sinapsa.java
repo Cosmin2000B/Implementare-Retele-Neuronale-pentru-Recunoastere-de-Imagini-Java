@@ -54,7 +54,10 @@ public class Sinapsa implements Serializable
 
         // formula mai promitatoare decat [0,1)
         // todo de vazut euristici specifice
-        this.pondere = ThreadLocalRandom.current().nextDouble() - 0.5d + 1e-4;
+        this.pondere = ThreadLocalRandom.current().nextDouble() - 0.5d;
+        // evitarea initializarii cu 0
+        if(this.pondere == 0)
+            this.pondere = 0.1d;
     }
 
     /**
