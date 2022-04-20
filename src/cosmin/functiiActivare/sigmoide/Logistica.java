@@ -37,7 +37,10 @@ public class Logistica implements FunctieActivare, Serializable
     @Override
     public double valoareDerivata(Double input)
     {
-        return valoareFunctie(input) * (1 - valoareFunctie(input));
+        // pentru a calcula valoarea o singura data
+        double valoareFunctie = valoareFunctie(input);
+
+        return valoareFunctie * (1 - valoareFunctie);
     }
 
 }
