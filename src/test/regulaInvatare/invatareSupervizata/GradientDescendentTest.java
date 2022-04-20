@@ -111,7 +111,6 @@ class GradientDescendentTest
 
         gradientDescendent.setMultimeAntrenament(mnist);
         perceptronMultiStrat.setRegulaInvatare(gradientDescendent);
-        gradientDescendent.setReteaNeuronala(perceptronMultiStrat);
 
         perceptronMultiStrat.antreneaza();
 
