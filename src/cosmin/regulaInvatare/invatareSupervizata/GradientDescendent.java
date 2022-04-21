@@ -2,7 +2,6 @@ package cosmin.regulaInvatare.invatareSupervizata;
 
 import cosmin.indiciPerformanta.clasificare.EvaluatorPerformantaClasificare;
 import cosmin.indiciPerformanta.clasificare.MetriciPerformantaClasificare;
-import cosmin.neuron.Neuron;
 import cosmin.regulaInvatare.RegulaInvatare;
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.MultimeAntrenamentEtichetata;
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.MultimeImagini;
@@ -13,16 +12,28 @@ import cosmin.reteleNeuronale.ReteaNeuronalaFeedForward;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-// TODO
+/**
+ *
+ */
 public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichetata>
 {
-    // 1 - default -> online
-    // > 1 && < dimMultime - > antrenament cu sublumtimi (nr iteratii intr - o epoca: dimMultime / dimSubmultime
-    // == dimMultime -> actualizare dupa o epoca ( epoca = iteratie)
+    /**
+     * 1 - default -> online
+     * > 1 && < dimMultime - > antrenament cu sublumtimi (nr iteratii intr - o epoca: dimMultime / dimSubmultime
+     * == dimMultime -> actualizare dupa o epoca ( epoca = iteratie)
+     */
     private int dimensiuneSubmutlime = 1;
+    /**
+     *  Considerat cel mai important hiperparametru al unei retele neuronale, rata de invatare
+     * determina dimensiunea pasilor pe care ii facem catre o solutie optima. O valoare inadecvata
+     * a ratei de invatare poate duce catre o convergenta lenta sau chiar poate impiedica total
+     * convergenta.
+     */
     private double rataInvatare = 0.1d;
     // initial 0 => fara inertie
     private double inertie = 0.9d;
+    // pentru oprire fortata a procesului de antrenare
+    boolean opresteAntrenament = false;
 
     int nrMaximEpoci = 100;
     double eroareAdmisa = 0.005d;
@@ -37,6 +48,24 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
     {
         ImagineEtichetata elemetCurent = ((MultimeImagini) this.getMultimeAntrenament()).
                 getImaginiAntrenament().get(indexElement);
+
+        ArrayList<Double> valoriDorite =
+                this.getMultimeAntrenament().getEtichetaCorespunzatoare(elemetCurent.getIndexClasa());
+
+        // stabilire input si valori de iesire asteptate
+        if(this.getReteaNeuronala() instanceof PerceptronMultiStrat)
+        {
+            ((PerceptronMultiStrat) this.getReteaNeuronala()).
+                    getStratDeIntrare().stabilesteInputRetea(elemetCurent.getValoriLiniarizat());
+            ((PerceptronMultiStrat) this.getReteaNeuronala()).getStratDeIesire().setValoriDorite(valoriDorite);
+        }// < ----- la if
+        // todo pt convolutionala
+    }
+
+    public void pregatesteInputIesiriReteaTestare(int indexElement)
+    {
+        ImagineEtichetata elemetCurent = ((MultimeImagini) this.getMultimeAntrenament()).
+                getImaginiTestare().get(indexElement);
 
         ArrayList<Double> valoriDorite =
                 this.getMultimeAntrenament().getEtichetaCorespunzatoare(elemetCurent.getIndexClasa());
@@ -96,6 +125,11 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
             for(int i = 0;
                 i < ((MultimeImagini) this.getMultimeAntrenament()).getImaginiAntrenament().size(); ++i)
             {
+                // ===== oprire fortata ======
+                if(opresteAntrenament)
+                    return;
+                // ===========================
+
                 this.pregatesteInputIesiriRetea(i);
 
                 this.getReteaNeuronala().executaPropagare();
@@ -164,6 +198,61 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
 
     }
 
+    @Override
+    public void testeaza()
+    {
+        // todo eventual calculat si metrici specifici
+
+        if(this.getReteaNeuronala() == null)
+            throw new IllegalArgumentException("Nicio retea neuronala nu este ascoiata" +
+                    "acestei reguli de invatare!");
+
+        if(this.getMultimeAntrenament() == null)
+            throw new IllegalStateException("Nu este incarcata nicio multime de antrenament!");
+
+        if(!(this.getMultimeAntrenament() instanceof MultimeImagini))
+            throw new IllegalStateException("Momentant, nu suporta decat MultimeImagini!");
+
+        // procentul de exemple corect clasificate
+        double corectClasificate = 0d;
+
+        int dimensiuneMultimeTestare = ((MultimeImagini) getMultimeAntrenament()).getImaginiTestare().size();
+
+        for(int i = 0; i < dimensiuneMultimeTestare; ++i)
+        {
+            pregatesteInputIesiriReteaTestare(i);
+            this.getReteaNeuronala().executaPropagare();
+
+            int indiceClasaDorita = 0;
+            double valMaxClsObtinuta = 0d;
+            int indiceClasaObtinuta = 0;
+
+            ArrayList<Double> valoriDorite = this.getMultimeAntrenament().
+                    getEtichetaCorespunzatoare(((MultimeImagini) getMultimeAntrenament())
+                            .getImaginiTestare().get(i).getIndexClasa());
+
+            for(int j = 0; j < getMultimeAntrenament().getCorespondentaEticheta().size(); ++j)
+            {
+                if(getReteaNeuronala().getValoriIesire().get(j) > valMaxClsObtinuta)
+                {
+                    valMaxClsObtinuta = getReteaNeuronala().getValoriIesire().get(j);
+                    indiceClasaObtinuta = j;
+                }
+
+                if(valoriDorite.get(j) == 1)
+                    indiceClasaDorita = j;
+            }
+
+            if(indiceClasaDorita == indiceClasaObtinuta)
+                corectClasificate ++;
+        }
+
+        corectClasificate /= dimensiuneMultimeTestare;
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        System.out.println("Procent clasificari corecte: " + df.format(corectClasificate * 100) +"%");
+    }
+
     // ---------------- Setteri si Getteri --------------------
 
     public int getDimensiuneSubmutlime()
@@ -204,6 +293,16 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
     public void setNrMaximEpoci(int nrMaximEpoci)
     {
         this.nrMaximEpoci = nrMaximEpoci;
+    }
+
+    public boolean isOpresteAntrenament()
+    {
+        return opresteAntrenament;
+    }
+
+    public void setOpresteAntrenament(boolean opresteAntrenament)
+    {
+        this.opresteAntrenament = opresteAntrenament;
     }
 
     public double getEroareAdmisa()

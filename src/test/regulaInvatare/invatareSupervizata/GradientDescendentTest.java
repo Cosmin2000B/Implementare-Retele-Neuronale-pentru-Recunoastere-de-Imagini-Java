@@ -5,6 +5,7 @@ import cosmin.functiiActivare.ReLU;
 import cosmin.functiiActivare.sigmoide.Logistica;
 import cosmin.functiiActivare.sigmoide.TangentaHiperbolica;
 import cosmin.neuron.Neuron;
+import cosmin.operatii_io.IoDateSerializate;
 import cosmin.regulaInvatare.invatareSupervizata.GradientDescendent;
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.MultimeImagini;
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.elementAntrenament.ImagineEtichetata;
@@ -98,7 +99,7 @@ class GradientDescendentTest
         gradientDescendent.setDimensiuneSubmutlime(32);
         gradientDescendent.setRataInvatare(0.0001);
         gradientDescendent.setInertie(0.9d);
-        gradientDescendent.setNrMaximEpoci(100);
+        gradientDescendent.setNrMaximEpoci(20);
 
         // todo de setat etichete
         HashMap<Integer, String> eticheteMNIST = new HashMap<>();
@@ -113,6 +114,107 @@ class GradientDescendentTest
         perceptronMultiStrat.setRegulaInvatare(gradientDescendent);
 
         perceptronMultiStrat.antreneaza();
+        IoDateSerializate.
+                fout(perceptronMultiStrat, "F:\\Mein\\Proiecte\\Java\\rna_antrenate\\mlp_mnist.ser");
+    }
 
+    //@Test
+    public void antreneazaReteaSalvata()
+    {
+        PerceptronMultiStrat perceptronMultiStrat =
+                (PerceptronMultiStrat) IoDateSerializate.fin("F:\\Mein\\Proiecte\\Java\\rna_antrenate\\mlp_mnist.ser");
+
+        GradientDescendent gradientDescendent = new GradientDescendent();
+        gradientDescendent.setDimensiuneSubmutlime(64);
+        gradientDescendent.setRataInvatare(0.01);
+        gradientDescendent.setInertie(0.9d);
+        gradientDescendent.setNrMaximEpoci(5);
+
+        HashMap<Integer, String> eticheteMNIST = new HashMap<>();
+        for(int i = 0; i < 10; ++i)
+            eticheteMNIST.put(i, Integer.toString(i));
+        MultimeImagini mnist = new MultimeImagini(new File("x"), eticheteMNIST,1);
+        mnist.setImaginiAntrenament(MultimeImagini.
+                citesteMultimeMNISTLiniarizat(mnist, "F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_vanilla\\train-images.idx3-ubyte",
+                        "F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_vanilla\\train-labels.idx1-ubyte"));
+
+        gradientDescendent.setMultimeAntrenament(mnist);
+        perceptronMultiStrat.setRegulaInvatare(gradientDescendent);
+
+        perceptronMultiStrat.antreneaza();
+        IoDateSerializate.
+                fout(perceptronMultiStrat, "F:\\Mein\\Proiecte\\Java\\rna_antrenate\\mlp_mnist_antrenament2.ser");
+    }
+
+    //@Test
+    public void testeazaRna()
+    {
+        PerceptronMultiStrat perceptronMultiStrat =
+                (PerceptronMultiStrat) IoDateSerializate.
+                        fin("F:\\Mein\\Proiecte\\Java\\rna_antrenate\\mlp_mnist_antrenament6.ser");
+
+        HashMap<Integer, String> eticheteMNIST = new HashMap<>();
+        for(int i = 0; i < 10; ++i)
+            eticheteMNIST.put(i, Integer.toString(i));
+        MultimeImagini mnist = new MultimeImagini(new File("x"), eticheteMNIST,1);
+        mnist.setImaginiTestare(MultimeImagini.
+                citesteMultimeMNISTLiniarizat(mnist,
+                        "F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_vanilla\\t10k-images.idx3-ubyte",
+                        "F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_vanilla\\t10k-labels.idx1-ubyte"));
+
+        GradientDescendent gradientDescendent = new GradientDescendent();
+        gradientDescendent.setMultimeAntrenament(mnist);
+        perceptronMultiStrat.setRegulaInvatare(gradientDescendent);
+        perceptronMultiStrat.testeaza();
+    }
+
+   // @Test
+    public void testeazaRnaGenerata()
+    {
+        PerceptronMultiStrat perceptronMultiStrat =
+                new PerceptronMultiStrat(784, 10, 2, 128);
+
+        HashMap<Integer, String> eticheteMNIST = new HashMap<>();
+        for(int i = 0; i < 10; ++i)
+            eticheteMNIST.put(i, Integer.toString(i));
+        MultimeImagini mnist = new MultimeImagini(new File("x"), eticheteMNIST,1);
+        mnist.setImaginiTestare(MultimeImagini.
+                citesteMultimeMNISTLiniarizat(mnist,
+                        "F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_vanilla\\t10k-images.idx3-ubyte",
+                        "F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_vanilla\\t10k-labels.idx1-ubyte"));
+
+        GradientDescendent gradientDescendent = new GradientDescendent();
+        gradientDescendent.setMultimeAntrenament(mnist);
+        perceptronMultiStrat.setRegulaInvatare(gradientDescendent);
+        perceptronMultiStrat.testeaza();
+    }
+
+    //@Test
+    public void antreneazaReteaSalvata2()
+    {
+        PerceptronMultiStrat perceptronMultiStrat =
+                (PerceptronMultiStrat) IoDateSerializate.
+                        fin("F:\\Mein\\Proiecte\\Java\\rna_antrenate\\mlp_mnist_antrenament6.ser");
+
+        GradientDescendent gradientDescendent = new GradientDescendent();
+        gradientDescendent.setDimensiuneSubmutlime(32);
+        gradientDescendent.setRataInvatare(0.00005);
+        gradientDescendent.setInertie(0.5d);
+        gradientDescendent.setNrMaximEpoci(15);
+
+        HashMap<Integer, String> eticheteMNIST = new HashMap<>();
+        for (int i = 0; i < 10; ++i)
+            eticheteMNIST.put(i, Integer.toString(i));
+        MultimeImagini mnist = new MultimeImagini(new File("x"), eticheteMNIST, 1);
+        mnist.setImaginiAntrenament(MultimeImagini.
+                citesteMultimeMNISTLiniarizat(mnist, "F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_vanilla\\train-images.idx3-ubyte",
+                        "F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_vanilla\\train-labels.idx1-ubyte"));
+
+        gradientDescendent.setMultimeAntrenament(mnist);
+        perceptronMultiStrat.setRegulaInvatare(gradientDescendent);
+
+        perceptronMultiStrat.antreneaza();
+        IoDateSerializate.
+                fout(perceptronMultiStrat, "F:\\Mein\\Proiecte\\Java\\rna_antrenate\\mlp_mnist_antrenament7.ser");
     }
 }

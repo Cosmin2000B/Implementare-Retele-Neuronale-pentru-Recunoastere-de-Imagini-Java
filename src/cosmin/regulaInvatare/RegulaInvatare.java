@@ -27,6 +27,7 @@ public abstract class RegulaInvatare<TipMultimeAntrenament extends MultimeAntren
     public RegulaInvatare() {}
 
     abstract public void antreneaza();
+    abstract public void testeaza();
 
     // ------------ Getteri si Setteri ---------------
 

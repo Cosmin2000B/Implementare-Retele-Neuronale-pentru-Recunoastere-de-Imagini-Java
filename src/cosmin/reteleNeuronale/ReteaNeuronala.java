@@ -38,6 +38,7 @@ public abstract class ReteaNeuronala<Ri extends RegulaInvatare> implements Seria
     {
         this.regulaInvatare.antreneaza();
     }
+    public void testeaza(){this.regulaInvatare.testeaza();}
 
     // --------- Sfarsit Constructori --------
 

@@ -39,7 +39,7 @@ public class Sinapsa implements Serializable
      * catre neuronul destinatar, aceasta valoare fiind ponderata de ponderea
      * sinapsei.
      *  In acest caz, ponderea sinapsei este initializata aleator cu valori
-     * rationale intre [-0.5, 0.5) / {0}.
+     * rationale intre [-0.5, 0.5).
      * @param neuronEmitent reprezinta neuronul care isi transmite gradul de
      *                      activare prin intermediul sinapsei catre neuronul
      *                      destinatar.
@@ -55,9 +55,6 @@ public class Sinapsa implements Serializable
         // formula mai promitatoare decat [0,1)
         // todo de vazut euristici specifice
         this.pondere = ThreadLocalRandom.current().nextDouble() - 0.5d;
-        // evitarea initializarii cu 0
-        if(this.pondere == 0)
-            this.pondere = 0.1d;
     }
 
     /**
