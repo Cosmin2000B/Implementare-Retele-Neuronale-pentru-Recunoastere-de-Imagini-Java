@@ -45,4 +45,29 @@ public class ObtinereValoriImagineAN
 
         return valori;
     }
+
+    /**
+     *
+     * @param imagine
+     * @return
+     */
+    public static double[][] toValoriSubunitare(BufferedImage imagine)
+    {
+        int randuri = imagine.getHeight();
+        int coloane = imagine.getWidth();
+
+        double[][] valori = new double[randuri][coloane];
+
+        for(int i = 0; i < randuri; ++i)
+            for(int j = 0; j < coloane; ++j)
+            {
+                int valoare = imagine.getRGB(j, i);
+                Color culoare = new Color(valoare, true);
+                valori[i][j] =
+                        (culoare.getRed() * 0.299d + culoare.getGreen() * 0.587d +
+                                culoare.getBlue() * 0.114d) / 255d;
+            }
+
+        return valori;
+    }
 }
