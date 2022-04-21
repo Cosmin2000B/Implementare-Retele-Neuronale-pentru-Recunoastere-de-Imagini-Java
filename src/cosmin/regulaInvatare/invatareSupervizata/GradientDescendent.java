@@ -128,7 +128,11 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
             {
                 // ===== oprire fortata ======
                 if(opresteAntrenament)
+                {
+                    // resetare oprire
+                    opresteAntrenament = false;
                     return;
+                }
                 // ===========================
 
                 this.pregatesteInputIesiriRetea(i);
