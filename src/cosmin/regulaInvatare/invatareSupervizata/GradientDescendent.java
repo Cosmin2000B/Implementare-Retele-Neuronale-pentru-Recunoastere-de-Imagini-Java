@@ -269,6 +269,8 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
 
             if(indiceClasaDorita == indiceClasaObtinuta)
                 corectClasificate ++;
+
+            this.getReteaNeuronala().reseteazaStare();
         }
 
         corectClasificate /= dimensiuneMultimeTestare;
