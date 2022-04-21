@@ -220,6 +220,21 @@ public class PerceptronMultiStrat
         // todo de vazut calcul erori strat intrare
     }
 
+    /**
+     *   Reseteaza starea tuturor neuronilor din stratul de iesire si
+     *  straturile ascunse.
+     */
+    @Override
+    public void reseteazaStare()
+    {
+        for(Neuron neuron: stratDeIesire.getNeuroni())
+            neuron.reseteazaStare();
+
+        for(StratAscuns stratAscuns: straturiAscunse)
+            for(Neuron neuron: stratAscuns.getNeuroni())
+                neuron.reseteazaStare();
+    }
+
     // ----- Setteri si Getteri --------
 
     public StratDeIntrare getStratDeIntrare() {

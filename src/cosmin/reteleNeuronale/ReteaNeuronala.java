@@ -40,6 +40,11 @@ public abstract class ReteaNeuronala<Ri extends RegulaInvatare> implements Seria
     }
     public void testeaza(){this.regulaInvatare.testeaza();}
 
+    /**
+     * reseteaza starea retelei neuronale ( valori de intrare, valori de iesire )
+     */
+    public abstract void reseteazaStare();
+
     // --------- Sfarsit Constructori --------
 
     // ------- Setteri si Getteri -------------------
