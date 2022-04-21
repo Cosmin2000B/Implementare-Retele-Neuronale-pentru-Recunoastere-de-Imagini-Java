@@ -11,6 +11,7 @@ import cosmin.reteleNeuronale.ReteaNeuronalaFeedForward;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -213,6 +214,20 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
         if(!(this.getMultimeAntrenament() instanceof MultimeImagini))
             throw new IllegalStateException("Momentant, nu suporta decat MultimeImagini!");
 
+        EvaluatorPerformantaClasificare clasificare = null;
+        if(getMultimeAntrenament().getCorespondentaEticheta().size() > 2)
+        {
+            // ================= Clasificare multi-clasa ===========================
+            clasificare
+                    = new EvaluatorPerformantaClasificare.ClasificareMultiClasa
+                    (getMultimeAntrenament().getCorespondentaEticheta().values().toArray(new String[0]));
+        }
+        else // ===================== Clasificare binara ===========================
+        {
+            clasificare =
+                    new EvaluatorPerformantaClasificare.ClasificareBinara(0.51d);
+        }
+
         // procentul de exemple corect clasificate
         double corectClasificate = 0d;
 
@@ -222,6 +237,11 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
         {
             pregatesteInputIesiriReteaTestare(i);
             this.getReteaNeuronala().executaPropagare();
+
+            clasificare.proceseazaRezultatRna(getReteaNeuronala().getValoriIesire(),
+                    this.getMultimeAntrenament().
+                            getEtichetaCorespunzatoare(((MultimeImagini) getMultimeAntrenament())
+                                    .getImaginiTestare().get(i).getIndexClasa()));
 
             int indiceClasaDorita = 0;
             double valMaxClsObtinuta = 0d;
@@ -251,6 +271,8 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
 
         DecimalFormat df = new DecimalFormat("#.##");
         System.out.println("Procent clasificari corecte: " + df.format(corectClasificate * 100) +"%");
+
+        System.out.println(clasificare.getMatriceDeConfuzie());
     }
 
     // ---------------- Setteri si Getteri --------------------
