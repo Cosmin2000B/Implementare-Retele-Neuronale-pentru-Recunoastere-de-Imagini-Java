@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import static java.lang.Math.*;
 
 /**
- * Clasa utilizata pentru procesarea rezultatelor.
+ *   Clasa utilizata pentru procesarea rezultatelor. Clasa abstracta EvaluatorPerformantaClasificare
+ * este un namespace pentru ClasificareBinara si ClasificareMultiClasa
  */
 public abstract class EvaluatorPerformantaClasificare
                                                       implements EvaluatorPerformanta<MatriceDeConfuzie>
@@ -26,33 +27,6 @@ public abstract class EvaluatorPerformantaClasificare
     {
         this.eticheteClasa = eticheteClasa;
         this.matriceDeConfuzie = new MatriceDeConfuzie(eticheteClasa);
-    }
-
-    /**
-     *  Varianta standard a metodei proceseazaRezultatRna este
-     * pentru clasificare binara
-     * @param valoriIesire valorile neuronilor de pe stratul de iesire
-     * @param valoriDorite valorile dorite pentru exemplul respectiv
-     */
-    @Override
-    public void proceseazaRezultatRna(ArrayList<Double> valoriIesire,
-                                      ArrayList<Double> valoriDorite)
-    {
-        boolean clasaDorita = (valoriDorite.get(0) > 0);
-        boolean clasaIesire = (valoriIesire.get(0) > prag);
-
-        if( clasaIesire && clasaDorita )
-            // adevarat pozitiv
-            matriceDeConfuzie.incrementeazaElement(0, 0);
-        else if( !clasaIesire && clasaDorita )
-            // fals negativ
-            matriceDeConfuzie.incrementeazaElement(0, 1);
-        else if(clasaIesire) // daca se ajunge aici, automat !clasaDorita
-            // fals pozitiva
-            matriceDeConfuzie.incrementeazaElement(1, 0);
-        else
-            // adevarat negativ
-            matriceDeConfuzie.incrementeazaElement(1, 1);
     }
 
     @Override
@@ -105,6 +79,33 @@ public abstract class EvaluatorPerformantaClasificare
     public static final class ClasificareBinara extends EvaluatorPerformantaClasificare
     {
         public static final String[] ETICHETE_BINARE = new String[]{"Adevarat", "Fals"};
+
+        /**
+         *  Varianta standard a metodei proceseazaRezultatRna este
+         * pentru clasificare binara
+         * @param valoriIesire valorile neuronilor de pe stratul de iesire
+         * @param valoriDorite valorile dorite pentru exemplul respectiv
+         */
+        @Override
+        public void proceseazaRezultatRna(ArrayList<Double> valoriIesire,
+                                          ArrayList<Double> valoriDorite)
+        {
+            boolean clasaDorita = (valoriDorite.get(0) > 0);
+            boolean clasaIesire = (valoriIesire.get(0) > getPrag());
+
+            if( clasaIesire && clasaDorita )
+                // adevarat pozitiv
+                matriceDeConfuzie.incrementeazaElement(0, 0);
+            else if( !clasaIesire && clasaDorita )
+                // fals negativ
+                matriceDeConfuzie.incrementeazaElement(0, 1);
+            else if(clasaIesire) // daca se ajunge aici, automat !clasaDorita
+                // fals pozitiva
+                matriceDeConfuzie.incrementeazaElement(1, 0);
+            else
+                // adevarat negativ
+                matriceDeConfuzie.incrementeazaElement(1, 1);
+        }
 
         /**
          *
