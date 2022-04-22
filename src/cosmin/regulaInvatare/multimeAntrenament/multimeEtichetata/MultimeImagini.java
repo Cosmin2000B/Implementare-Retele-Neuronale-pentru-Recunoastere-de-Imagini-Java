@@ -212,7 +212,6 @@ public class MultimeImagini extends MultimeAntrenamentEtichetata
         return null;
     }
 
-    // TODO cu sursa de aleatorism
     public static void amestecaAleator(ArrayList<ImagineEtichetata> multimeElemente)
     {
         Collections.shuffle(multimeElemente);

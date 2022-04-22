@@ -5,12 +5,17 @@ import cosmin.functiiActivare.ReLU;
 import cosmin.functiiActivare.sigmoide.Logistica;
 import cosmin.functiiActivare.sigmoide.TangentaHiperbolica;
 import cosmin.neuron.Neuron;
+import cosmin.neuron.Sinapsa;
 import cosmin.operatii_io.IoDateSerializate;
 import cosmin.regulaInvatare.invatareSupervizata.GradientDescendent;
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.MultimeImagini;
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.elementAntrenament.ImagineEtichetata;
 import cosmin.reteleNeuronale.PerceptronMultiStrat;
 import cosmin.reteleNeuronale.ReteaNeuronala;
+import cosmin.straturiNeuronale.straturiNeuronaleLiniare.StratAscuns;
+import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
+import cosmin.utilStructuriNeuronale.initializarePonderi.InitializareHeZhangRenSun;
+import cosmin.utilStructuriNeuronale.initializarePonderi.InitializareNguyenWidrow;
 import org.junit.jupiter.api.Test;
 
 import javax.security.auth.login.LoginContext;
@@ -37,11 +42,8 @@ class GradientDescendentTest
         gradientDescendent.setInertie(0.9d);
         gradientDescendent.setNrMaximEpoci(100);
 
-
-        // todo atentie la implementari
         // de modelat pt reflexie
         perceptronMultiStrat.setRegulaInvatare(gradientDescendent);
-        gradientDescendent.setReteaNeuronala(perceptronMultiStrat);
 
         return perceptronMultiStrat;
     }
@@ -122,12 +124,13 @@ class GradientDescendentTest
     public void antreneazaReteaSalvata()
     {
         PerceptronMultiStrat perceptronMultiStrat =
-                (PerceptronMultiStrat) IoDateSerializate.fin("F:\\Mein\\Proiecte\\Java\\rna_antrenate\\mlp_mnist.ser");
+                (PerceptronMultiStrat) IoDateSerializate.
+                        fin("F:\\Mein\\Proiecte\\Java\\rna_antrenate\\Incercare 2\\mlp_mnist_antrenat1.ser");
 
         GradientDescendent gradientDescendent = new GradientDescendent();
         gradientDescendent.setDimensiuneSubmutlime(64);
-        gradientDescendent.setRataInvatare(0.01);
-        gradientDescendent.setInertie(0.9d);
+        gradientDescendent.setRataInvatare(0.001);
+        gradientDescendent.setInertie(0.8d);
         gradientDescendent.setNrMaximEpoci(5);
 
         HashMap<Integer, String> eticheteMNIST = new HashMap<>();
@@ -135,7 +138,8 @@ class GradientDescendentTest
             eticheteMNIST.put(i, Integer.toString(i));
         MultimeImagini mnist = new MultimeImagini(new File("x"), eticheteMNIST,1);
         mnist.setImaginiAntrenament(MultimeImagini.
-                citesteMultimeMNISTLiniarizat(mnist, "F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_vanilla\\train-images.idx3-ubyte",
+                citesteMultimeMNISTLiniarizat(mnist,
+                        "F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_vanilla\\train-images.idx3-ubyte",
                         "F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_vanilla\\train-labels.idx1-ubyte"));
 
         gradientDescendent.setMultimeAntrenament(mnist);
@@ -143,7 +147,7 @@ class GradientDescendentTest
 
         perceptronMultiStrat.antreneaza();
         IoDateSerializate.
-                fout(perceptronMultiStrat, "F:\\Mein\\Proiecte\\Java\\rna_antrenate\\mlp_mnist_antrenament2.ser");
+                fout(perceptronMultiStrat, "F:\\Mein\\Proiecte\\Java\\rna_antrenate\\Incercare 2\\mlp_mnist_antrenat3.ser");
     }
 
     //@Test
@@ -151,7 +155,7 @@ class GradientDescendentTest
     {
         PerceptronMultiStrat perceptronMultiStrat =
                 (PerceptronMultiStrat) IoDateSerializate.
-                        fin("F:\\Mein\\Proiecte\\Java\\rna_antrenate\\mlp_mnist_antrenament6.ser");
+                        fin("F:\\Mein\\Proiecte\\Java\\rna_antrenate\\Incercare 1\\mlp_mnist_antrenament6.ser");
 
         HashMap<Integer, String> eticheteMNIST = new HashMap<>();
         for(int i = 0; i < 10; ++i)
@@ -168,7 +172,7 @@ class GradientDescendentTest
         perceptronMultiStrat.testeaza();
     }
 
-   // @Test
+   //@Test
     public void testeazaRnaGenerata()
     {
         PerceptronMultiStrat perceptronMultiStrat =
@@ -183,6 +187,10 @@ class GradientDescendentTest
                         "F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_vanilla\\t10k-images.idx3-ubyte",
                         "F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_vanilla\\t10k-labels.idx1-ubyte"));
 
+        InitializareHeZhangRenSun initializareHeZhangRenSun = new InitializareHeZhangRenSun();
+
+        initializareHeZhangRenSun.initializeazaPonderi(perceptronMultiStrat);
+
         GradientDescendent gradientDescendent = new GradientDescendent();
         gradientDescendent.setMultimeAntrenament(mnist);
         perceptronMultiStrat.setRegulaInvatare(gradientDescendent);
@@ -194,7 +202,7 @@ class GradientDescendentTest
     {
         PerceptronMultiStrat perceptronMultiStrat =
                 (PerceptronMultiStrat) IoDateSerializate.
-                        fin("F:\\Mein\\Proiecte\\Java\\rna_antrenate\\mlp_mnist_antrenament6.ser");
+                        fin("F:\\Mein\\Proiecte\\Java\\rna_antrenate\\Incercare 2\\mlp_mnist_antrenat1.ser");
 
         GradientDescendent gradientDescendent = new GradientDescendent();
         gradientDescendent.setDimensiuneSubmutlime(32);

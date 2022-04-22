@@ -53,7 +53,6 @@ public class Sinapsa implements Serializable
         this.neuronDestinatar = neuronDestinatar;
 
         // formula mai promitatoare decat [0,1)
-        // todo de vazut euristici specifice
         this.pondere = ThreadLocalRandom.current().nextDouble() - 0.5d;
     }
 

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-// TODO
 public abstract class MultimeAntrenamentEtichetata extends MultimeAntrenament
 {
     private HashMap<Integer, String> corespondentaEticheta;

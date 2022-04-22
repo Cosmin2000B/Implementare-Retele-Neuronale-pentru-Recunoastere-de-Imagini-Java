@@ -39,7 +39,6 @@ public class PerceptronMultiStrat
 
     // ----------------- Constructori -------------------------
 
-    // TODO explicatii constructor
     /**
      *
      * @param dimensiuneSetIntrare numarul de neuroni de pe stratul de intrare. Trebuie
@@ -183,7 +182,6 @@ public class PerceptronMultiStrat
         for(Neuron neuron: stratDeIesire.getNeuroni())
             neuron.reseteazaStare();
         // resetam starea neuronilor pt. urmatoarea propagare
-        // todo de testat
         for(Neuron neuronUlterior: stratAscuns.getStratUlterior().getNeuroni())
             neuronUlterior.reseteazaStare();
 
