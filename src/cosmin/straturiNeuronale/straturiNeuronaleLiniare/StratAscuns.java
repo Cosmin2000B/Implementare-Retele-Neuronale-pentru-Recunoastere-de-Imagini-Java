@@ -222,9 +222,18 @@ public class StratAscuns
         {
             this.stratAnterior = stratAnterior;
 
+            /*
+              In cazul in care a fost setat deja stratul ulterior
+             al starului anterior.
+             */
             if(((StratAscuns) stratAnterior).getStratUlterior() == this)
                 return;
 
+            /*
+              In cazul in care stabilim startul anterior al stratului curent,
+            dar stratul anterior nu are stabilit stratul ulterior (ce trebuie
+            sa fie stratul curent).
+             */
             ((StratAscuns) stratAnterior).setStratUlterior(this);
         }
     }
