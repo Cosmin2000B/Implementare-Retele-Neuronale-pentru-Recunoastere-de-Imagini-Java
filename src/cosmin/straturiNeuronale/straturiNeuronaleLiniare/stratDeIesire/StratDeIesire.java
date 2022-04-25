@@ -18,6 +18,11 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
+ *   Stratul de iesire este ultimul strat din structura unei retele neuronale.
+ *   In cadrul acestuia se calculeaza valorile de iesire ale retelei (prin
+ *  intermediul neuronilor de pe acest strat), functia de cost a retelei
+ *  (prin confruntarea valorilor obtinute cu cele dorite) si, de obicei,
+ *  declansarea algoritmului de optimizare.
  * @author Ionescu Cosmin
  */
 public class StratDeIesire
@@ -41,7 +46,7 @@ public class StratDeIesire
     // la nivel de strat
     private FunctieActivare functieActivare;
 
-    // metoda preferata de calcul a erorii de clasificare
+    // metoda preferata de calcul a erorii
     private FunctieDeCost functieDeCost;
 
     // --------- Constructori -------------------
