@@ -67,10 +67,12 @@ public class Neuron implements Serializable
         this.numeIdentificare = numeIdentificare;
 
         this.sinapseIntrare = new ArrayList<>();
-        this.setSinapseIntrare(sinapseIntrare);
+        for(Sinapsa sinapsa: sinapseIntrare)
+            this.adaugaSinapsaIntrare(sinapsa);
 
         this.sinapseIesire = new ArrayList<>();
-        this.setSinapseIesire(sinapseIesire);
+        for(Sinapsa sinapsa: sinapseIesire)
+            this.adaugaSinapsaIesire(sinapsa);
 
         this.functieActivare = functieActivare;
         this.bias = new Bias(pondereBias);
