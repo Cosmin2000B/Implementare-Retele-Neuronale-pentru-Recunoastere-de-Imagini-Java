@@ -1,18 +1,24 @@
 package test.reteleNeuronale;
 
+import cosmin.functiiActivare.FunctieLiniaraIdentitate;
 import cosmin.functiiActivare.ReLU;
+import cosmin.functiiActivare.Softmax;
 import cosmin.functiiActivare.sigmoide.Logistica;
 import cosmin.neuron.Neuron;
+import cosmin.operatii_io.IoDateSerializate;
 import cosmin.regulaInvatare.invatareSupervizata.GradientDescendent;
 import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.MultimeImagini;
+import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.elementAntrenament.ImagineEtichetata;
 import cosmin.reteleNeuronale.PerceptronMultiStrat;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost.MediaSumeiPatratelorErorilor;
 import jdk.swing.interop.SwingInterOpUtils;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -294,5 +300,86 @@ class PerceptronMultiStratTest
     @Test
     void executaOptimizare()
     {
+    }
+
+    //interna, testat nominal
+    private ImagineEtichetata initImagine(String locatieMemorie)
+    {
+        return new ImagineEtichetata(
+                new MultimeImagini(new File("x"), new HashMap<>(), 1),
+                new File(locatieMemorie),
+                5);
+    }
+    /**
+     * Testare nominala prin propagarea inputului si confruntarea rezultatului
+     */
+    @Test
+    void testeazaNominal()
+    {
+        PerceptronMultiStrat perceptronMultiStrat =
+                (PerceptronMultiStrat) IoDateSerializate.
+                        fin("F:\\Mein\\Proiecte\\Java\\rna_antrenate\\Incercare 2\\mlp_mnist_antrenat3.ser");
+        ImagineEtichetata imagineEtichetata =
+                initImagine("F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_png\\testing\\8\\61.png");
+
+        assert perceptronMultiStrat != null;
+        perceptronMultiStrat.reseteazaStare();
+        perceptronMultiStrat.getStratDeIntrare().stabilesteInputRetea(imagineEtichetata.getValoriLiniarizat());
+        perceptronMultiStrat.executaPropagare();
+
+        /*
+        for(int i = 0; i < perceptronMultiStrat.getValoriIesire().size(); ++i)
+            System.out.println("Clasa " + i + ": " +
+                    perceptronMultiStrat.getValoriIesire().get(i) * 100 + "%");
+         */
+
+        // peste 90% sigur ca e 8
+        assert(perceptronMultiStrat.getValoriIesire().get(8) > 0.9);
+
+        // ===============================================================================
+
+        imagineEtichetata =
+                initImagine("F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_png\\testing\\5\\132.png");
+        perceptronMultiStrat.reseteazaStare();
+        perceptronMultiStrat.getStratDeIntrare().stabilesteInputRetea(imagineEtichetata.getValoriLiniarizat());
+        perceptronMultiStrat.executaPropagare();
+
+        // peste 90% sigur ca e 5
+        assert(perceptronMultiStrat.getValoriIesire().get(5) > 0.9);
+
+        // =============================================================================
+
+        imagineEtichetata =
+                initImagine("F:\\Mein\\Proiecte\\Java\\CititorDataset1\\src\\res\\mnist_png\\testing\\2\\764.png");
+        perceptronMultiStrat.reseteazaStare();
+        perceptronMultiStrat.getStratDeIntrare().stabilesteInputRetea(imagineEtichetata.getValoriLiniarizat());
+        perceptronMultiStrat.executaPropagare();
+
+        // peste 90% sigur ca e 2
+        assert(perceptronMultiStrat.getValoriIesire().get(2) > 0.9);
+    }
+
+    @Test
+    void executaPropagare()
+    {
+        PerceptronMultiStrat perceptronMultiStrat =
+                new PerceptronMultiStrat(2, 1, 0,0);
+
+        perceptronMultiStrat.getStratDeIesire().setFunctieActivare(new FunctieLiniaraIdentitate());
+
+        perceptronMultiStrat.getStratDeIntrare().
+                stabilesteInputRetea(new ArrayList<>(Arrays.asList(2d, 1d)));
+        perceptronMultiStrat.getStratDeIntrare().getNeuroni().get(0).getSinapseIesire().get(0).setPondere(1);
+        perceptronMultiStrat.getStratDeIntrare().getNeuroni().get(1).getSinapseIesire().get(0).setPondere(1);
+
+        perceptronMultiStrat.executaPropagare();
+        assertEquals(3, perceptronMultiStrat.getValoriIesire().get(0));
+
+        perceptronMultiStrat.reseteazaStare();
+
+        perceptronMultiStrat.getStratDeIntrare().
+                stabilesteInputRetea(new ArrayList<>(Arrays.asList(1d, 1d)));
+        perceptronMultiStrat.executaPropagare();
+        assertEquals(2, perceptronMultiStrat.getValoriIesire().get(0));
     }
 }

@@ -1,10 +1,15 @@
 package test.operatiiIO.imagine;
 
 import cosmin.operatii_io.imagine.ObtinereValoriImagineAN;
+import cosmin.regulaInvatare.multimeAntrenament.multimeEtichetata.elementAntrenament.utilImagine.RedimensionareImagine;
 import cosmin.utilStructuriAlgebrice.Matrice;
 import org.junit.jupiter.api.Test;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,4 +51,26 @@ class ObtinereValoriImagineANTest
         });
     }
      */
+
+    //@Test // test imagine desenata
+    public void testImagineIncarcata()
+    {
+        try
+        {
+            BufferedImage imagine = ImageIO.
+                    read(new File("F:\\Mein\\Proiecte\\Java\\Imagini Desenate\\test_3.bmp"));
+            BufferedImage imRedim  =
+                    RedimensionareImagine.redimensioneazaImagine(imagine, 28, 28);
+            ImageIO.write(imRedim, "bmp",
+                    new File("F:\\Mein\\Proiecte\\Java\\Imagini Desenate\\3_redimensionat.bmp"));
+            Matrice matrice = new Matrice(ObtinereValoriImagineAN.toValoriSubunitare(imRedim));
+
+            System.out.println(matrice);
+
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
 }

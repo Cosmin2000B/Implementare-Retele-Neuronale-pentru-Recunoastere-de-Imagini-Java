@@ -118,13 +118,27 @@ public class PerceptronMultiStrat
 
 
     // ----------------- Sfarsit Constructori -----------------
+
+    private void stabilesteIesiriRetea()
+    {
+        this.setValoriIesire(new ArrayList<>(stratDeIesire.getNumarNeuroni()));
+        for(Neuron neuron: stratDeIesire.getNeuroni())
+            this.getValoriIesire().add(neuron.getValoareIesire());
+    }
+
     @Override
     public void executaPropagare()
     {
         this.straturiAscunse.forEach(StratAscuns::calculeazaIesiri);
         this.stratDeIesire.calculeazaIesiri();
-        this.stratDeIesire.calculeazaEroareaRetelei();
-        this.setEroareaRetelei(this.stratDeIesire.getEroareaRetelei());
+        stabilesteIesiriRetea();
+
+        // In cazul propagarii nominale pt obtinerea unui rezultat nu avem valori dorite
+        if(this.stratDeIesire.getValoriDorite() != null && !this.getStratDeIesire().getValoriDorite().isEmpty())
+        {
+            this.stratDeIesire.calculeazaEroareaRetelei();
+            this.setEroareaRetelei(this.stratDeIesire.getEroareaRetelei());
+        }
     }
 
     public void retropropagareStratIesire(int dimSubmultimeAntrenament)
@@ -257,16 +271,6 @@ public class PerceptronMultiStrat
 
     public void setStratDeIesire(StratDeIesire stratDeIesire) {
         this.stratDeIesire = stratDeIesire;
-    }
-
-    @Override
-    public ArrayList<Double> getValoriIesire()
-    {
-        ArrayList<Double> valIesire = new ArrayList<>(stratDeIesire.getNumarNeuroni());
-        for(Neuron neuron: stratDeIesire.getNeuroni())
-            valIesire.add(neuron.getValoareIesire());
-
-        return valIesire;
     }
 
 //TODO configuratii standard

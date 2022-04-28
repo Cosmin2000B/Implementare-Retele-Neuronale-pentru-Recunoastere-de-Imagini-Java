@@ -110,6 +110,14 @@ public class StratDeIesire
                 neuron.
                         setValoareIesire(this.
                         functieActivare.valoareFunctie(neuron.getValoareIntrare()));
+
+            /*
+            resetare suma valori exponentiale --> mare grija la alte implementari
+            ( daca nu se executa si derivare in cadrul retropropagarii nu se actua-
+            lizeaza singura) <=> problema la propagare pt obinere rezultate la mai
+            mult de o rulare
+             */
+            ((Softmax) this.functieActivare).setSumaFunctiiExponentiale(0d);
         }
         else
         {
