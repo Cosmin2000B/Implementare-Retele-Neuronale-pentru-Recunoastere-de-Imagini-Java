@@ -10,8 +10,10 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * @aythor IonescuCosmin
+ *   Functie de activare utilizata in mod normal in stratul de iesire. Asigura
+ * transformarea valorilor de intrare intr-o distrbutie de probabilitati.
  *   A se utiliza numai la clasificare multi-clasa
+ *   @author  IonescuCosmin
  */
 public class Softmax implements FunctieActivare, Serializable
 {
