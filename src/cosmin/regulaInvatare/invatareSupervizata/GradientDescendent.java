@@ -149,41 +149,9 @@ public class GradientDescendent extends RegulaInvatare<MultimeAntrenamentEtichet
 
                 // am terminat o iteratie
                 if(i % dimensiuneSubmutlime == 0)
-                {
                     // actualizam ponderile
                      this.getReteaNeuronala().executaOptimizare(rataInvatare, inertie);
 
-                    // eroareCurenta /= dimensiuneSubmutlime; // eroare la nivel de submultime
-                    // todo de sters ---- elminat acolada if --------------------------------
-                    /*
-                    System.out.println("Epoca " + nrEpociEfectuate + ", Iteratia " + i / dimensiuneSubmutlime +
-                            ", Eroarea retelei:" + eroareCurenta);
-                    System.out.print("Erori neuroni: ");
-                    for (Neuron neuron: ((PerceptronMultiStrat) this.getReteaNeuronala()).getStratDeIesire().getNeuroni())
-                        System.out.print(neuron.getEroareNeuron() + " ");
-                    System.out.println();
-                    System.out.println("Valori de iesire strat de iesire:");
-                    for (Neuron neuron: ((PerceptronMultiStrat) this.getReteaNeuronala()).getStratDeIesire().getNeuroni())
-                        System.out.print(neuron.getValoareIesire() + " ");
-                    System.out.println();
-                    System.out.println("Valori de intrare strat de iesire:");
-                    for (Neuron neuron: ((PerceptronMultiStrat) this.getReteaNeuronala()).getStratDeIesire().getNeuroni())
-                        System.out.print(neuron.getValoareIntrare() + " ");
-                    System.out.println();
-                    System.out.println("Valori intrare strat Ascuns 0:");
-                    for (Neuron neuron: ((PerceptronMultiStrat) this.getReteaNeuronala()).getStraturiAscunse().
-                            get(0).getNeuroni())
-                        System.out.print(neuron.getValoareIntrare() + " ");
-                    System.out.println();
-                    System.out.println("Valori iesire strat Intrare:");
-                    for (Neuron neuron: ((PerceptronMultiStrat) this.getReteaNeuronala()).getStratDeIntrare().
-                            getNeuroni())
-                        System.out.print(neuron.getValoareIesire() + " ");
-                    System.out.println();
-                    System.out.println();
-                     */
-                    // todo sterge intervalul asta ----------------------------------
-                }
             } // s-a terminat o epoca
 
             if(getMultimeAntrenament() instanceof MultimeImagini)

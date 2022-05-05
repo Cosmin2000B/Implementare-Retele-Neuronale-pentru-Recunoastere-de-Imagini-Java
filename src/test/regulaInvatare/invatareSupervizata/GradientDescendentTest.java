@@ -100,8 +100,8 @@ class GradientDescendentTest
         GradientDescendent gradientDescendent = new GradientDescendent();
         gradientDescendent.setDimensiuneSubmutlime(32);
         gradientDescendent.setRataInvatare(0.0001);
-        gradientDescendent.setInertie(0.9d);
-        gradientDescendent.setNrMaximEpoci(20);
+        gradientDescendent.setInertie(0.7d);
+        gradientDescendent.setNrMaximEpoci(5);
 
         // todo de setat etichete
         HashMap<Integer, String> eticheteMNIST = new HashMap<>();
@@ -114,10 +114,12 @@ class GradientDescendentTest
 
         gradientDescendent.setMultimeAntrenament(mnist);
         perceptronMultiStrat.setRegulaInvatare(gradientDescendent);
+        InitializareHeZhangRenSun initializareHeZhangRenSun = new InitializareHeZhangRenSun();
+        initializareHeZhangRenSun.initializeazaPonderi(perceptronMultiStrat);
 
         perceptronMultiStrat.antreneaza();
         IoDateSerializate.
-                fout(perceptronMultiStrat, "F:\\Mein\\Proiecte\\Java\\rna_antrenate\\mlp_mnist.ser");
+                fout(perceptronMultiStrat, "F:\\Mein\\Proiecte\\Java\\rna_antrenate\\Incercare 3\\mlp_mnist_init_He.ser");
     }
 
     //@Test
