@@ -5,25 +5,37 @@ import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * @author Ionescu Cosmin
+ * <pre>
+ *  Clasa ce permite instantierea legaturilor dintre
+ *  neuroni (sinapse).
  *
+ *   Pastrand analogia cu modelul biologic, sinapsa reprezinta
+ * modalitatea de comunicare dintre neuroni, totodata avand un rol
+ * foarte important in determinarea calitatii semnaluli transmis
+ * prin intermediul ponderii sale, putand astfel sa amplifice sau
+ * sa atenueze valoarea transmisa.
+ *</pre>
+ *
+ * @author Ionescu Cosmin
  * @see Neuron
  */
 public class Sinapsa implements Serializable
 {
     /**
-     * pentru identificarea cu compatibilitatii cu
+     * pentru identificarea compatibilitatii cu
      * versiuni anterioare ale clasei
      */
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     *
+     *  Data membra de instanta, reprezentand neuronul ce isi transmite
+     * gradul de activare prin intermediul sinapsei.
      */
     private Neuron neuronEmitent;
     /**
-     *
+     *  Data membra de instanta, reprezentand neuronul ce primeste gradul
+     * de activare al neuronului emitent, inmultit cu ponderea sinapsei.
      */
     private Neuron neuronDestinatar;
 
@@ -36,7 +48,7 @@ public class Sinapsa implements Serializable
     /**
      *  Constructorul cu doi parametrii de tip Neuron creaza o sinapsa care va
      * transmite valoarea de iesire/gradul de activare a/al neuronului emitent
-     * catre neuronul destinatar, aceasta valoare fiind ponderata de ponderea
+     * catre neuronul destinatar, aceasta valoare fiind inmultita cu ponderea
      * sinapsei.
      *  In acest caz, ponderea sinapsei este initializata aleator cu valori
      * rationale intre [-0.5, 0.5).
@@ -82,8 +94,8 @@ public class Sinapsa implements Serializable
     /**
      *  In functie de regula de invatare atasata retelei neuronale, ponderile sinapselor
      * sunt ajustate cu scopul obtinerii unui rezultat mai apropiat de cel dorit. Scopul
-     * acestui proces poate fi cuantificat si prin dorinta de a avea o functie de cost/
-     * eroare de clasificare cat mai mica.
+     * acestui proces poate fi cuantificat si prin dorinta de a avea o valoare a functiei
+     * de cost/erorii de clasificare cat mai mica.
      * @param rataInvatare un hiperparametru ales in cadrul structurii retelei neuronale.
      *                     Acesta ia, in general, valori rationale din intervalul (0,1)
      *                     si reprezinta o modalitate de a controla cat de mari vor fi
@@ -100,8 +112,8 @@ public class Sinapsa implements Serializable
     /**
      *  In functie de regula de invatare atasata retelei neuronale, ponderile sinapselor
      * sunt ajustate cu scopul obtinerii unui rezultat mai apropiat de cel dorit. Scopul
-     * acestui proces poate fi cuantificat si prin dorinta de a avea o functie de cost/
-     * eroare de clasificare cat mai mica.
+     * acestui proces poate fi cuantificat si prin dorinta de a avea o valoare a functiei
+     * de cost/eroarii de clasificare cat mai mica.
      * @param rataInvatare un hiperparametru ales in cadrul structurii retelei neuronale.
      *                     Acesta ia, in general, valori rationale din intervalul (0,1)
      *                     si reprezinta o modalitate de a controla cat de mari vor fi
@@ -110,7 +122,7 @@ public class Sinapsa implements Serializable
      * @param inertie un hiperparametru ales in cadrul structurii retelei neuronale.
      *                Acesta ia, in general, valori rationale din intervalul (0,1)
      *                si reprezinta o modalitate de a controla cat de mare vo fi
-     *                aportul ponderii precedente in ajustarea actuala.
+     *                aportul schimbarilor precedente in noua actualizare.
      */
     public void actualizeazaPondere(double rataInvatare, double inertie)
     {
@@ -180,9 +192,9 @@ public class Sinapsa implements Serializable
      *  Aceasta metoda calculeaza valoarea transmisa catre neuronul destinatar prin
      * inmultirea valorii de iesire/gradului de activare a/al neuronului emitent cu
      * ponderea sinapsei.
-     *  Prin adunarea tuturor valori de iesire ale sinapselor de intrare dintr-un
-     * neuron, la care se adauga un termen liber negativ propriu neuronului (bias),
-     * se obtine valoarea de intrare/starea neuronului.
+     *  Prin adunarea tuturor valorilor de iesire ale sinapselor de intrare dintr-un
+     * neuron, la care se adauga un termen liber propriu neuronului (bias), se obtine
+     * valoarea de intrare/starea neuronului.
      * @return valoarea returnata de aceasta metoda este un numar rational, reprezen-
      * tand produsul dintre valoarea de iesire/gradul de activare a/al neuronului
      * emitent si ponderea sinapsei.
