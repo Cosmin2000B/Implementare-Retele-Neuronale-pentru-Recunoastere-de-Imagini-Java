@@ -1,6 +1,7 @@
 package cosmin.functiiActivare.sigmoide;
 
 import cosmin.functiiActivare.FunctieActivare;
+import org.apache.commons.math3.util.FastMath;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -12,7 +13,7 @@ import java.io.Serializable;
 public class Logistica implements FunctieActivare, Serializable
 {
     /**
-     * pentru identificarea cu compatibilitatii cu
+     * pentru identificarea compatibilitatii cu
      * versiuni anterioare ale clasei
      */
     @Serial
@@ -26,7 +27,7 @@ public class Logistica implements FunctieActivare, Serializable
     @Override
     public double valoareFunctie(Double input)
     {
-        return 1/(1 + Math.pow(Math.E, (-1) * input));
+        return 1/(1 + FastMath.exp((-1) * input));
     }
 
     /**
