@@ -1,8 +1,8 @@
 
 /**
  * <pre>
- *  Pachetul conține elementele necesare creării unui neuron artificial bazat pe
- * modelul perceptronului definit de Frank Rosenblatt și interconectarea mai multor
+ *  Pachetul contine elementele necesare crearii unui neuron artificial bazat pe
+ * modelul perceptronului definit de Frank Rosenblatt si interconectarea mai multor
  * neuroni artificiali prin intermediul sinapselor.
  * </pre>
  * @since 1.0
