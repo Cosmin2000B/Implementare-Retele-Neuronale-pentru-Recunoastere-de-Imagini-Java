@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class Neuron implements Serializable
 {
     /**
-     * pentru identificarea cu compatibilitatii cu
+     * pentru identificarea compatibilitatii cu
      * versiuni anterioare ale clasei
      */
     @Serial
