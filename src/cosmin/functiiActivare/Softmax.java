@@ -4,7 +4,6 @@ import cosmin.neuron.Neuron;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.StratDeIesire;
 import cosmin.straturiNeuronale.straturiNeuronaleLiniare.stratDeIesire.functieDeCost.EntropieIncrucisata;
 import org.apache.commons.math3.util.FastMath;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -18,7 +17,7 @@ import java.io.Serializable;
 public class Softmax implements FunctieActivare, Serializable
 {
     /**
-     * pentru identificarea cu compatibilitatii cu
+     * pentru identificarea compatibilitatii cu
      * versiuni anterioare ale clasei
      */
     @Serial
@@ -55,6 +54,8 @@ public class Softmax implements FunctieActivare, Serializable
      * @param input valoarea de intrare a neuronului curent
      * @return valoarea functiei Softmax pentru valoarea de
      * intrare transmisa
+     * @throws IllegalArgumentException in cazul in care functia
+     * de cost nu este EntropieIncrucisata
      */
     @Override
     public double valoareFunctie(Double input)
@@ -71,7 +72,8 @@ public class Softmax implements FunctieActivare, Serializable
     }
 
     /*
-    varianta instabila numeric ------------------------------------------------
+    // ---------------- varianta instabila numeric -----------------------------------
+
   public void calculeazaSumaFunctiiExponentiale()
   {
       for(Neuron neuron: this.stratDeIesire.getNeuroni())

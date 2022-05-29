@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class ReLU implements FunctieActivare, Serializable
 {
     /**
-     * pentru identificarea cu compatibilitatii cu
+     * pentru identificarea compatibilitatii cu
      * versiuni anterioare ale clasei
      */
     @Serial

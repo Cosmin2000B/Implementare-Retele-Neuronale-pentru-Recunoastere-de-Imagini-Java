@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class LeakyReLU implements FunctieActivare, Serializable
 {
     /**
-     * pentru identificarea cu compatibilitatii cu
+     * pentru identificarea compatibilitatii cu
      * versiuni anterioare ale clasei
      */
     @Serial

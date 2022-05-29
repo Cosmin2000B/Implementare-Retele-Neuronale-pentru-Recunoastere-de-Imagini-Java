@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class TangentaHiperbolica implements FunctieActivare, Serializable
 {
     /**
-     * pentru identificarea cu compatibilitatii cu
+     * pentru identificarea compatibilitatii cu
      * versiuni anterioare ale clasei
      */
     @Serial
