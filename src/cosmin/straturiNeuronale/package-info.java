@@ -1,9 +1,9 @@
 /**
  * <pr>
- *   Pachetul oferă atât interpretări concrete ale straturilor neuronale
- *  liniare utilizate în cadrul implementării unui perceptron multistrat,
- *  cât și interfețe - clase abstracte cu rol sugestiv în definirea unor
- *  noi implementări.
+ *   Pachetul ofera atat interpretari concrete ale straturilor neuronale
+ *  liniare utilizate in cadrul implementarii unui perceptron multistrat,
+ *  cat si interfete - clase abstracte cu rol sugestiv în definirea unor
+ *  noi implementari.
  * </pr>
  *
  *  @see cosmin.straturiNeuronale.StratNeuronal
