@@ -43,6 +43,7 @@ public class Neuron implements Serializable
 
     public Neuron()
     {
+        this.numeIdentificare = "Nu a fost dat nume";
         this.sinapseIntrare = new ArrayList<>();
         this.sinapseIesire = new ArrayList<>();
 
@@ -52,6 +53,7 @@ public class Neuron implements Serializable
 
     public Neuron(FunctieActivare functieActivare)
     {
+        this.numeIdentificare = "Nu a fost dat nume";
         this.sinapseIntrare = new ArrayList<>();
         this.sinapseIesire = new ArrayList<>();
 
