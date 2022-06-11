@@ -392,7 +392,7 @@ public class Neuron implements Serializable
             output.append(sinapsa);
 
         output.append(" F. Functie Activare: ").append(this.functieActivare.getClass().getSimpleName()).
-                append(";\n").append(" F. Bias: \n").append(this.bias).append("\n");
+                append(";\n").append(" G. Bias: \n").append(this.bias).append("\n");
 
         return output.toString();
     }
